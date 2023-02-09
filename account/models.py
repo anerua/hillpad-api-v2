@@ -50,12 +50,12 @@ class CustomUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
-    STUDENT = "STT"
-    DATA_ENTRY = "DAY"
+    CLIENT = "CLT"
+    STAFF = "STF"
     ADMIN = "ADN"
     USER_ROLE_CHOICES = (
-        (STUDENT, _("Student role")),
-        (DATA_ENTRY, _("Data entry role")),
+        (CLIENT, _("Client role")),
+        (STAFF, _("Staff role")),
         (ADMIN, _("Administrator role")),
     )
 
