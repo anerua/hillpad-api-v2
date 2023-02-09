@@ -58,13 +58,24 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
         (DATA_ENTRY, _("Data entry role")),
         (ADMIN, _("Administrator role")),
     )
+
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    GENDER_CHOICES = (
+        (MALE, _("Male")),
+        (FEMALE, _("Female")),
+    )
     
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
     email = models.EmailField(_("email address"), unique=True)
     role = models.CharField(_("role"), max_length=3, choices=USER_ROLE_CHOICES)
-    phone = models.CharField(_("phone number"), max_length=25, blank=True)
     
+    gender = models.CharField(_("gender"), max_length=6, choices=GENDER_CHOICES, blank=True)
+    date_of_birth = models.DateTimeField(_("date of birth"), blank=True, null=True)
+    nationality = models.CharField(_("nationality"), max_length=32, blank=True)
+    country_of_residence = models.CharField(_("country of residence"), max_length=32, blank=True)
+
     is_staff = models.BooleanField(
         _("Is a staff?"),
         default=False,
