@@ -33,7 +33,6 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(" ")
 AUTH_USER_MODEL = "account.User"
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'account',
+    'academics',
 ]
 
 # CORS headers settings
