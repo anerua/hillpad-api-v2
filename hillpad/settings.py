@@ -27,7 +27,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(" ")
 
 # Custom User authentication model
 AUTH_USER_MODEL = "account.User"
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 # CORS headers settings
-CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS").split(" ")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
