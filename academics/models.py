@@ -63,7 +63,7 @@ class Currency(TrackingModel):
 
     name = models.CharField(_("Name of currency"), max_length=255)
     short_code = models.CharField(_("Short code of the currency"), max_length=5)
-    usd_exchange_rate = models.DecimalField(_("Exchange rate with the USD"))
+    usd_exchange_rate = models.DecimalField(_("Exchange rate with the USD"), max_digits=18, decimal_places=2)
 
 
 class ProgrammeType(TrackingModel):
@@ -116,17 +116,17 @@ class Course(TrackingModel):
     overview = models.TextField(_("Overview"), blank=True)
 
     duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
-    course_dates = models.ManyToManyField(CourseDates, related_name="course_dates_courses", blank=True, null=True)
+    course_dates = models.ManyToManyField(CourseDates, related_name="course_dates_courses", blank=True)
 
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="school_courses")
     disciplines = models.ManyToManyField(Discipline, related_name="discipline_courses")
 
     tuition_fee = models.IntegerField(_("Tuition fee"), blank=True, null=True)
-    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), blank=True)
+    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), max_length=16, blank=True)
     tuition_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, related_name="currency_courses", blank=True, null=True)
 
     format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES, blank=True)
-    attendance = models.CharField(_("Course attendance format"), max_length=6, choices=COURSE_ATTENDANCE_CHOICES, blank=True)
+    attendance = models.CharField(_("Course attendance format"), max_length=10, choices=COURSE_ATTENDANCE_CHOICES, blank=True)
     programme_type = models.ForeignKey(ProgrammeType, on_delete=models.CASCADE, related_name="programme_type_courses")
     degree_type = models.ForeignKey(DegreeType, on_delete=models.CASCADE, related_name="degree_type_courses")
 
