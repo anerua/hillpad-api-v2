@@ -22,6 +22,8 @@ class Country(TrackingModel):
     )
 
     name = models.CharField(_("Name of country"), max_length=255)
+    caption = models.TextField(_("Short caption"))
+
     continent = models.CharField(_("Continent"), max_length=16, choices=CONTINENT_CHOICES)
     capital = models.CharField(_("Capital city"), max_length=125)
     population = models.IntegerField(_("Population of country"))
@@ -34,6 +36,7 @@ class Country(TrackingModel):
     trivia_facts = models.TextField(_("Trivia and fun facts"), blank=True, null=True)
 
     living_costs = models.TextField(_("Living costs essay"), blank=True, null=True)
+
 
 class School(TrackingModel):
 
