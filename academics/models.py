@@ -6,9 +6,33 @@ from helpers.models import TrackingModel
 
 class Country(TrackingModel):
 
-    name = models.CharField(_("Name of country"), max_length=255)
-    description = models.TextField(_("Description"))
+    AFRICA = "AFRICA"
+    ASIA = "ASIA"
+    EUROPE = "EUROPE"
+    NORTH_AMERICA = "NORTH AMERICA"
+    SOUTH_AMERICA = "SOUTH AMERICA"
+    OCEANIA = "OCEANIA"
+    CONTINENT_CHOICES = (
+        (AFRICA, AFRICA),
+        (ASIA, ASIA),
+        (EUROPE, EUROPE),
+        (NORTH_AMERICA, NORTH_AMERICA),
+        (SOUTH_AMERICA, SOUTH_AMERICA),
+        (OCEANIA, OCEANIA),
+    )
 
+    name = models.CharField(_("Name of country"), max_length=255)
+    continent = models.CharField(_("Continent"), max_length=16, choices=CONTINENT_CHOICES)
+    capital = models.CharField(_("Capital city"), max_length=125)
+    population = models.IntegerField(_("Population of country"))
+    students = models.IntegerField(_("Total number of students in country"))
+    international_students = models.IntegerField(_("Total number of international students in country"))
+    
+    about = models.TextField(_("About"))
+    about_wiki_link = models.URLField(_("Link to about on Wikipedia"))
+    trivia_facts = models.TextField(_("Trivia and fun facts"))
+
+    living_costs = models.TextField(_("Living costs essay"))
 
 class School(TrackingModel):
 
@@ -64,20 +88,20 @@ class Course(TrackingModel):
     description = models.CharField(_("Description"), max_length=1024)
     overview = models.TextField(_("Description"))
 
-    duration = models.IntegerField(_("Duration (in months) of course"))
-    start_date_month = models.CharField(_("Start date month"), max_length=3)
-    start_date_day = models.IntegerField(_("Start date day"))
-    application_deadline_month = models.CharField(_("Application deadline month"), max_length=3)
-    application_deadline_day = models.IntegerField(_("Application deadline day"))
+    duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
+    start_date_year = models.IntegerField(_("Start date year"), blank=True, null=True)
+    start_date_month = models.CharField(_("Start date month"), max_length=3, blank=True)
+    application_deadline_year = models.IntegerField(_("Application deadline year"), blank=True, null=True)
+    application_deadline_month = models.CharField(_("Application deadline month"), max_length=3, blank=True)
 
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="school_courses")
-    disciplines = models.ManyToManyField(Discipline, on_delete=models.CASCADE, related_name="discipline_courses")
+    disciplines = models.ManyToManyField(Discipline, related_name="discipline_courses")
 
-    tuition_fee = models.IntegerField(_("Tuition fee"))
-    tuition_currency = models.CharField(_("Tuition fee currency"), max_length=3, choices=CURRENCY_CHOICES)
+    tuition_fee = models.IntegerField(_("Tuition fee"), blank=True, null=True)
+    tuition_currency = models.CharField(_("Tuition fee currency"), max_length=3, choices=CURRENCY_CHOICES, blank=True)
 
-    format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES)
-    attendance = models.CharField(_("Course attendance format"), max_length=6, choices=COURSE_ATTENDANCE_CHOICES)
+    format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES, blank=True)
+    attendance = models.CharField(_("Course attendance format"), max_length=6, choices=COURSE_ATTENDANCE_CHOICES, blank=True)
     programme = models.CharField(_("Course programme"), max_length=10, choices=COURSE_PROGRAMME_CHOICES)
     #degree_type
     #language
