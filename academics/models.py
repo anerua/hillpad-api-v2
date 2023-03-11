@@ -25,21 +25,29 @@ class Country(TrackingModel):
     continent = models.CharField(_("Continent"), max_length=16, choices=CONTINENT_CHOICES)
     capital = models.CharField(_("Capital city"), max_length=125)
     population = models.IntegerField(_("Population of country"))
-    students = models.IntegerField(_("Total number of students in country"))
-    international_students = models.IntegerField(_("Total number of international students in country"))
+    students = models.IntegerField(_("Total number of students in country"), blank=True, null=True)
+    international_students = models.IntegerField(_("Total number of international students in country"), blank=True, null=True)
     
     about = models.TextField(_("About"))
     about_wiki_link = models.URLField(_("Link to about on Wikipedia"))
-    trivia_facts = models.TextField(_("Trivia and fun facts"))
+    trivia_facts = models.TextField(_("Trivia and fun facts"), blank=True, null=True)
 
-    living_costs = models.TextField(_("Living costs essay"))
+    living_costs = models.TextField(_("Living costs essay"), blank=True, null=True)
 
 class School(TrackingModel):
 
     name = models.CharField(_("Name of school"), max_length=255)
-    description = models.TextField(_("Description"))
-    address = models.CharField(_("Address of school, excluding its country"), max_length=255)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="country_schools")
+    about = models.TextField(_("About"))
+    address = models.CharField(_("Address of school, including its country"), max_length=255)
+
+    # School information
+    institution_type = models.CharField(_("Institution type"), max_length=32, blank=True)
+    ranking = models.IntegerField(_("THE WUR ranking"), blank=True, null=True)
+    year_established = models.IntegerField(_("Year of establishment"), blank=True, null=True)
+    academic_staff = models.IntegerField(_("Number of academic starr"), blank=True, null=True)
+    students = models.IntegerField(_("Total number of students in the school"), blank=True, null=True)
+
 
 
 class Discipline(TrackingModel):
