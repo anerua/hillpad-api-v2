@@ -1,3 +1,4 @@
+from .country import *
 from .course import *
 from .discipline import *
 from .language import *
