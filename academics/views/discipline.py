@@ -42,4 +42,4 @@ class UpdateDisciplineAPIView(UpdateAPIView):
 class DeleteDisciplineAPIView(DestroyAPIView):
 
     serializer_class = DeleteDisciplineSerializer
-    queryset = Discipline.objectsDiscipline
+    queryset = Discipline.objects.all()
