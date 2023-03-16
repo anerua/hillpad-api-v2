@@ -72,6 +72,8 @@ class UpdateAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
+            "email",
             "first_name",
             "last_name",
             "gender",
@@ -80,12 +82,7 @@ class UpdateAccountSerializer(serializers.ModelSerializer):
             "country_of_residence",
         )
         extra_kwargs = {
-            "first_name": {"read_only": True},
-            "last_name": {"read_only": True},
-            "gender": {"read_only": True},
-            "date_of_birth": {"read_only": True},
-            "nationality": {"read_only": True},
-            "country_of_residence": {"read_only": True},
+            "email": {"read_only": True},
         }
 
 

@@ -49,7 +49,7 @@ class School(TrackingModel):
     institution_type = models.CharField(_("Institution type"), max_length=32, blank=True)
     ranking = models.IntegerField(_("THE WUR ranking"), blank=True, null=True)
     year_established = models.IntegerField(_("Year of establishment"), blank=True, null=True)
-    academic_staff = models.IntegerField(_("Number of academic starr"), blank=True, null=True)
+    academic_staff = models.IntegerField(_("Number of academic staff"), blank=True, null=True)
     students = models.IntegerField(_("Total number of students in the school"), blank=True, null=True)
 
 
@@ -62,7 +62,7 @@ class Discipline(TrackingModel):
 class Currency(TrackingModel):
 
     name = models.CharField(_("Name of currency"), max_length=255)
-    short_code = models.CharField(_("Short code of the currency"), max_length=5)
+    short_code = models.CharField(_("Short code of the currency (ISO 4217)"), max_length=3)
     usd_exchange_rate = models.DecimalField(_("Exchange rate with the USD"), max_digits=18, decimal_places=2)
 
 
@@ -111,7 +111,7 @@ class Course(TrackingModel):
         (BLENDED, _("BLENDED")),
     )
 
-    name = models.CharField(_("Name of school"), max_length=255)
+    name = models.CharField(_("Name of course"), max_length=255)
     about = models.CharField(_("About"), max_length=1024, blank=True)
     overview = models.TextField(_("Overview"), blank=True)
 
@@ -125,7 +125,7 @@ class Course(TrackingModel):
     tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), max_length=16, blank=True)
     tuition_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, related_name="currency_courses", blank=True, null=True)
 
-    format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES, blank=True)
+    course_format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES, blank=True)
     attendance = models.CharField(_("Course attendance format"), max_length=10, choices=COURSE_ATTENDANCE_CHOICES, blank=True)
     programme_type = models.ForeignKey(ProgrammeType, on_delete=models.CASCADE, related_name="programme_type_courses")
     degree_type = models.ForeignKey(DegreeType, on_delete=models.CASCADE, related_name="degree_type_courses")
