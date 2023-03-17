@@ -3,7 +3,7 @@ from rest_framework import serializers
 from academics.models import School
 
 
-class CreateCourseSerializer(serializers.ModelSerializer):
+class CreateSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
@@ -21,21 +21,21 @@ class CreateCourseSerializer(serializers.ModelSerializer):
         )
 
 
-class ListCourseSerializer(serializers.ModelSerializer):
+class ListSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
         fields = '__all__'
 
 
-class DetailCourseSerializer(serializers.ModelSerializer):
+class DetailSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
         fields = '__all__'
 
 
-class UpdateCourseSerializer(serializers.ModelSerializer):
+class UpdateSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
@@ -53,7 +53,7 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
         )
 
 
-class DeleteCourseSerializer(serializers.ModelSerializer):
+class DeleteSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
