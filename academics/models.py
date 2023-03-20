@@ -22,6 +22,7 @@ class Country(TrackingModel):
     )
 
     name = models.CharField(_("Name of country"), max_length=255)
+    short_code = models.CharField(_("Short code of the country (ISO 3166-1 alpha-2)"), max_length=2)
     caption = models.TextField(_("Short caption"))
 
     continent = models.CharField(_("Continent"), max_length=16, choices=CONTINENT_CHOICES)
