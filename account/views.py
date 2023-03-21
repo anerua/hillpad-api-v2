@@ -4,11 +4,22 @@ from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 from account.models import User
 from account.permissions import AdminPermission, ClientPermission
 from account.serializers import *
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        token = response.data["access"]
+        response.set_cookie("access_cookie", token, httponly=True)
+        return response
 
 
 class RegisterAccountAPIView(CreateAPIView):
