@@ -1,5 +1,6 @@
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -15,6 +16,7 @@ class CreateCourseAPIView(CreateAPIView):
 
 class ListCourseAPIView(ListAPIView):
     
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListCourseSerializer
     filter_params = [
         "id",

@@ -18,7 +18,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         token = response.data["access"]
-        response.set_cookie("access_cookie", token, httponly=True)
+        response.set_cookie("hillpad_access_cookie", token, httponly=True)
         return response
 
 

@@ -63,6 +63,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'hillpad.custom_auth.JWTAuthentication',
+    )
+}
+
 ROOT_URLCONF = 'hillpad.urls'
 
 TEMPLATES = [
