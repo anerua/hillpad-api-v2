@@ -18,7 +18,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         token = response.data["access"]
-        response.set_cookie("hillpad_access_cookie", token, httponly=True)
+        cookie_max_age = 3600 * 24 * 14
+        response.set_cookie("hillpad_access_cookie", token, max_age=cookie_max_age, httponly=True)
         return response
 
 
@@ -33,6 +34,14 @@ class RegisterStaffAccountAPIView(CreateAPIView):
     permission_classes = (AdminPermission,)
     serializer_class = RegisterStaffAccountSerializer
     queryset = User.objects.all()
+
+
+class LoginStateAPIView(GenericAPIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response({})
 
 
 class DetailAccountAPIView(GenericAPIView):
