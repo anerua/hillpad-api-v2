@@ -4,7 +4,7 @@ from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -17,10 +17,22 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        token = response.data["access"]
-        cookie_max_age = 3600 * 24 * 14
-        response.set_cookie("hillpad_access_cookie", token, max_age=cookie_max_age, httponly=True)
+        access_token = response.data["access"]
+        refresh_token = response.data["refresh"]
+        access_cookie_max_age = 3600 * 24 * 14 # 14 days
+        refresh_cookie_max_age = 3600 * 24 * 30 # 30 days
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
+        response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True)
         return response
+
+
+# class CustomTokenRefreshView(TokenRefreshView):
+
+#     def post(self, request, *args, **kwargs):
+        
+#         # Get the 
+
+        ...
 
 
 class RegisterAccountAPIView(CreateAPIView):
