@@ -6,6 +6,8 @@ from rest_framework.response import Response
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from decouple import config
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 from account.models import User
@@ -19,8 +21,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         response = super().post(request, *args, **kwargs)
         access_token = response.data["access"]
         refresh_token = response.data["refresh"]
-        access_cookie_max_age = 3600 * 24 * 14 # 14 days
-        refresh_cookie_max_age = 3600 * 24 * 30 # 30 days
+        access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
+        refresh_cookie_max_age = 3600 * 24 * int(config("REFRESH_TOKEN_LIFETIME_DAYS")) # in days
         response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
         response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True)
         return response
@@ -46,7 +48,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
         # Set cookie with new access token from super post response
         access_token = response.data["access"]
-        access_cookie_max_age = 3600 * 24 * 14 # 14 days
+        access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
         response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
         return response
 

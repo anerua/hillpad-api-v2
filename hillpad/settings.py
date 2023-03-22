@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 
 from decouple import config
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,6 +69,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'hillpad.custom_auth.JWTAuthentication',
     )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=int(config("ACCESS_TOKEN_LIFETIME_HOURS"))),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=int(config("REFRESH_TOKEN_LIFETIME_DAYS"))),
 }
 
 ROOT_URLCONF = 'hillpad.urls'
