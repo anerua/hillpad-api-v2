@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import HTTP_HEADER_ENCODING, status
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -26,13 +26,29 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         return response
 
 
-# class CustomTokenRefreshView(TokenRefreshView):
+class CustomTokenRefreshView(TokenRefreshView):
 
-#     def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        # Delete refresh token from request body if present
+        # This is so that refresh tokens are only read from set cookies
+        if "refresh" in request.data:
+            del request.data["refresh"]
+
+        # Get the refresh token from the refresh cookie
+        refresh_token = request.COOKIES.get("hillpad_refresh_cookie")
         
-#         # Get the 
+        # Add it to request.data
+        if refresh_token is not None:
+            request.data["refresh"] = refresh_token
 
-        ...
+        # Call the super post method
+        response = super().post(request, *args, **kwargs)
+
+        # Set cookie with new access token from super post response
+        access_token = response.data["access"]
+        access_cookie_max_age = 3600 * 24 * 14 # 14 days
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
+        return response
 
 
 class RegisterAccountAPIView(CreateAPIView):
