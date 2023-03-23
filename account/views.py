@@ -23,8 +23,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         refresh_token = response.data["refresh"]
         access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
         refresh_cookie_max_age = 3600 * 24 * int(config("REFRESH_TOKEN_LIFETIME_DAYS")) # in days
-        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite='None', secure=True)
-        response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True, samesite='None', secure=True)
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
+        response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
         return response
 
 
@@ -49,7 +49,7 @@ class CustomTokenRefreshView(TokenRefreshView):
         # Set cookie with new access token from super post response
         access_token = response.data["access"]
         access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
-        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite='None', secure=True)
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
         return response
     
 
