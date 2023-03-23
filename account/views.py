@@ -51,6 +51,23 @@ class CustomTokenRefreshView(TokenRefreshView):
         access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
         response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
         return response
+    
+
+class LogOutAccountAPIView(GenericAPIView):
+
+    def post(self, request):
+        access_token = request.COOKIES.get("hillpad_access_cookie")
+        refresh_token = request.COOKIES.get("hillpad_refresh_cookie")
+        
+        response = Response()
+
+        if access_token is not None:
+            response.delete_cookie("hillpad_access_cookie")
+
+        if refresh_token is not None:
+            response.delete_cookie("hillpad_refresh_cookie")
+
+        return response
 
 
 class RegisterAccountAPIView(CreateAPIView):
