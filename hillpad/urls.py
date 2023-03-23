@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/account/', include("account.urls")),
     path('api/academics/', include("academics.urls")),
-    path('.well-known/pki-validation/529534C77577221035E87408FF697AE9.txt', TemplateView.as_view(template_name="529534C77577221035E87408FF697AE9.txt", content_type="text/plain")),
+    path('.well-known/pki-validation/529534C77577221035E87408FF697AE9.txt', TemplateView.as_view(template_name="hillpad/529534C77577221035E87408FF697AE9.txt", content_type="text/plain")),
     path('', include("frontend.urls")),
 ]
