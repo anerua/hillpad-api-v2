@@ -3097,8 +3097,9 @@
 	<!-- Reset Password Modal -->
 
 	<!-- Custom page JS -->
-	<script>
-		var frontend_static_url = "{% static 'frontend' %}"
+	<script id="script-variables">
+		var frontend_static_url = "{% static 'frontend' %}";
+		var api_url = "/api";
 	</script>
 	<script src="{% static 'frontend/wp-includes/js/custom/auth.js' %}"
 		id="login-js"></script>

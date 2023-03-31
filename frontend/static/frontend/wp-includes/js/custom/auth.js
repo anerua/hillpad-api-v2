@@ -1,6 +1,3 @@
-const api_url = "http://127.0.0.1:8000/api"; // Local
-// const api_url = "https://54.221.177.186/api"; // Server
-
 var path_to_home = ".";
 
 window.addEventListener("DOMContentLoaded", (event) => {
