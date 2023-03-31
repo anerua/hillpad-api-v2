@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -8,10 +10,13 @@
 
 	<title>HillPad</title>
 	<meta name="robots" content="max-image-preview:large">
-	<link rel="dns-prefetch" href="https://maps.googleapis.com">
-	<link rel="dns-prefetch" href="https://code.jquery.com">
+	<link rel="dns-prefetch" href="//maps.googleapis.com">
+	<link rel="dns-prefetch" href="//code.jquery.com">
+	<link rel="alternate" type="application/rss+xml" title="HillPad &raquo; Feed" href="./feed/index.html">
+	<link rel="alternate" type="application/rss+xml" title="HillPad &raquo; Comments Feed"
+		href="./comments/feed/index.html">
 	<script>
-		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/", "svgExt": ".svg", "source": { "concatemoji": ".\/\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.1.1" } };
+		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "{% static 'frontend/wp-includes/js/wp-emoji-release.min.js' %}" } };
 		/*! This file is auto-generated */
 		!function (e, a, t) { var n, r, o, i = a.createElement("canvas"), p = i.getContext && i.getContext("2d"); function s(e, t) { var a = String.fromCharCode, e = (p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, e), 0, 0), i.toDataURL()); return p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, t), 0, 0), e === i.toDataURL() } function c(e) { var t = a.createElement("script"); t.src = e, t.defer = t.type = "text/javascript", a.getElementsByTagName("head")[0].appendChild(t) } for (o = Array("flag", "emoji"), t.supports = { everything: !0, everythingExceptFlag: !0 }, r = 0; r < o.length; r++)t.supports[o[r]] = function (e) { if (p && p.fillText) switch (p.textBaseline = "top", p.font = "600 32px Arial", e) { case "flag": return s([127987, 65039, 8205, 9895, 65039], [127987, 65039, 8203, 9895, 65039]) ? !1 : !s([55356, 56826, 55356, 56819], [55356, 56826, 8203, 55356, 56819]) && !s([55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447]); case "emoji": return !s([129777, 127995, 8205, 129778, 127999], [129777, 127995, 8203, 129778, 127999]) }return !1 }(o[r]), t.supports.everything = t.supports.everything && t.supports[o[r]], "flag" !== o[r] && (t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && t.supports[o[r]]); t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && !t.supports.flag, t.DOMReady = !1, t.readyCallback = function () { t.DOMReady = !0 }, t.supports.everything || (n = function () { t.readyCallback() }, a.addEventListener ? (a.addEventListener("DOMContentLoaded", n, !1), e.addEventListener("load", n, !1)) : (e.attachEvent("onload", n), a.attachEvent("onreadystatechange", function () { "complete" === a.readyState && t.readyCallback() })), (e = t.source || {}).concatemoji ? c(e.concatemoji) : e.wpemoji && e.twemoji && (c(e.twemoji), c(e.wpemoji))) }(window, document, window._wpemojiSettings);
 	</script>
@@ -30,35 +35,35 @@
 		}
 	</style>
 	<link rel="stylesheet" id="fontawesome-css"
-		href={% static "frontend/wp-content/plugins/hivepress/assets/css/fontawesome/fontawesome.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/assets/css/fontawesome/fontawesome.min.css' %}" media="all">
 	<link rel="stylesheet" id="fontawesome-solid-css"
-		href={% static "frontend/wp-content/plugins/hivepress/assets/css/fontawesome/solid.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/assets/css/fontawesome/solid.min.css' %}" media="all">
 	<link rel="stylesheet" id="fancybox-css"
-		href={% static "frontend/wp-content/plugins/hivepress/node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css' %}" media="all">
 	<link rel="stylesheet" id="slick-css"
-		href={% static "frontend/wp-content/plugins/hivepress/node_modules/slick-carousel/slick/slick.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/node_modules/slick-carousel/slick/slick.css' %}" media="all">
 	<link rel="stylesheet" id="flatpickr-css"
-		href={% static "frontend/wp-content/plugins/hivepress/node_modules/flatpickr/dist/flatpickr.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/node_modules/flatpickr/dist/flatpickr.min.css' %}" media="all">
 	<!-- Flag icons -->
 	<link rel="stylesheet" id="flag-icon-css"
-		href={% static "frontend/wp-content/uploads/flag-icons/css/flag-icons.min.css" %} media="all">
+		href="{% static 'frontend/wp-content/uploads/flag-icons/css/flag-icons.min.css' %}" media="all">
 	<link rel="stylesheet" id="select2-css"
-		href={% static "frontend/wp-content/plugins/hivepress/node_modules/select2/dist/css/select2.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/node_modules/select2/dist/css/select2.min.css' %}" media="all">
 	<link rel="stylesheet" id="intl-tel-input-css"
-		href={% static "frontend/wp-content/plugins/hivepress/node_modules/intl-tel-input/build/css/intlTelInput.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/node_modules/intl-tel-input/build/css/intlTelInput.min.css' %}" media="all">
 	<link rel="stylesheet" id="jquery-ui-css"
-		href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.min.css?ver=1.13.2" media="all">
+		href="//code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.min.css" media="all">
 	<link rel="stylesheet" id="hivepress-core-common-css"
-		href={% static "frontend/wp-content/plugins/hivepress/assets/css/common.min.css?ver=1.6.18" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress/assets/css/common.min.css' %}" media="all">
 	<link rel="stylesheet" id="hivepress-geolocation-frontend-css"
-		href={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/css/frontend.min.css?ver=1.3.7" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/css/frontend.min.css' %}" media="all">
 	<link rel="stylesheet" id="hivepress-messages-frontend-css"
-		href={% static "frontend/wp-content/plugins/hivepress-messages/assets/css/frontend.min.css?ver=1.3.0" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress-messages/assets/css/frontend.min.css' %}" media="all">
 	<link rel="stylesheet" id="hivepress-paid-listings-frontend-css"
-		href={% static "frontend/wp-content/plugins/hivepress-paid-listings/assets/css/frontend.min.css?ver=1.1.7" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/hivepress-paid-listings/assets/css/frontend.min.css' %}" media="all">
 	<link rel="stylesheet" id="hivepress-reviews-frontend-css"
-		href={% static "frontend/wp-content/plugins/hivepress-reviews/assets/css/frontend.min.css?ver=1.3.0" %} media="all">
-	<link rel="stylesheet" id="wp-block-library-css" href="./wp-includes/css/dist/block-library/style.min.css?ver=6.1.1"
+		href="{% static 'frontend/wp-content/plugins/hivepress-reviews/assets/css/frontend.min.css' %}" media="all">
+<link rel="stylesheet" id="wp-block-library-css" href="{% static 'frontend/wp-includes/css/dist/block-library/style.min.css' %}"
 		media="all">
 	<style id="wp-block-library-theme-inline-css">
 		.wp-block-audio figcaption {
@@ -256,7 +261,7 @@
 			margin-bottom: 0
 		}
 	</style>
-	<link rel="stylesheet" id="classic-theme-styles-css" href="./wp-includes/css/classic-themes.min.css?ver=1"
+	<link rel="stylesheet" id="classic-theme-styles-css" href="{% static 'frontend/wp-includes/css/classic-themes.min.css' %}"
 		media="all">
 	<style id="global-styles-inline-css">
 		body {
@@ -594,44 +599,44 @@
 		}
 	</style>
 	<link rel="stylesheet" id="wp-job-manager-job-listings-css"
-		href={% static "frontend/wp-content/plugins/wp-job-manager/assets/dist/css/job-listings.css?ver=d866e43503c5e047c6b0be0a9557cf8e" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/wp-job-manager/assets/dist/css/job-listings.css' %}" media="all">
 	<link rel="stylesheet" id="simplebar-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/simplebar/dist/simplebar.min.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/simplebar/dist/simplebar.min.css' %}" media="all">
 	<link rel="stylesheet" id="leaflet-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/leaflet/dist/leaflet.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/leaflet/dist/leaflet.css' %}" media="all">
 	<link rel="stylesheet" id="tiny-slider-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/tiny-slider/dist/tiny-slider.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/tiny-slider/dist/tiny-slider.css' %}" media="all">
 	<link rel="stylesheet" id="nouislider-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/nouislider/dist/nouislider.min.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/nouislider/dist/nouislider.min.css' %}" media="all">
 	<link rel="stylesheet" id="jarallax-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax.css' %}" media="all">
 	<link rel="stylesheet" id="lightgallery-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/lightgallery.js/dist/css/lightgallery.min.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/lightgallery.js/dist/css/lightgallery.min.css' %}" media="all">
 	<link rel="stylesheet" id="filepond-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/filepond/dist/filepond.min.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond/dist/filepond.min.css' %}" media="all">
 	<link rel="stylesheet" id="filepond-preview-css"
-		href={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css' %}" media="all">
 	<link rel="stylesheet" id="finder-style-css"
-		href={% static "frontend/wp-content/themes/finder/style.css?ver=1.0.3" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/style.css' %}" media="all">
 	<link rel="stylesheet" id="elementor-icons-css"
-		href={% static "frontend/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.17.0" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css' %}" media="all">
 	<link rel="stylesheet" id="elementor-frontend-css"
-		href={% static "frontend/wp-content/plugins/elementor/assets/css/frontend-lite.min.css?ver=3.10.2" %} media="all">
+		href="{% static 'frontend/wp-content/plugins/elementor/assets/css/frontend-lite.min.css' %}" media="all">
 	<link rel="stylesheet" id="elementor-post-7-css"
-		href={% static "frontend/wp-content/uploads/elementor/css/post-7.css?ver=1675683581" %} media="all">
+		href="{% static 'frontend/wp-content/uploads/elementor/css/post-7.css' %}" media="all">
 	<link rel="stylesheet" id="elementor-post-26-css"
-		href={% static "frontend/wp-content/uploads/elementor/css/post-26.css?ver=1675683584" %} media="all">
+		href="{% static 'frontend/wp-content/uploads/elementor/css/post-26.css' %}" media="all">
 	<link rel="stylesheet" id="google-fonts-1-css"
 		href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap&#038;ver=6.1.1" media="all">
 	<link rel="stylesheet" id="elementor-icons-finder-icons-css"
-		href={% static "frontend/wp-content/themes/finder/assets/fonts/finder-icons.css?ver=v1.5.0" %} media="all">
+		href="{% static 'frontend/wp-content/themes/finder/assets/fonts/finder-icons.css' %}" media="all">
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-	<script src="./wp-includes/js/jquery/jquery.min.js?ver=3.6.1" id="jquery-core-js"></script>
-	<script src="./wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2" id="jquery-migrate-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/jquery.min.js' %}" id="jquery-core-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/jquery-migrate.min.js' %}" id="jquery-migrate-js"></script>
 	<link rel="https://api.w.org/" href="./wp-json/index.html">
 	<link rel="alternate" type="application/json" href="./wp-json/wp/v2/pages/26/index.html">
 	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="./xmlrpc.php?rsd">
-	<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="./wp-includes/wlwmanifest.xml">
+	<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% static 'frontend/wp-includes/wlwmanifest.xml' %}">
 	<meta name="generator" content="WordPress 6.1.1">
 	<link rel="canonical" href="./index.html">
 	<link rel="shortlink" href="./index.html">
@@ -898,55 +903,20 @@
 		<header id="masthead" class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<div class="container">
 				<!-- Site title and logo -->
-				<a href={% url 'home' %} class="navbar-brand me-3 me-xl-4" rel="home" aria-current="page">
+				<a href="./" class="navbar-brand me-3 me-xl-4" rel="home" aria-current="page">
 					<img width="80" height="32"
-						src={% static "frontend/wp-content/uploads/logos/hillpad-transparent.png" %}
+						src="{% static 'frontend/wp-content/uploads/logos/hillpad-transparent.png' %}"
 						class="d-block" alt="Finder City Guide">
 				</a>
 				<!-- End Site title and logo -->
 
 				<!-- Mobile view nav bar toggle -->
-				<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				<button id="navbar-toggler-btn" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<!-- End Mobile view nav bar toggle -->
 
-				<!-- Sign in button -->
-				<a href="#user_login_modal" class="btn btn-sm d-none d-lg-block order-lg-3 text-primary"
-					data-bs-toggle="modal">
-					<i class="fi-user me-2"></i>
-					Sign in
-				</a>
-				<!-- End Sign in button -->
-
-				<!-- Avatar button -->
-				<!-- <div class="dropdown d-none d-lg-block order-lg-3 my-n2 me-3">
-					<a class="d-block py-2 text-decoration-none account-toogle"
-						href="https://finder.madrasthemes.com/city-guide/account/">
-						<img alt="" src="https://secure.gravatar.com/avatar/b9a06584f84a1b5f96013b87ae167b77?s=40&amp;d=mm&amp;r=g"
-							srcset="https://secure.gravatar.com/avatar/b9a06584f84a1b5f96013b87ae167b77?s=80&amp;d=mm&amp;r=g 2x"
-							class="avatar avatar-40 photo rounded-circle" height="40" width="40" loading="lazy"> </a>
-					<div class="dropdown-menu dropdown-menu-end">
-						<div class="d-flex align-items-start border-bottom px-3 py-1 mb-2" style="width: 16rem;">
-							<img alt="" src="https://secure.gravatar.com/avatar/b9a06584f84a1b5f96013b87ae167b77?s=48&amp;d=mm&amp;r=g"
-								srcset="https://secure.gravatar.com/avatar/b9a06584f84a1b5f96013b87ae167b77?s=96&amp;d=mm&amp;r=g 2x"
-								class="avatar avatar-48 photo rounded-circle" height="48" width="48" loading="lazy">
-							<div class="ps-2">
-								<h6 class="fs-base mb-0">aneruamartins</h6>
-								<div class="fs-xs py-2">aneruamartins@gmail.com</div>
-							</div>
-						</div>
-						<a class="dropdown-item" href="https://finder.madrasthemes.com/city-guide/account/settings/">
-							<i class="fi-settings opacity-60 me-2"></i>
-							Settings </a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="https://finder.madrasthemes.com/city-guide/account/logout/">
-							<i class="fi-logout opacity-60 me-2"></i>
-							Sign Out </a>
-					</div>
-				</div> -->
-				<!-- End Avatar button -->
 
 				<!-- Explore button -->
 				<a class="finder-header-listing-button btn btn-primary btn-sm rounded-pill ms-2 order-lg-3"
@@ -1163,9 +1133,9 @@
 																display: inline-block
 															}
 														</style> <img decoding="async" width="1492" height="972"
-															src={% static "frontend/wp-content/uploads/2021/11/hero-img.jpeg"
+															src="{% static 'frontend/wp-content/uploads/2021/11/hero-img.jpeg' %}"
 															class="attachment-full size-full wp-image-403" alt=""
-															srcset={% static "frontend/wp-content/uploads/2021/11/hero-img.jpeg" %} 1492w, {% static "frontend/wp-content/uploads/2021/11/hero-img-300x195.jpeg" %} 300w, {% static  "frontend/wp-content/uploads/2021/11/hero-img-1024x667.jpeg" %} 1024w, {% static "frontend/wp-content/uploads/2021/11/hero-img-768x500.jpeg" %} 768w"
+															srcset="{% static 'frontend/wp-content/uploads/2021/11/hero-img.jpeg' %} 1492w, {% static 'frontend/wp-content/uploads/2021/11/hero-img-300x195.jpeg' %} 300w, {% static 'frontend/wp-content/uploads/2021/11/hero-img-1024x667.jpeg' %} 1024w, {% static 'frontend/wp-content/uploads/2021/11/hero-img-768x500.jpeg' %} 768w"
 															sizes="(max-width: 1492px) 100vw, 1492px">
 													</div>
 												</div>
@@ -1204,203 +1174,53 @@
 													data-id="65ee029a" data-element_type="widget"
 													data-widget_type="fr-hivepress-advanced.hivepress-advanced-style-3">
 													<div class="elementor-widget-container">
-														<div class="me-lg-n5">
-															<form
-																class="form-group d-block d-md-flex position-relative rounded-md-pill me-lg-n5"
-																action="./listing/"
-																method="GET">
-
-																<input type="hidden" name="_sort" value="">
-
-																<input type="hidden" name="s">
-
-																<input type="hidden" name="post_type"
-																	value="hp_listing">
-
-																<input type="hidden" name="filter_active" value="1">
+														<div id="course-search-form-div" class="me-lg-n5">
+															<form class="form-group d-block d-md-flex position-relative rounded-md-pill me-lg-n5"
+																action="./listing/" method="GET">
 
 																<div class="input-group input-group-lg border-end-md">
-																	<span
-																		class="input-group-text text-muted rounded-pill ps-1 ps-md-3"><i
-																			class="fi-search"></i></span>
+																	<span class="input-group-text text-muted rounded-pill ps-1 ps-md-3">
+																		<i class="fi-search"></i>
+																	</span>
 
 																	<input class="form-control" type="text"
 																		placeholder="What do you want to study?" value=""
-																		name="s">
-
+																		name="course">
 																</div>
 
 																<hr class="d-md-none my-2">
+
 																<div class="d-sm-flex">
-																	<div class="dropdown w-100 mb-sm-0 mb-3"
-																		data-bs-toggle="select">
-																		<button
-																			class="btn btn-link dropdown-toggle ps-2 ps-sm-3 btn-lg"
-																			type="button" data-bs-toggle="dropdown"><i
-																				class="fi fi-list me-2"></i><span
-																				class="dropdown-toggle-label">Where?</span></button>
-																		<input type="hidden" name="_category"
-																			class="hivepress-elementor-dropdown">
-																		<ul class="dropdown-menu overflow-auto" style="height: 15rem;">
+																	<div class="dropdown w-100 mb-sm-0 mb-3" data-bs-toggle="select">
+																		<button class="btn btn-link dropdown-toggle ps-2 ps-sm-3 btn-lg" type="button" data-bs-toggle="dropdown">
+																			<i class="fi fi-list me-2"></i>
+																			<span class="dropdown-toggle-label">
+																				Where?
+																			</span>
+																		</button>
+																		<input type="hidden" name="location" class="hivepress-elementor-dropdown" value="0">
+																		<ul id="search-countries-list" class="dropdown-menu overflow-auto" style="height: 15rem;">
+																			<!-- Anywhere -->
 																			<li>
 																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Anywhere</span>
+																					<span class="dropdown-item-value d-none">0</span>
+																					<span class="dropdown-item-label hivepress-advanced">Anywhere</span>
 																				</a>
 																			</li>
 																			<div class="dropdown-item text-decoration-none">
 																				<hr>
 																			</div>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Africa</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Asia</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Europe</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">North America</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">South America</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Oceania</span>
-																				</a>
-																			</li>
-																			<div class="dropdown-item text-decoration-none">
-																				<hr>
-																			</div>
-																			<div class="dropdown-item text-decoration-none">
-																				A
-																			</div>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-be fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">21</span><span
-																						class="dropdown-item-label hivepress-advanced">Belgium</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-ca fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">25</span><span
-																						class="dropdown-item-label hivepress-advanced">Canada</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-dk fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">28</span><span
-																						class="dropdown-item-label hivepress-advanced">Denmark</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-fr fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">34</span><span
-																						class="dropdown-item-label hivepress-advanced">France</span>
-																				</a>
-																			</li>
-																			<div class="dropdown-item text-decoration-none">
-																				B
-																			</div>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-de fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">36</span><span
-																						class="dropdown-item-label hivepress-advanced">Germany</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-it fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">38</span><span
-																						class="dropdown-item-label hivepress-advanced">Italy</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-ng fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">41</span><span
-																						class="dropdown-item-label hivepress-advanced">Nigeria</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-es fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">49</span><span
-																						class="dropdown-item-label hivepress-advanced">Spain</span>
-																				</a>
-																			</li>
-																			<div class="dropdown-item text-decoration-none">
-																				C
-																			</div>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-gb fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">52</span><span
-																						class="dropdown-item-label hivepress-advanced">United Kingdom</span>
-																				</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="#">
-																					<i
-																						class="fg fg-us fs-lg opacity-60 me-2"></i>
-																					<span
-																						class="dropdown-item-value d-none">62</span><span
-																						class="dropdown-item-label hivepress-advanced">United States</span>
-																				</a>
-																			</li>
+
+																			<!-- Continents list -->
+
+																			<!-- Countries list (JS) -->
+																		
 																		</ul>
 																	</div>
 
-																	<button type="submit"
-																		class="btn btn-primary btn-lg rounded-pill w-100 w-md-auto ms-sm-3">Search</button>
+																	<button type="submit" class="btn btn-primary btn-lg rounded-pill w-100 w-md-auto ms-sm-3">
+																		Search
+																	</button>
 																</div>
 															</form>
 														</div>
@@ -1475,7 +1295,7 @@
 									data-widget_type="icon-box.card-category">
 									<div class="elementor-widget-container">
 										<link rel="stylesheet"
-											href={% static "frontend/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css">
+											href="{% static 'frontend/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css' %}">
 										<a href="./discipline/detail.html"
 											class="icon-box card card-body h-100 border-0 shadow-sm card-hover h-100 text-center">
 											<div
@@ -1791,7 +1611,7 @@
 												<div class="col">
 													<div
 														class="card card-hover border-0 h-100 pb-2 pb-sm-3 px-sm-3 text-center">
-														<img decoding="async" src={% static "frontend/wp-content/uploads/2021/11/bachelors.svg"
+														<img decoding="async" src="{% static 'frontend/wp-content/uploads/2021/11/bachelors.svg' %}"
 															alt="" class="d-block mx-auto my-3" width="160">
 														<div class="card-body">
 															<h2 class="fr-card__title card-title h4">Bachelor's programmes</h2>
@@ -1809,7 +1629,7 @@
 													<div
 														class="card card-hover border-0 h-100 pb-2 pb-sm-3 px-sm-3 text-center">
 														<img decoding="async"
-															src={% static "frontend/wp-content/uploads/2021/11/masters.svg" alt=""
+															src="{% static 'frontend/wp-content/uploads/2021/11/masters.svg' %}" alt=""
 															class="d-block mx-auto my-3" width="160">
 														<div class="card-body">
 															<h2
@@ -1830,7 +1650,7 @@
 													<div
 														class="card card-hover border-0 h-100 pb-2 pb-sm-3 px-sm-3 text-center">
 														<img decoding="async"
-															src={% static "frontend/wp-content/uploads/2021/11/doctorates.svg" alt=""
+															src="{% static 'frontend/wp-content/uploads/2021/11/doctorates.svg' %}" alt=""
 															class="d-block mx-auto my-3" width="160">
 														<div class="card-body">
 															<h2
@@ -1941,7 +1761,7 @@
 																<div class="aspect-ratio aspect-w-219 aspect-h-142">
 																	<img decoding="async"
 																		class="w-full h-full object-center object-cover"
-																		src={% static "frontend/wp-content/uploads/2022/04/01.jpg"
+																		src="{% static 'frontend/wp-content/uploads/2022/04/01.jpg' %}"
 																		alt="3-bed Apartment | 67 sq.m" loading="lazy">
 																</div>
 															</div>
@@ -1998,7 +1818,7 @@
 																<div class="aspect-ratio aspect-w-219 aspect-h-142">
 																	<img decoding="async"
 																		class="w-full h-full object-center object-cover"
-																		src={% static "frontend/wp-content/uploads/2022/04/02.jpg"
+																		src="{% static 'frontend/wp-content/uploads/2022/04/02.jpg' %}"
 																		alt="Family Home| 120 sq.m" loading="lazy">
 																</div>
 															</div>
@@ -2058,7 +1878,7 @@
 																<div class="aspect-ratio aspect-w-219 aspect-h-142">
 																	<img decoding="async"
 																		class="w-full h-full object-center object-cover"
-																		src={% static "frontend/wp-content/uploads/2022/04/03.jpg"
+																		src="{% static 'frontend/wp-content/uploads/2022/04/03.jpg' %}"
 																		alt="Greenpoint Rentals | 85 sq.m"
 																		loading="lazy">
 																</div>
@@ -2119,7 +1939,7 @@
 																<div class="aspect-ratio aspect-w-219 aspect-h-142">
 																	<img decoding="async"
 																		class="w-full h-full object-center object-cover"
-																		src={% static "frontend/wp-content/uploads/2022/04/04.jpg"
+																		src="{% static 'frontend/wp-content/uploads/2022/04/04.jpg' %}"
 																		alt="Studio | 32 sq.m" loading="lazy">
 																</div>
 															</div>
@@ -2178,7 +1998,7 @@
 																<div class="aspect-ratio aspect-w-219 aspect-h-142">
 																	<img decoding="async"
 																		class="w-full h-full object-center object-cover"
-																		src={% static "frontend/wp-content/uploads/2022/04/05.jpg"
+																		src="{% static 'frontend/wp-content/uploads/2022/04/05.jpg' %}"
 																		alt="Cottage | 120 sq.m" loading="lazy">
 																</div>
 															</div>
@@ -2250,7 +2070,7 @@
 													data-widget_type="image.default">
 													<div class="elementor-widget-container">
 														<img decoding="async" width="416" height="400"
-															src={% static "frontend/wp-content/uploads/logos/hillpad-transparent.png"
+															src="{% static 'frontend/wp-content/uploads/logos/hillpad-transparent.png' %}"
 															class="attachment-full size-full wp-image-758" alt="">
 													</div>
 												</div>
@@ -2379,7 +2199,7 @@
 														<div class="card-img-top card-img-hover">
 															<span class="img-overlay opacity-65"></span> <img
 																decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/new-york.jpeg" alt="">
+																src="{% static 'frontend/wp-content/uploads/2021/11/new-york.jpeg' %}" alt="">
 															<div
 																class="content-overlay start-0 top-0 d-flex align-items-center justify-content-center w-100 h-100 p-3">
 																<div class="w-100 p-1">
@@ -2415,7 +2235,7 @@
 														<div class="card-img-top card-img-hover">
 															<span class="img-overlay opacity-65"></span> <img
 																decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/chicago.jpeg" alt="">
+																src="{% static 'frontend/wp-content/uploads/2021/11/chicago.jpeg' %}" alt="">
 															<div
 																class="content-overlay start-0 top-0 d-flex align-items-center justify-content-center w-100 h-100 p-3">
 																<div class="w-100 p-1">
@@ -2453,7 +2273,7 @@
 														<div class="card-img-top card-img-hover">
 															<span class="img-overlay opacity-65"></span> <img
 																decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/los-angeles.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/los-angeles.jpeg' %}"
 																alt="">
 															<div
 																class="content-overlay start-0 top-0 d-flex align-items-center justify-content-center w-100 h-100 p-3">
@@ -2492,7 +2312,7 @@
 														<div class="card-img-top card-img-hover">
 															<span class="img-overlay opacity-65"></span> <img
 																decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/san-diego.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/san-diego.jpeg' %}"
 																alt="">
 															<div
 																class="content-overlay start-0 top-0 d-flex align-items-center justify-content-center w-100 h-100 p-3">
@@ -2531,7 +2351,7 @@
 														<div class="card-img-top card-img-hover">
 															<span class="img-overlay opacity-65"></span> <img
 																decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/dallas.jpeg" alt="">
+																src="{% static 'frontend/wp-content/uploads/2021/11/dallas.jpeg' %}" alt="">
 															<div
 																class="content-overlay start-0 top-0 d-flex align-items-center justify-content-center w-100 h-100 p-3">
 																<div class="w-100 p-1">
@@ -2608,12 +2428,12 @@
 													<div class="row align-items-center">
 														<div class="col-xl-4 d-none d-xl-block">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/01.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpeg' %}"
 																alt="Floyd Miles" class="rounded-3">
 														</div>
 														<div class="col-xl-4 col-md-5 col-sm-4">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/02.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/02.jpeg' %}"
 																alt="Floyd Miles" class="rounded-3">
 														</div>
 
@@ -2688,12 +2508,12 @@
 													<div class="row align-items-center">
 														<div class="col-xl-4 d-none d-xl-block">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/02.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/02.jpeg' %}"
 																alt="Guy Hawkins" class="rounded-3">
 														</div>
 														<div class="col-xl-4 col-md-5 col-sm-4">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/03.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/03.jpeg' %}"
 																alt="Guy Hawkins" class="rounded-3">
 														</div>
 
@@ -2768,12 +2588,12 @@
 													<div class="row align-items-center">
 														<div class="col-xl-4 d-none d-xl-block">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/03.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/03.jpeg' %}"
 																alt="Kristin Watson" class="rounded-3">
 														</div>
 														<div class="col-xl-4 col-md-5 col-sm-4">
 															<img decoding="async"
-																src={% static "frontend/wp-content/uploads/2021/11/01.jpeg"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpeg' %}"
 																alt="Kristin Watson" class="rounded-3">
 														</div>
 
@@ -2880,7 +2700,7 @@
 					<div id="block-18" class="widget widget_block widget_media_image">
 						<figure class="wp-block-image size-full mb-4 pb-sm-3"><img decoding="async" width="90"
 								height="32"
-								src={% static "frontend/wp-content/uploads/logos/hillpad-transparent.png"
+								src="{% static 'frontend/wp-content/uploads/logos/hillpad-transparent.png' %}"
 								alt="" class="wp-image-2803"></figure>
 					</div>
 					<div id="block-19" class="widget widget_block">
@@ -2987,7 +2807,7 @@
 										class="wpforms-submit btn btn-primary btn-sm rounded-pill"
 										data-alt-text="Sending..." data-submit-text="Subscribe" aria-live="assertive"
 										value="wpforms-submit">Subscribe</button><img
-										src={% static "frontend/wp-content/plugins/wpforms-lite/assets/images/submit-spin.svg"
+										src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/images/submit-spin.svg' %}"
 										class="wpforms-submit-spinner" style="display: none;" width="26" height="26"
 										alt="Loading">
 								</div>
@@ -3112,28 +2932,35 @@
 						</div>
 						<div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
 							<div class="finder-hp-singin-popup-form">
-								<form data-model="user" action="#"
-									data-action="http://finder-city-guide.localhost/wp-json/hivepress/v1/users/login/"
-									method="POST" data-redirect="true" data-component="form"
+								<form id="loginForm" data-model="user" action="#"
+									onsubmit="return login(false);"
+									method="POST" data-component="form"
 									class="hp-form hp-form--user-login">
-									<div class="hp-form__messages" data-component="messages"></div>
+									<div id="signin-form-messages" class="hp-form__messages hp-form__messages--error" data-component="messages"></div>
 									<div class="hp-form__fields">
 										<div class="hp-form__field hp-form__field--text">
-											<label class="hp-field__label hp-form__label">Username or
-												Email</label><input type="text" name="username_or_email" value=""
+											<label class="hp-field__label hp-form__label">
+												Email
+											</label>
+											<input type="text" name="email" value=""
 												autocomplete="username" class="mb-4 hp-field hp-field--text"
 												placeholder="Enter your email" maxlength="254" required="required">
 										</div>
 										<div class="hp-form__field hp-form__field--password">
-											<label class="hp-field__label hp-form__label">Password</label><input
+											<label class="hp-field__label hp-form__label">
+												Password
+											</label>
+											<input
 												type="password" name="password" autocomplete="current-password"
 												placeholder="Enter password" maxlength="64" required="required"
 												class="hp-field hp-field--password">
 										</div>
 									</div>
-									<div class="hp-form__footer"><button type="submit"
-											class="hp-form__button button-primary alt btn btn-primary btn-lg w-100 mt-2 mb-2 button hp-field hp-field--submit">Sign
-											in</button></div>
+									<div class="hp-form__footer">
+										<button type="submit" id="signin-submit-btn" class="hp-form__button button-primary alt btn btn-primary btn-lg w-100 mt-2 mb-2 button hp-field hp-field--submit">
+											Sign in
+										</button>
+									</div>
 								</form>
 							</div>
 							<div class="d-flex justify-content-end">
@@ -3150,146 +2977,7 @@
 	</div>
 	<!-- End Login Modal -->
 
-	<link rel="stylesheet" id="wpforms-full-css"
-		href={% static "frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-full.min.css?ver=1.7.9.1" media="all">
-	<link rel="stylesheet" id="wpforms-base-css"
-		href={% static "frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-base.min.css?ver=1.7.7.2" media="all">
-	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&#038;key=0&#038;language=en&#038;region=US"
-		id="google-maps-js"></script>
-	<script src="./wp-includes/js/jquery/ui/core.min.js?ver=1.13.2" id="jquery-ui-core-js"></script>
-	<script src="./wp-includes/js/jquery/ui/mouse.min.js?ver=1.13.2" id="jquery-ui-mouse-js"></script>
-	<script
-		src={% static "frontend/wp-content/plugins/hivepress/node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js?ver=1.6.18"
-		id="jquery-ui-touch-punch-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/blueimp-file-upload/js/jquery.fileupload.js?ver=1.6.18"
-		id="fileupload-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js?ver=1.6.18"
-		id="fancybox-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/slick-carousel/slick/slick.min.js?ver=1.6.18"
-		id="slick-js"></script>
-	<script
-		src={% static "frontend/wp-content/plugins/hivepress/node_modules/sticky-sidebar/dist/jquery.sticky-sidebar.min.js?ver=1.6.18"
-		id="sticky-sidebar-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/php-date-formatter/js/php-date-formatter.min.js?ver=1.6.18"
-		id="php-date-formatter-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/flatpickr/dist/flatpickr.min.js?ver=1.6.18"
-		id="flatpickr-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/select2/dist/js/select2.full.min.js?ver=1.6.18"
-		id="select2-full-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/intl-tel-input/build/js/intlTelInput.min.js?ver=1.6.18"
-		id="intl-tel-input-js"></script>
-	<script src="./wp-includes/js/jquery/ui/sortable.min.js?ver=1.13.2" id="jquery-ui-sortable-js"></script>
-	<script
-		id="hivepress-core-js-extra">var hivepressCoreData = { "apiURL": ".\/\/wp-json\/hivepress\/v1", "apiNonce": "5a187fea8f", "language": "en" };</script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/assets/js/common.min.js?ver=1.6.18" id="hivepress-core-js"></script>
-	<script src="./wp-includes/js/jquery/ui/slider.min.js?ver=1.13.2" id="jquery-ui-slider-js"></script>
-	<script src="./wp-includes/js/imagesloaded.min.js?ver=4.1.4" id="imagesloaded-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/assets/js/frontend.min.js?ver=1.6.18"
-		id="hivepress-core-frontend-js"></script>
-	<script
-		id="hivepress-authentication-js-extra">var hivepressAuthenticationData = { "apiURL": ".\/\/wp-json\/hivepress\/v1\/users\/authenticate\/" };</script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-authentication/assets/js/common.min.js?ver=1.1.4"
-		id="hivepress-authentication-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/js/jquery.geocomplete.min.js?ver=1.3.7"
-		id="geocomplete-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/js/markerclustererplus.min.js?ver=1.3.7"
-		id="markerclustererplus-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/js/oms.min.js?ver=1.3.7"
-		id="markerspiderfier-js"></script>
-	<script
-		id="hivepress-geolocation-js-extra">var hivepressGeolocationData = { "assetURL": ".\/\/wp-content\/plugins\/hivepress-geolocation\/assets" };</script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/js/common.min.js?ver=1.3.7"
-		id="hivepress-geolocation-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-geolocation/assets/js/frontend.min.js?ver=1.3.7"
-		id="hivepress-geolocation-frontend-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-reviews/assets/js/jquery.raty.min.js?ver=1.3.0" id="raty-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress-reviews/assets/js/frontend.min.js?ver=1.3.0"
-		id="hivepress-reviews-frontend-js"></script>
-	<script src={% static "frontend/wp-content/plugins/hivepress/node_modules/select2/dist/js/i18n/en.js?ver=1.6.18"
-		id="select2-en-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/bootstrap/dist/js/bootstrap.bundle.js?ver=1.0.3"
-		id="bootstrap-bundle-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/simplebar/dist/simplebar.min.js?ver=1.0.3"
-		id="simplebar-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js?ver=1.0.3"
-		id="smooth-scroll-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/leaflet/dist/leaflet.js?ver=1.0.3" id="leaflet-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/tiny-slider/dist/min/tiny-slider.js?ver=1.0.3"
-		id="tiny-slider-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/nouislider/dist/nouislider.min.js?ver=1.0.3"
-		id="nouislider-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax.min.js?ver=1.0.3"
-		id="jarallax-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax-element.min.js?ver=1.0.3"
-		id="jarallax-element-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/cleave.js/dist/cleave.min.js?ver=1.0.3"
-		id="cleave-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond/dist/filepond.min.js?ver=1.0.3"
-		id="filepond-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js?ver=1.0.3"
-		id="filepond-size-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js?ver=1.0.3"
-		id="filepond-type-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js?ver=1.0.3"
-		id="filepond-crop-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js?ver=1.0.3"
-		id="filepond-preview-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js?ver=1.0.3"
-		id="filepond-resize-js"></script>
-	<script
-		src={% static "frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js?ver=1.0.3"
-		id="filepond-transform-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/flatpickr/dist/plugins/rangePlugin.js?ver=1.0.3"
-		id="range-js-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/lightgallery.js/dist/js/lightgallery.min.js?ver=1.0.3"
-		id="lightgallery-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/lg-fullscreen.js/dist/lg-fullscreen.min.js?ver=1.0.3"
-		id="lg-fullscreen-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/lg-zoom.js/dist/lg-zoom.min.js?ver=1.0.3"
-		id="lg-zoom-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/lg-video.js/dist/lg-video.min.js?ver=1.0.3"
-		id="lg-video-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/lg-thumbnail.js/dist/lg-thumbnail.min.js?ver=1.0.3"
-		id="lg-thumbnail-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/parallax-js/dist/parallax.min.js?ver=1.0.3"
-		id="parallax-js-js"></script>
-	<script src="./wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/vendor/@lottiefiles/lottie-player/dist/lottie-player.js?ver=1.0.3"
-		id="lottie-player-js"></script>
-	<script id="finder-js-js-extra">var finder_options = { "theme_url": ".\/\/wp-content\/themes\/finder\/" };</script>
-	<script src={% static "frontend/wp-content/themes/finder/assets/js/theme.js?ver=1.0.3" id="finder-js-js"></script>
-	<script src={% static "frontend/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.10.2"
-		id="elementor-webpack-runtime-js"></script>
-	<script src={% static "frontend/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.10.2"
-		id="elementor-frontend-modules-js"></script>
-	<script src={% static "frontend/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js?ver=4.0.2"
-		id="elementor-waypoints-js"></script>
-	<script
-		id="elementor-frontend-js-before">var elementorFrontendConfig = { "environmentMode": { "edit": false, "wpPreview": false, "isScriptDebug": false }, "i18n": { "shareOnFacebook": "Share on Facebook", "shareOnTwitter": "Share on Twitter", "pinIt": "Pin it", "download": "Download", "downloadImage": "Download image", "fullscreen": "Fullscreen", "zoom": "Zoom", "share": "Share", "playVideo": "Play Video", "previous": "Previous", "next": "Next", "close": "Close" }, "is_rtl": false, "breakpoints": { "xs": 0, "sm": 480, "md": 768, "lg": 1025, "xl": 1440, "xxl": 1600 }, "responsive": { "breakpoints": { "mobile": { "label": "Mobile", "value": 767, "default_value": 767, "direction": "max", "is_enabled": true }, "mobile_extra": { "label": "Mobile Extra", "value": 880, "default_value": 880, "direction": "max", "is_enabled": false }, "tablet": { "label": "Tablet", "value": 1024, "default_value": 1024, "direction": "max", "is_enabled": true }, "tablet_extra": { "label": "Tablet Extra", "value": 1200, "default_value": 1200, "direction": "max", "is_enabled": false }, "laptop": { "label": "Laptop", "value": 1366, "default_value": 1366, "direction": "max", "is_enabled": false }, "widescreen": { "label": "Widescreen", "value": 2400, "default_value": 2400, "direction": "min", "is_enabled": false } } }, "version": "3.10.2", "is_static": false, "experimentalFeatures": { "e_dom_optimization": true, "e_optimized_assets_loading": true, "e_optimized_css_loading": true, "a11y_improvements": true, "additional_custom_breakpoints": true, "e_hidden_wordpress_widgets": true, "landing-pages": true, "kit-elements-defaults": true }, "urls": { "assets": ".\/\/wp-content\/plugins\/elementor\/assets\/" }, "settings": { "page": [], "editorPreferences": [] }, "kit": { "active_breakpoints": ["viewport_mobile", "viewport_tablet"], "global_image_lightbox": "yes", "lightbox_enable_counter": "yes", "lightbox_enable_fullscreen": "yes", "lightbox_enable_zoom": "yes", "lightbox_enable_share": "yes", "lightbox_title_src": "title", "lightbox_description_src": "description" }, "post": { "id": 510, "title": "HillPad", "excerpt": "Mi sit montes, aenean tempor sollicitudin volutpat viverra. Tellus amet, vitae ac consectetur blandit at. Odio proin elit, vehicula morbi faucibus vestibulum pulvinar posuere nisl tincidunt. Iaculis sit quam magna congue.", "featuredImage": ".\/\/wp-content\/uploads\/2021\/11\/03.jpeg" } };</script>
-	<script src={% static "frontend/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.10.2"
-		id="elementor-frontend-js"></script>
-	<script src="./wp-includes/js/underscore.min.js?ver=1.13.4" id="underscore-js"></script>
-	<script id="wp-util-js-extra">var _wpUtilSettings = { "ajax": { "url": "\/wp-admin\/admin-ajax.php" } };</script>
-	<script src="./wp-includes/js/wp-util.min.js?ver=6.1.1" id="wp-util-js"></script>
-	<script
-		id="wpforms-elementor-js-extra">var wpformsElementorVars = { "captcha_provider": "recaptcha", "recaptcha_type": "v2" };</script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/js/integrations/elementor/frontend.min.js?ver=1.7.9.1"
-		id="wpforms-elementor-js"></script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/lib/jquery.validate.min.js?ver=1.19.5"
-		id="wpforms-validation-js"></script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/lib/mailcheck.min.js?ver=1.1.2"
-		id="wpforms-mailcheck-js"></script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/lib/punycode.min.js?ver=1.0.0"
-		id="wpforms-punycode-js"></script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/js/utils.min.js?ver=1.7.9.1"
-		id="wpforms-generic-utils-js"></script>
-	<script src={% static "frontend/wp-content/plugins/wpforms-lite/assets/js/wpforms.min.js?ver=1.7.9.1" id="wpforms-js"></script>
-	
+		
 	<!-- Signup Modal -->
 	<div class="modal fade" id="user_signup_modal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-lg modal-dialog-centered p-2 my-0 mx-auto" style="max-width: 950px;">
@@ -3320,16 +3008,22 @@
 						</div>
 						<div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
 							<div class="finder-hp-singup-popup-form">
-								<form data-model="user" action="#"
-									data-action="http://finder-city-guide.localhost/wp-json/hivepress/v1/users/"
-									method="POST" data-redirect="true" data-component="form"
+								<form id="signupForm" data-model="user" action="#"
+									onsubmit="return signup();"
+									method="POST" data-component="form"
 									class="hp-form hp-form--user-register">
-									<div class="hp-form__messages" data-component="messages"></div>
+									<div id="signup-form-messages" class="hp-form__messages hp-form__messages--error" data-component="messages"></div>
 									<div class="hp-form__fields">
 										<div class="hp-form__field hp-form__field--text">
-											<label class="hp-field__label hp-form__label">Name</label><input
-												type="text" name="username" value=""
-												class="mb-4 hp-field hp-field--text" placeholder="Enter your full name"
+											<label class="hp-field__label hp-form__label">First Name</label><input
+												type="text" name="first_name" value=""
+												class="mb-4 hp-field hp-field--text" placeholder="Enter your first name"
+												maxlength="60" required="required">
+										</div>
+										<div class="hp-form__field hp-form__field--text">
+											<label class="hp-field__label hp-form__label">Last Name</label><input
+												type="text" name="last_name" value=""
+												class="mb-4 hp-field hp-field--text" placeholder="Enter your last name"
 												maxlength="60" required="required">
 										</div>
 										<div class="hp-form__field hp-form__field--email">
@@ -3341,13 +3035,15 @@
 										<div class="hp-form__field hp-form__field--password">
 											<label class="hp-field__label hp-form__label">Password</label><input
 												type="password" name="password" autocomplete="new-password"
-												placeholder="Enter your password min 8 char" minlength="8"
+												placeholder="Enter your password"
 												maxlength="64" required="required" class="hp-field hp-field--password">
 										</div>
 									</div>
-									<div class="hp-form__footer"><button type="submit"
-											class="hp-form__button button-primary alt btn btn-primary btn-lg w-100 mt-2 button hp-field hp-field--submit">Sign
-											up</button></div>
+									<div class="hp-form__footer">
+										<button id="signup-submit-btn" type="submit" class="hp-form__button button-primary alt btn btn-primary btn-lg w-100 mt-2 button hp-field hp-field--submit">
+											Sign up
+										</button>
+									</div>
 								</form>
 							</div>
 						</div>
@@ -3400,9 +3096,160 @@
 	</div>
 	<!-- Reset Password Modal -->
 
+	<!-- Custom page JS -->
+	<script>
+		var frontend_static_url = "{% static 'frontend' %}"
+	</script>
+	<script src="{% static 'frontend/wp-includes/js/custom/auth.js' %}"
+		id="login-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/custom/pages/index.js' %}"
+		id="custom-page-js"></script>
+
+	<link rel="stylesheet" id="wpforms-full-css"
+		href="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-full.min.css' %}" media="all">
+	<link rel="stylesheet" id="wpforms-base-css"
+		href="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-base.min.css' %}" media="all">
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&#038;key=0&#038;language=en&#038;region=US"
+		id="google-maps-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/ui/core.min.js' %}" id="jquery-ui-core-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/ui/mouse.min.js' %}" id="jquery-ui-mouse-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' %}"
+		id="jquery-ui-touch-punch-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/blueimp-file-upload/js/jquery.fileupload.js' %}"
+		id="fileupload-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js' %}"
+		id="fancybox-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/slick-carousel/slick/slick.min.js' %}"
+		id="slick-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/sticky-sidebar/dist/jquery.sticky-sidebar.min.js' %}"
+		id="sticky-sidebar-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/php-date-formatter/js/php-date-formatter.min.js' %}"
+		id="php-date-formatter-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/flatpickr/dist/flatpickr.min.js' %}"
+		id="flatpickr-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/select2/dist/js/select2.full.min.js' %}"
+		id="select2-full-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/intl-tel-input/build/js/intlTelInput.min.js' %}"
+		id="intl-tel-input-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/ui/sortable.min.js' %}" id="jquery-ui-sortable-js"></script>
+	<script
+		id="hivepress-core-js-extra">var hivepressCoreData = { "apiURL": "{% static 'frontend/wp-json/hivepress/v1' %}", "apiNonce": "5a187fea8f", "language": "en" };</script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/assets/js/common.min.js' %}" id="hivepress-core-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/jquery/ui/slider.min.js' %}" id="jquery-ui-slider-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/imagesloaded.min.js' %}" id="imagesloaded-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/assets/js/frontend.min.js' %}"
+		id="hivepress-core-frontend-js"></script>
+	<script
+		id="hivepress-authentication-js-extra">var hivepressAuthenticationData = { "apiURL": ".\/\/wp-json\/hivepress\/v1\/users\/authenticate\/" };</script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-authentication/assets/js/common.min.js' %}"
+		id="hivepress-authentication-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/js/jquery.geocomplete.min.js' %}"
+		id="geocomplete-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/js/markerclustererplus.min.js' %}"
+		id="markerclustererplus-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/js/oms.min.js' %}"
+		id="markerspiderfier-js"></script>
+	<script
+		id="hivepress-geolocation-js-extra">var hivepressGeolocationData = { "assetURL": "{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets' %}" };</script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/js/common.min.js' %}"
+		id="hivepress-geolocation-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-geolocation/assets/js/frontend.min.js' %}"
+		id="hivepress-geolocation-frontend-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-reviews/assets/js/jquery.raty.min.js' %}" id="raty-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress-reviews/assets/js/frontend.min.js' %}"
+		id="hivepress-reviews-frontend-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/hivepress/node_modules/select2/dist/js/i18n/en.js' %}"
+		id="select2-en-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/bootstrap/dist/js/bootstrap.bundle.js' %}"
+		id="bootstrap-bundle-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/simplebar/dist/simplebar.min.js' %}"
+		id="simplebar-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"
+		id="smooth-scroll-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/leaflet/dist/leaflet.js' %}" id="leaflet-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/tiny-slider/dist/min/tiny-slider.js' %}"
+		id="tiny-slider-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/nouislider/dist/nouislider.min.js' %}"
+		id="nouislider-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax.min.js' %}"
+		id="jarallax-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/jarallax/dist/jarallax-element.min.js' %}"
+		id="jarallax-element-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/cleave.js/dist/cleave.min.js' %}"
+		id="cleave-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond/dist/filepond.min.js' %}"
+		id="filepond-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js' %}"
+		id="filepond-size-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js' %}"
+		id="filepond-type-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js' %}"
+		id="filepond-crop-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js' %}"
+		id="filepond-preview-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js' %}"
+		id="filepond-resize-js"></script>
+	<script
+		src="{% static 'frontend/wp-content/themes/finder/assets/vendor/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js' %}"
+		id="filepond-transform-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/flatpickr/dist/plugins/rangePlugin.js' %}"
+		id="range-js-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/lightgallery.js/dist/js/lightgallery.min.js' %}"
+		id="lightgallery-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/lg-fullscreen.js/dist/lg-fullscreen.min.js' %}"
+		id="lg-fullscreen-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/lg-zoom.js/dist/lg-zoom.min.js' %}"
+		id="lg-zoom-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/lg-video.js/dist/lg-video.min.js' %}"
+		id="lg-video-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/lg-thumbnail.js/dist/lg-thumbnail.min.js' %}"
+		id="lg-thumbnail-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/parallax-js/dist/parallax.min.js' %}"
+		id="parallax-js-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/masonry.min.js' %}" id="masonry-js"></script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/vendor/@lottiefiles/lottie-player/dist/lottie-player.js' %}"
+		id="lottie-player-js"></script>
+	<script id="finder-js-js-extra">var finder_options = { "theme_url": "{% static 'frontend/wp-content/themes/finder/' %}" };</script>
+	<script src="{% static 'frontend/wp-content/themes/finder/assets/js/theme.js' %}" id="finder-js-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js' %}"
+		id="elementor-webpack-runtime-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/elementor/assets/js/frontend-modules.min.js' %}"
+		id="elementor-frontend-modules-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js' %}"
+		id="elementor-waypoints-js"></script>
+	<script
+		id="elementor-frontend-js-before">var elementorFrontendConfig = { "environmentMode": { "edit": false, "wpPreview": false, "isScriptDebug": false }, "i18n": { "shareOnFacebook": "Share on Facebook", "shareOnTwitter": "Share on Twitter", "pinIt": "Pin it", "download": "Download", "downloadImage": "Download image", "fullscreen": "Fullscreen", "zoom": "Zoom", "share": "Share", "playVideo": "Play Video", "previous": "Previous", "next": "Next", "close": "Close" }, "is_rtl": false, "breakpoints": { "xs": 0, "sm": 480, "md": 768, "lg": 1025, "xl": 1440, "xxl": 1600 }, "responsive": { "breakpoints": { "mobile": { "label": "Mobile", "value": 767, "default_value": 767, "direction": "max", "is_enabled": true }, "mobile_extra": { "label": "Mobile Extra", "value": 880, "default_value": 880, "direction": "max", "is_enabled": false }, "tablet": { "label": "Tablet", "value": 1024, "default_value": 1024, "direction": "max", "is_enabled": true }, "tablet_extra": { "label": "Tablet Extra", "value": 1200, "default_value": 1200, "direction": "max", "is_enabled": false }, "laptop": { "label": "Laptop", "value": 1366, "default_value": 1366, "direction": "max", "is_enabled": false }, "widescreen": { "label": "Widescreen", "value": 2400, "default_value": 2400, "direction": "min", "is_enabled": false } } }, "version": "3.10.2", "is_static": false, "experimentalFeatures": { "e_dom_optimization": true, "e_optimized_assets_loading": true, "e_optimized_css_loading": true, "a11y_improvements": true, "additional_custom_breakpoints": true, "e_hidden_wordpress_widgets": true, "landing-pages": true, "kit-elements-defaults": true }, "urls": { "assets": "{% static 'frontend/wp-content/plugins/elementor/assets/' %}" }, "settings": { "page": [], "editorPreferences": [] }, "kit": { "active_breakpoints": ["viewport_mobile", "viewport_tablet"], "global_image_lightbox": "yes", "lightbox_enable_counter": "yes", "lightbox_enable_fullscreen": "yes", "lightbox_enable_zoom": "yes", "lightbox_enable_share": "yes", "lightbox_title_src": "title", "lightbox_description_src": "description" }, "post": { "id": 510, "title": "HillPad", "excerpt": "Mi sit montes, aenean tempor sollicitudin volutpat viverra. Tellus amet, vitae ac consectetur blandit at. Odio proin elit, vehicula morbi faucibus vestibulum pulvinar posuere nisl tincidunt. Iaculis sit quam magna congue.", "featuredImage": "{% static 'frontend/wp-content/uploads/2021/11/03.jpeg' %}" } };</script>
+	<script src="{% static 'frontend/wp-content/plugins/elementor/assets/js/frontend.min.js' %}"
+		id="elementor-frontend-js"></script>
+	<script src="{% static 'frontend/wp-includes/js/underscore.min.js' %}" id="underscore-js"></script>
+	<script id="wp-util-js-extra">var _wpUtilSettings = { "ajax": { "url": "\/wp-admin\/admin-ajax.php" } };</script>
+	<script src="{% static 'frontend/wp-includes/js/wp-util.min.js' %}" id="wp-util-js"></script>
+	<script
+		id="wpforms-elementor-js-extra">var wpformsElementorVars = { "captcha_provider": "recaptcha", "recaptcha_type": "v2" };</script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/js/integrations/elementor/frontend.min.js' %}"
+		id="wpforms-elementor-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/lib/jquery.validate.min.js' %}"
+		id="wpforms-validation-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/lib/mailcheck.min.js' %}"
+		id="wpforms-mailcheck-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/lib/punycode.min.js' %}"
+		id="wpforms-punycode-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/js/utils.min.js' %}"
+		id="wpforms-generic-utils-js"></script>
+	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/js/wpforms.min.js' %}" id="wpforms-js"></script>
+
+
+
 	<script type="text/javascript">
 		/* <![CDATA[ */
-		var wpforms_settings = { "val_required": "This field is required.", "val_email": "Please enter a valid email address.", "val_email_suggestion": "Did you mean {suggestion}?", "val_email_suggestion_title": "Click to accept this suggestion.", "val_email_restricted": "This email address is not allowed.", "val_number": "Please enter a valid number.", "val_number_positive": "Please enter a valid positive number.", "val_confirm": "Field values do not match.", "val_checklimit": "You have exceeded the number of allowed selections: {#}.", "val_limit_characters": "{count} of {limit} max characters.", "val_limit_words": "{count} of {limit} max words.", "val_recaptcha_fail_msg": "Google reCAPTCHA verification failed, please try again later.", "val_inputmask_incomplete": "Please fill out the field in required format.", "uuid_cookie": "", "locale": "en", "wpforms_plugin_url": ".\/\/wp-content\/plugins\/wpforms-lite\/", "gdpr": "", "ajaxurl": ".\/\/wp-admin\/admin-ajax.php", "mailcheck_enabled": "1", "mailcheck_domains": [], "mailcheck_toplevel_domains": ["dev"], "is_ssl": "", "page_title": "7 Tips for Solo Travelers in Africa", "page_id": "510" }
+		var wpforms_settings = { "val_required": "This field is required.", "val_email": "Please enter a valid email address.", "val_email_suggestion": "Did you mean {suggestion}?", "val_email_suggestion_title": "Click to accept this suggestion.", "val_email_restricted": "This email address is not allowed.", "val_number": "Please enter a valid number.", "val_number_positive": "Please enter a valid positive number.", "val_confirm": "Field values do not match.", "val_checklimit": "You have exceeded the number of allowed selections: {#}.", "val_limit_characters": "{count} of {limit} max characters.", "val_limit_words": "{count} of {limit} max words.", "val_recaptcha_fail_msg": "Google reCAPTCHA verification failed, please try again later.", "val_inputmask_incomplete": "Please fill out the field in required format.", "uuid_cookie": "", "locale": "en", "wpforms_plugin_url": "{% static 'frontend/wp-content/plugins/wpforms-lite/' %}", "gdpr": "", "ajaxurl": ".\/\/wp-admin\/admin-ajax.php", "mailcheck_enabled": "1", "mailcheck_domains": [], "mailcheck_toplevel_domains": ["dev"], "is_ssl": "", "page_title": "7 Tips for Solo Travelers in Africa", "page_id": "510" }
 /* ]]> */
 	</script>
 </body>

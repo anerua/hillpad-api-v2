@@ -16,7 +16,6 @@ class CreateCourseAPIView(CreateAPIView):
 
 class ListCourseAPIView(ListAPIView):
     
-    permission_classes = (IsAuthenticated,)
     serializer_class = ListCourseSerializer
     filter_params = [
         "id",

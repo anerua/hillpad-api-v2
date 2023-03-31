@@ -75,6 +75,21 @@ class RegisterAccountAPIView(CreateAPIView):
     serializer_class = RegisterAccountSerializer
     queryset = User.objects.all()
 
+    # def post(self, request, *args, **kwargs):
+    #     response = super().post(request, *args, **kwargs)
+    #     # Immmediately send cookies to browser
+    #     if response.status_code == status.HTTP_201_CREATED:
+    #         login_response = TokenObtainPairView.as_view()(request, *args, **kwargs)
+    #         access_token = login_response.data["access"]
+    #         refresh_token = login_response.data["refresh"]
+    #         access_cookie_max_age = 3600 * int(config("ACCESS_TOKEN_LIFETIME_HOURS")) # in hours
+    #         refresh_cookie_max_age = 3600 * 24 * int(config("REFRESH_TOKEN_LIFETIME_DAYS")) # in days
+    #         response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
+    #         response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
+    #         return response
+        
+    #     return response
+
 
 class RegisterStaffAccountAPIView(CreateAPIView):
 
