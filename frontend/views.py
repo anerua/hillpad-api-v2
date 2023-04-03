@@ -47,6 +47,16 @@ class CourseDetailView(TemplateView):
     template_name = "frontend/course/detail.html"
 
 
+class DisciplinesListingView(TemplateView):
+
+    template_name = "frontend/discipline/index.html"
+
+
+class DisciplineDetailView(TemplateView):
+
+    template_name = "frontend/discipline/detail.html"
+
+
 class DisclaimerView(TemplateView):
 
     template_name = "frontend/about/disclaimer.html"

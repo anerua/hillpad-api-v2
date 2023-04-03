@@ -1039,7 +1039,7 @@
 
 								<!-- Browse by discipline -->
 								<li id="menu-item-366" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-366">
-									<a itemprop="url" href="./discipline/" class="dropdown-item">
+									<a itemprop="url" href="{% url 'disciplines_listing' %}" class="dropdown-item">
 										<span itemprop="name">
 											<i class="fi-briefcase fs-base opacity-50 me-2" aria-hidden="true"></i>
 											Browse by discipline
@@ -1206,20 +1206,20 @@
 								itemtype="http://www.schema.org/SiteNavigationElement">
 								<li id="menu-item-2804"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2804"><a
-										href="./listing/">Bachelors</a></li>
+										href="{% url 'courses_listing' %}">Bachelors</a></li>
 								<li id="menu-item-2805"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2805"><a
-										href="./listing/">Masters</a>
+										href="{% url 'courses_listing' %}">Masters</a>
 								</li>
 								<li id="menu-item-2806"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2806"><a
-										href="./listing/">Doctorates</a></li>
+										href="{% url 'courses_listing' %}">Doctorates</a></li>
 								<li id="menu-item-2807"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2807"><a
-										href="./country/">Browse by country</a></li>
+										href="{% url 'countries_listing' %}">Browse by country</a></li>
 								<li id="menu-item-2807"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2807"><a
-										href="./discipline/">Browse by discipline</a></li>
+										href="{% url 'disciplines_listing' %}">Browse by discipline</a></li>
 							</ul>
 						</div>
 					</div>
