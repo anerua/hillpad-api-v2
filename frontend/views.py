@@ -22,6 +22,11 @@ class AccountWishlistView(TemplateView):
     template_name = "frontend/account/wishlist.html"
 
 
+class ContactView(TemplateView):
+
+    template_name = "frontend/contact/index.html"
+
+
 class CoursesListingView(TemplateView):
 
     template_name = "frontend/course/index.html"

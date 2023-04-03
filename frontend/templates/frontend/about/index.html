@@ -25,7 +25,7 @@
                                     <nav class="mb-3 pt-md-3" aria-label="Breadcrumb">
                                         <ol class="breadcrumb breadcrumb-dark">
                                             <li class="breadcrumb-item"><a
-                                                    href="..">Home</a></li>
+                                                    href="{% url 'home' %}">Home</a></li>
                                             <li class="breadcrumb-item active">About Us</li>
                                         </ol>
                                     </nav>
@@ -70,7 +70,7 @@
                                 data-widget_type="button.button-finder">
                                 <div class="elementor-widget-container">
                                     <div class="elementor-button-wrapper">
-                                        <a href="../contact/"
+                                        <a href="{% url 'contact' %}"
                                             class="elementor-button-link btn btn-primary bg-primary rounded fr-elementor-button btn-lg"
                                             role="button">
                                             <span class="elementor-button-content-wrapper">
@@ -267,7 +267,7 @@
                                                 data-widget_type="button.button-finder">
                                                 <div class="elementor-widget-container">
                                                     <div class="elementor-button-wrapper">
-                                                        <a href="../listing/"
+                                                        <a href="{% url 'courses_listing' %}"
                                                             class="elementor-button-link btn btn-primary bg-primary rounded fr-elementor-button btn-lg"
                                                             role="button">
                                                             <span
