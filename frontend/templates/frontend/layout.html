@@ -12,9 +12,6 @@
 	<meta name="robots" content="max-image-preview:large">
 	<link rel="dns-prefetch" href="//maps.googleapis.com">
 	<link rel="dns-prefetch" href="//code.jquery.com">
-	<link rel="alternate" type="application/rss+xml" title="HillPad &raquo; Feed" href="./feed/index.html">
-	<link rel="alternate" type="application/rss+xml" title="HillPad &raquo; Comments Feed"
-		href="./comments/feed/index.html">
 	<script>
 		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "{% static 'frontend/wp-includes/js/wp-emoji-release.min.js' %}" } };
 		/*! This file is auto-generated */
@@ -633,17 +630,6 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 	<script src="{% static 'frontend/wp-includes/js/jquery/jquery.min.js' %}" id="jquery-core-js"></script>
 	<script src="{% static 'frontend/wp-includes/js/jquery/jquery-migrate.min.js' %}" id="jquery-migrate-js"></script>
-	<link rel="https://api.w.org/" href="./wp-json/index.html">
-	<link rel="alternate" type="application/json" href="./wp-json/wp/v2/pages/26/index.html">
-	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="./xmlrpc.php?rsd">
-	<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% static 'frontend/wp-includes/wlwmanifest.xml' %}">
-	<meta name="generator" content="WordPress 6.1.1">
-	<link rel="canonical" href="./index.html">
-	<link rel="shortlink" href="./index.html">
-	<link rel="alternate" type="application/json+oembed"
-		href="./wp-json/oembed/1.0/embed/index.html?url=http%3A%2F%2F%2F">
-	<link rel="alternate" type="text/xml+oembed"
-		href="./wp-json/oembed/1.0/embed/index.html?url=http%3A%2F%2F%2F#038;format=xml">
 </head>
 
 <body itemtype="https://schema.org/WebPage" itemscope="itemscope"
@@ -920,7 +906,7 @@
 
 				<!-- Explore button -->
 				<a class="finder-header-listing-button btn btn-primary btn-sm rounded-pill ms-2 order-lg-3"
-					data-component="link" data-url="../listing/">
+					data-component="link" data-url="{% url 'courses_listing' %}">
 					<i class="fa fa-paper-plane me-2"></i>
 					<span>Explore</span>
 				</a>
@@ -1508,8 +1494,10 @@
 	</script>
 	<script src="{% static 'frontend/wp-includes/js/custom/auth.js' %}"
 		id="login-js"></script>
-	<script src="{% static 'frontend/wp-includes/js/custom/pages/index.js' %}"
-		id="custom-page-js"></script>
+	{% block page_js %}
+	{% endblock %}
+
+	
 
 	<link rel="stylesheet" id="wpforms-full-css"
 		href="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-full.min.css' %}" media="all">

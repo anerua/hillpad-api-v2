@@ -1,4 +1,3 @@
-path_to_home = "..";
 
 load_countries();
 

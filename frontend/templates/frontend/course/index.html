@@ -1,0 +1,1421 @@
+{% extends "frontend/layout.html" %}
+{% load static %}
+
+{% block page_title %}
+	HillPad - Courses
+{% endblock %}
+
+{% block page_content %}
+
+	<!-- Page content -->
+	<div id="content" class="site-content">
+		<div class="content-area">
+			<div class="hp-page site-main">
+				<div class="finder-hivepress-listings">
+					<div class="finder-listings-wrap">
+						<div class="container-fluid p-0 mt-5 pt-5">
+							<div class="row g-0 mt-n3">
+								
+								<!-- Side Panel -->
+								<aside class="col-lg-4 col-xl-3 border-top-lg border-end-lg shadow-sm px-3 px-xl-4 px-xxl-5 pt-lg-2">
+									
+									<div class="offcanvas offcanvas-start offcanvas-collapse" id="filters-sidebar">
+										
+										<div class="offcanvas-header d-flex d-lg-none align-items-center">
+											<h2 class="h5 mb-0">Filters</h2>
+											<button class="btn-close" type="button"
+												data-bs-dismiss="offcanvas"></button>
+										</div>
+										
+										<!-- Search -->
+										<div class="offcanvas-header d-block border-bottom pt-0 pt-lg-4 px-lg-0">
+											<form class="form-group mb-lg-2 rounded-pill" method="get"
+												action="../">
+												<div class="input-group">
+													<span class="input-group-text text-muted"><i
+															class="fi-search"></i></span>
+													<input class="form-control" type="search" name="s" value=""
+														placeholder="Search...">
+													<input type="hidden" class="form-control" name="post_type"
+														value="hp_listing">
+												</div>
+												<button
+													class="btn btn-primary rounded-pill d-lg-inline-block d-none"
+													type="submit">Search</button>
+												<button
+													class="btn btn-icon btn-primary rounded-circle flex-shrink-0 d-lg-none d-inline-flex"
+													type="submit"><i class="fi-search mt-n2"></i></button>
+											</form>
+										</div>
+										<!-- End Search -->
+
+										<!-- Disciplines and Filter pill -->
+										<div class="offcanvas-header d-block border-bottom py-lg-4 py-3 px-lg-0">
+											<ul class="nav nav-pills" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link d-flex align-items-center active"
+														href="#categories" data-bs-toggle="tab" role="tab"
+														aria-selected="true">
+														<i class="fi-list me-2"></i>
+														Disciplines </a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link d-flex align-items-center" href="#filters"
+														data-bs-toggle="tab" role="tab" aria-selected="false">
+														<i class="fi-filter-alt-horizontal me-2"></i>
+														Filters </a>
+												</li>
+											</ul>
+										</div>
+										<!-- End Disciplines and Filter pill -->
+
+										<!-- Tab view -->
+										<div class="offcanvas-body py-lg-4">
+											<div class="tab-content">
+
+												<!-- Disciplines tab -->
+												<div class="tab-pane fade active show" id="categories"
+													role="tabpanel">
+													<div class="row row-cols-lg-2 row-cols-1 g-3">
+														
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-accent text-accent rounded-circle mb-3 mx-auto">
+																	<i class="fa fa-tractor text-success"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">
+																	Agriculture &amp; Forestry</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto">
+																	<i class="fi fi-thermometer text-primary"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Applied Sciences &amp; Professions</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-warning text-warning rounded-circle mb-3 mx-auto">
+																	<i class="fa fa-paint-brush text-warning"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Art, Design &amp; Architecture</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-success text-success rounded-circle mb-3 mx-auto">
+																	<i class="fi-briefcase text-info"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Business &amp; Management
+																</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto">
+																	<i class="fi-computer text-primary"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Computer Science &amp; IT
+																</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-info text-info rounded-circle mb-3 mx-auto">
+																	<i class="fa fa-book text-danger"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Education &amp; Training
+																</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-success text-success rounded-circle mb-3 mx-auto">
+																	<i class="fi-settings text-primary"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Engineering &amp; Technology</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-warning text-warning rounded-circle mb-3 mx-auto">
+																	<i class="fi-calculator text-info"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Natural Sciences &amp; Mathematics</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto">
+																	<i class="fi-house-chosen text-success"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Hospitality, Leisure &amp; Sports
+																</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-info text-info rounded-circle mb-3 mx-auto">
+																	<i class="fa fa-film text-warning"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">
+																	Journalism &amp; Media</h3>
+															</a>
+														</div>
+														<div class="col">
+															<a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+																href="../discipline/detail.html">
+																<div
+																	class="icon-box-media bg-faded-accent text-accent rounded-circle mb-3 mx-auto">
+																	<i class="fa fa-cloud-sun text-info"></i>
+																</div>
+																<h3 class="icon-box-title fs-base mb-0">Environmental Sciences
+																</h3>
+															</a>
+														</div>
+														
+													</div>
+												</div>
+												<!-- End Disciplines tab -->
+
+												<!-- Filters tab -->
+												<div class="tab-pane fade" id="filters" role="tabpanel">
+													<form action=".." method="GET">
+
+														<input type="hidden" name="_sort" value="">
+
+														<input type="hidden" name="s">
+
+														<input type="hidden" name="post_type" value="hp_listing">
+
+														<input type="hidden" name="filter_active" value="1">
+
+														<!-- Programme/Degree Type -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Programme/Degree Type</h3>
+															
+															<!-- Bachelors Degree Types -->
+															<h6 class="h6 fs-sm">Bachelors</h6>
+															<div class="overflow-auto mb-3" data-simplebar
+																data-simplebar-auto-hide="false"
+																style="height: 11rem;">
+																<div class="form-check">
+																	<input id="amenities_63eccad4961f1"
+																		type="checkbox" class="form-check-input"
+																		value="27" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4961f1">B.Sc. Bachelor of Science</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49622b"
+																		type="checkbox" class="form-check-input"
+																		value="37" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49622b">B.A. Bachelor of Arts</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49625d"
+																		type="checkbox" class="form-check-input"
+																		value="39" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49625d">L.L.B. Bachelor of Laws</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49628b"
+																		type="checkbox" class="form-check-input"
+																		value="54" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49628b">B.Eng. Bachelor of Engineering</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962b8"
+																		type="checkbox" class="form-check-input"
+																		value="56" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">B.B.A. Bachelor of Business Administration</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962e4"
+																		type="checkbox" class="form-check-input"
+																		value="58" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962e4">Associate Degree</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496310"
+																		type="checkbox" class="form-check-input"
+																		value="60" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496310">Academy Profession</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49633d"
+																		type="checkbox" class="form-check-input"
+																		value="63" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49633d">Advanced Diploma</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Graduate Certificate</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Graduate Diploma</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Pre-Bachelor</label>
+																</div>
+															</div>
+															<!-- End Bachelors Degree Types -->
+
+															<!-- Masters Degree Types -->
+															<h6 class="h6 fs-sm">Masters</h6>
+															<div class="overflow-auto mb-3" data-simplebar
+																data-simplebar-auto-hide="false"
+																style="height: 11rem;">
+																<div class="form-check">
+																	<input id="amenities_63eccad4961f1"
+																		type="checkbox" class="form-check-input"
+																		value="27" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4961f1">M.Sc. Master of Science</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49622b"
+																		type="checkbox" class="form-check-input"
+																		value="37" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49622b">M.A. Master of Arts</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49625d"
+																		type="checkbox" class="form-check-input"
+																		value="39" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49625d">LL.M. Master of Laws</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49628b"
+																		type="checkbox" class="form-check-input"
+																		value="54" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49628b">M.Eng. Master of Engineering</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962b8"
+																		type="checkbox" class="form-check-input"
+																		value="56" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">M.B.A. Master of Business Administration</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962e4"
+																		type="checkbox" class="form-check-input"
+																		value="58" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962e4">M.Phil. Master of Philosophy</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496310"
+																		type="checkbox" class="form-check-input"
+																		value="60" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496310">M.Litt. Master of Letters</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49633d"
+																		type="checkbox" class="form-check-input"
+																		value="63" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49633d">M.Ed. Master of Education</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49633d"
+																		type="checkbox" class="form-check-input"
+																		value="63" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49633d">M.Res. Master of Research</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Postgraduate Certificate</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Postgraduate Diploma</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad496369">Pre-Master</label>
+																</div>
+															</div>
+															<!-- End Masters Degree Types -->
+
+															<!-- Doctorates Degree Types -->
+															<h6 class="h6 fs-sm">Doctorates</h6>
+															<div class="overflow-auto" data-simplebar
+																data-simplebar-auto-hide="false"
+																style="height: 5rem;">
+																<div class="form-check">
+																	<input id="amenities_63eccad4961f1"
+																		type="checkbox" class="form-check-input"
+																		value="27" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4961f1">Ph.D. Doctor of Philosophy</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962b8"
+																		type="checkbox" class="form-check-input"
+																		value="56" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">D.B.A. Doctor of Business Administration</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962e4"
+																		type="checkbox" class="form-check-input"
+																		value="58" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962e4">Doctorate</label>
+																</div>
+															</div>
+															<!-- End Doctorates Degree Types -->
+														</div>
+														<!-- End Programme/Degree Type-->
+
+														<!-- Discipline -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Disciplines</h3>
+															<div class="overflow-auto mb-3" data-simplebar
+																data-simplebar-auto-hide="false"
+																style="height: 11rem;">
+																<div class="form-check">
+																	<input id="amenities_63eccad4961f1"
+																		type="checkbox" class="form-check-input"
+																		value="27" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4961f1">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fa fa-tractor text-success"></i>
+																		Agriculture & Forestry
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49622b"
+																		type="checkbox" class="form-check-input"
+																		value="37" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49622b">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-thermometer text-primary"></i>
+																		Applied Sciences & Profession
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49625d"
+																		type="checkbox" class="form-check-input"
+																		value="39" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49625d">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fa fa-thermometer text-warning"></i>
+																		Art, Design & Architecture
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49628b"
+																		type="checkbox" class="form-check-input"
+																		value="54" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49628b">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-briefcase text-info"></i>
+																		Business & Management
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962b8"
+																		type="checkbox" class="form-check-input"
+																		value="56" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-computer text-primary"></i>
+																		Computer Science & IT
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad4962e4"
+																		type="checkbox" class="form-check-input"
+																		value="58" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fa fa-book text-danger"></i>
+																		Education & Training
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496310"
+																		type="checkbox" class="form-check-input"
+																		value="60" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-settings text-primary"></i>
+																		Engineering & Technology
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49633d"
+																		type="checkbox" class="form-check-input"
+																		value="63" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-calculator text-info"></i>
+																		Natural Sciences & Mathematics
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-house-chosen text-success"></i>
+																		Hospitality, Leisure & Sports
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fi fi-friends text-primary"></i>
+																		Humanities & Social Sciences
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fa fa-film text-warning"></i>
+																		Journalism, Media & Communication
+																	</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad496369"
+																		type="checkbox" class="form-check-input"
+																		value="64" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4962b8">
+																		<i aria-hidden="true"
+																		class="finder-elementor-icon-box-icon fa fa-cloud-sun text-info"></i>
+																		Environmental Sciences
+																	</label>
+																</div>
+															</div>
+
+														</div>
+														<!-- End Discipline Type-->
+
+														<!-- Location -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Location</h3>
+															<input type="hidden" name="post_type"
+																value="hp_listing">
+															<input type="hidden" name="latitude" value=""
+																data-coordinate="lat">
+															<input type="hidden" name="longitude" value=""
+																data-coordinate="lng">
+															<div data-countries="[]" data-component="location">
+																<input type="text" name="location"
+																	placeholder="Enter the Location" maxlength="256"
+																	class="form-control">
+															</div>
+														</div>
+														<!-- End Location -->
+
+														<!-- Category -->
+														<!-- <div class="pb-4 mb-2">
+															<h3 class="h6">Category</h3>
+															<div class="dropdown mb-sm-0 mb-3"
+																data-bs-toggle="select">
+																<button
+																	class="btn btn-outline-secondary d-flex align-items-center w-100 px-4 fw-normal text-start dropdown-toggle"
+																	type="button" data-bs-toggle="dropdown"><i
+																		class="fi-list me-2 text-muted"></i><span
+																		class="dropdown-toggle-label d-block w-100">Categories</span></button>
+																<input type="hidden" name="_category"
+																	class="hivepress-elementor-dropdown">
+																<ul class="dropdown-menu w-100">
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-bed me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">21</span><span
+																				class="dropdown-item-label hivepress-advanced">Accommodation</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-dumbell me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">36</span><span
+																				class="dropdown-item-label hivepress-advanced">Fitness
+																				&amp; Sport</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-cafe me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">38</span><span
+																				class="dropdown-item-label hivepress-advanced">Food
+																				&amp; Drink</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-disco-ball me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">52</span><span
+																				class="dropdown-item-label hivepress-advanced">Night
+																				Life</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-shopping-bag me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">62</span><span
+																				class="dropdown-item-label hivepress-advanced">Shopping</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-meds me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">49</span><span
+																				class="dropdown-item-label hivepress-advanced">Medicine</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-museum me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">25</span><span
+																				class="dropdown-item-label hivepress-advanced">Art
+																				&amp; History</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-makeup me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">28</span><span
+																				class="dropdown-item-label hivepress-advanced">Beauty</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-home me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">41</span><span
+																				class="dropdown-item-label hivepress-advanced">Home
+																				page</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="#">
+																			<i
+																				class="fi-entertainment me-2 fs-lg opacity-60"></i>
+																			<span
+																				class="dropdown-item-value d-none">34</span><span
+																				class="dropdown-item-label hivepress-advanced">Entertainment</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
+														</div> -->
+														<!-- End Category -->
+
+														<!-- Tuition Fee -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Tuition Fee</h3>
+															<div class="range-slider" data-currency=""
+																data-start-min="0" data-start-max="50000"
+																data-min="0" data-max="50000" data-step="1">
+																<div class="range-slider-ui"></div>
+																<div class="d-flex align-items-center">
+																	<div class="w-50 pe-2">
+																		<div class="input-group">
+																			<input
+																				class="form-control range-slider-value-min"
+																				type="number" name="price[]">
+																		</div>
+																	</div>
+																	<div class="text-muted">&mdash;</div>
+																	<div class="w-50 ps-2">
+																		<div class="input-group">
+																			<input
+																				class="form-control range-slider-value-max"
+																				type="number" name="price[]">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- End Tuition Fee -->
+
+														<!-- Rooms -->
+														<!-- <div class="pb-4 mb-2">
+															<h3 class="h6">Rooms</h3>
+															<select class="form-select" name="rooms">
+																<option value="all" name="All">Select</option>
+																<option value="15" name="rooms">1 Room</option>
+																<option value="16">2 Rooms</option>
+																<option value="17">3 Rooms</option>
+																<option value="18">4 Rooms</option>
+																<option value="19">5 Rooms</option>
+															</select>
+														</div> -->
+														<!-- End Rooms-->
+
+														<!-- Duration -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Duration</h3>
+															<div class="overflow-auto" data-simplebar
+																data-simplebar-auto-hide="false"
+																style="height: 11rem;">
+																<div class="form-check">
+																	<input id="subcategory_63eccad495ddd"
+																		type="checkbox" class="form-check-input"
+																		value="24" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495ddd">Less than 1 year</label>
+																</div>
+																<div class="form-check">
+																	<input id="subcategory_63eccad495e22"
+																		type="checkbox" class="form-check-input"
+																		value="29" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495e22">1 year</label>
+																</div>
+																<div class="form-check">
+																	<input id="subcategory_63eccad495e37"
+																		type="checkbox" class="form-check-input"
+																		value="30" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495e37">2 years</label>
+																</div>
+																<div class="form-check">
+																	<input id="subcategory_63eccad495e45"
+																		type="checkbox" class="form-check-input"
+																		value="32" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495e45">3 years</label>
+																</div>
+																<div class="form-check">
+																	<input id="subcategory_63eccad495e53"
+																		type="checkbox" class="form-check-input"
+																		value="44" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495e53">4 years</label>
+																</div>
+																<div class="form-check">
+																	<input id="subcategory_63eccad495e61"
+																		type="checkbox" class="form-check-input"
+																		value="45" name="subcategory[]">
+																	<label class="form-check-label fs-sm"
+																		for="subcategory_63eccad495e61">More than 4 years</label>
+																</div>
+															</div>
+														</div>
+														<!-- End Duration -->
+
+														<!-- Attendance -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Attendance</h3>
+															<div class="overflow-auto" data-simplebar
+																data-simplebar-auto-hide="false">
+																<div class="form-check">
+																	<input id="amenities_63eccad4961f1"
+																		type="checkbox" class="form-check-input"
+																		value="27" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad4961f1">On Campus Learning</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49622b"
+																		type="checkbox" class="form-check-input"
+																		value="37" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49622b">Online Learning</label>
+																</div>
+																<div class="form-check">
+																	<input id="amenities_63eccad49625d"
+																		type="checkbox" class="form-check-input"
+																		value="39" name="amenities[]">
+																	<label class="form-check-label fs-sm"
+																		for="amenities_63eccad49625d">Blended Learning</label>
+																</div>
+															</div>
+														</div>
+														<!-- End Attendance -->
+
+														<!-- Format -->
+														<div class="pb-4 mb-2">
+															<h3 class="h6">Format</h3>
+															<div class="overflow-auto" data-simplebar
+																data-simplebar-auto-hide="false">
+																<div class="form-check">
+																	<input id="room_facilities_63eccad496635"
+																		type="checkbox" class="form-check-input"
+																		value="23" name="room_facilities[]">
+																	<label class="form-check-label fs-sm"
+																		for="room_facilities_63eccad496635">Full-time</label>
+																</div>
+																<div class="form-check">
+																	<input id="room_facilities_63eccad49664c"
+																		type="checkbox" class="form-check-input"
+																		value="33" name="room_facilities[]">
+																	<label class="form-check-label fs-sm"
+																		for="room_facilities_63eccad49664c">Part-time</label>
+																</div>
+															</div>
+														</div>
+														<!-- End Format -->
+
+														<!-- Filter -->
+														<div class="border-top py-4">
+															<button type="submit"
+																class="me-2 mb-1 btn btn-outline-primary rounded-pill">Filter</button>
+															<a href="../listing/" class="mb-1 btn btn-outline-primary rounded-pill">
+																<i class="fi-rotate-right me-2"></i>
+																Reset filters
+															</a>
+														</div>
+														<!-- End Filter -->
+													</form>
+												</div>
+												<!-- End Filters tab -->
+											</div>
+										</div>
+										<!-- End Tab view -->
+									</div>
+
+									<!-- Mobile-view Filter -->
+									<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none"
+										type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar">
+										<i class="fi-filter me-2"></i>
+										Filters
+									</button>
+									<!-- End Mobile-view filter-->
+
+								</aside>
+								<!-- End Side Panel -->
+								
+								<!-- Main body -->
+								<div class="col-lg-8 col-xl-9 position-relative overflow-hidden pb-5 pt-4 px-3 px-xl-4 px-xxl-5">
+									
+									<!-- Breadcrumb -->
+									<nav class="mb-3 pt-md-3" aria-label="Breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item"><a
+													href="../">Home</a></li>
+											<li class="breadcrumb-item active">Courses</li>
+										</ol>
+									</nav>
+									<!-- End Breadcrumb -->
+									
+									<!-- Courses header -->
+									<div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
+										<h1 class="h2 mb-sm-0">Courses</h1>
+									</div>
+									<!-- Courses header -->
+
+									<!-- Sort by and Results -->
+									<div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch my-2">
+										
+										<!-- Sort by -->
+										<form
+											class="d-flex align-items-center flex-shrink-0 finder-hivepress-sorting"
+											action=".." method="GET">
+											<input type="hidden" name="post_type" value="hp_listing"
+												class="hp-field hp-field--hidden">
+											<label class="fs-sm me-2 pe-1 text-nowrap" for="sortby">
+												<i class="fi-arrows-sort text-muted mt-n1 me-2"></i>
+												Sort by: </label>
+											<select name="_sort" class="listing-orderby form-select form-select-sm me-3"
+												id="sortby" onchange="this.form.submit();">
+												<option value="" selected>Course name &uarr;</option>
+												<option value="title">Course name &darr;</option>
+												<option value="distance__asc">School &uarr;</option>
+												<option value="distance__desc">School &darr;</option>
+												<option value="price__asc">Country &uarr;</option>
+												<option value="price__desc">Country &darr;</option>
+												<option value="rating__asc">Tuition &uarr;</option>
+												<option value="rating__desc">Tuition &darr;</option>
+												<option value="rating__asc">Duration &uarr;</option>
+												<option value="rating__desc">Duration &darr;</option>
+											</select>
+											<label class="fs-sm me-2 pe-1 text-nowrap" for="orderby">
+												Order: </label>
+											<select name="_order" class="listing-orderby form-select form-select-sm"
+												id="orderby" onchange="this.form.submit();">
+												<option value="" selected>Ascending &uarr;</option>
+												<option value="rating__desc">Descending &darr;</option>
+											</select>
+										</form>
+										<!-- End Sort by -->
+
+										<hr class="d-none d-sm-block w-100 mx-4">
+
+										<!-- Results -->
+										<div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted">
+											<i class="fi-check-circle me-2"></i>
+											<span class="fs-sm mt-n1">
+												27 results </span>
+										</div>
+										<!-- End Results -->
+									</div>
+									<!-- End Sort by and Results -->
+
+									<!-- Courses -->
+									<div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4 gx-3 gx-xxl-4 py-4">
+										
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													S.B.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Electrical Engineering
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Harvard University<br>
+													<span class="mb-2 fs-xs text-muted">
+														Cambridge, MA, United States
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">$47,320</span>/year
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">4 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													B.Eng.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Electrical Engineering
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Toronto Metropolitan University<br>
+													<span class="mb-2 fs-xs text-muted">
+														Toronto, Canada
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">$27,790</span>/year
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">4 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													M.Sc.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														International Corporate Finance and Banking
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													University of Glasgow<br>
+													<span class="mb-2 fs-xs text-muted">
+														Glasgow, Scotland, United Kingdom
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">£31,526</span>/year
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">1 year</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													Ph.D.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Computer Science and Engineering
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													University of Fairfax<br>
+													<span class="mb-2 fs-xs text-muted">
+														Salem, VA, United States
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">$64,681</span>/full
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">---</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Part-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Online</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													Ph.D.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Management Engineering
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Politecnico di Milano<br>
+													<span class="mb-2 fs-xs text-muted">
+														Milano, Italy
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Tuition Unknown</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">3 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Part-time, Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													PGD.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Business Skills
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Keele University<br>
+													<span class="mb-2 fs-xs text-muted">
+														Keele, England, United Kingdom
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Tuition Unknown</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">4 months</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Part-time, Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													B.Sc.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Agricultural Economics
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													University of Ibadan<br>
+													<span class="mb-2 fs-xs text-muted">
+														Ibadan, Nigeria
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Free</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">4 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													LL.B.
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Public International Law
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Harvard University<br>
+													<span class="mb-2 fs-xs text-muted">
+														The University of Law Postgraduate Online
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">$12,869</span>/year
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">2 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Part-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Online</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+										<div class="col pb-sm-2">
+											<article class="position-relative">
+												<div class="position-relative mb-3">
+													<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
+														data-bs-toggle="modal" href="#user_login_modal"><i
+															class="hp-icon heart fi-heart"></i></a>
+													<div>
+														<div class="aspect-ratio aspect-w-219 aspect-h-100">
+															<img class="w-full h-full object-center object-cover finder-hp-listing-images rounded-3"
+																src="{% static 'frontend/wp-content/uploads/2021/11/01.jpg' %}"
+																alt="Berlin Business Hotel" loading="lazy">
+														</div>
+													</div>
+												</div>
+												<h4	class="mb-1 fs-xs fw-normal text-primary">
+													Doctorate
+												</h4>
+												<h3 class="finder-hp-listing-title mb-1 fs-lg">
+													<a class="nav-link stretched-link" href="berlin-business-hotel-2/">
+														Health and Psychology
+													</a>
+												</h3>
+												<p class="mb-2 fs-sm">
+													Universitat Oberta de Catalunya<br>
+													<span class="mb-2 fs-xs text-muted">
+														Barcelona, Spain
+													</span>
+												</p>
+												<ul class="list-inline mb-0 fs-xs hp-listing__attributes hp-listing__attributes--secondary">
+													<li class="list-inline-item pe-1">
+														<i class="fi-cash mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">€702</span>/year
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-calendar mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">3 years</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-clock mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">Part-time, Full-time</span>
+													</li>
+													<li class="list-inline-item pe-1">
+														<i class="fi-map-pin mt-n1 me-1 fs-base align-middle"></i>
+														<span class="fw-bold">On Campus</span>
+													</li>
+												</ul>
+											</article>
+										</div>
+
+									</div>
+									<!-- End Courses -->
+
+									<!-- Pagination -->
+									<nav class="finder-pagination border-top pb-md-4 pt-4" aria-label="Pagination">
+										<ul class="pagination mb-1">
+											<li class="page-item d-sm-block active"><span
+													class=" page-link current">1</span></li>
+											<li class="page-item d-sm-block"><a class=" page-link"
+													href="../listing/page/2/">2</a>
+											</li>
+											<li class="page-item d-sm-block"><a class=" page-link"
+													href="../listing/page/3/">3</a>
+											</li>
+											<li class="page-item d-sm-block"><a class=" page-link"
+													href="../listing/page/4/">4</a>
+											</li>
+											<li class="page-item d-sm-block"><a class="next  page-link"
+													href="../listing/page/2/"><i
+														class="fi-chevron-right"></i></a></li>
+										</ul>
+									</nav>
+									<!-- End Pagination -->
+								</div>
+								<!-- End Main body -->
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- #content -->
+
+{% endblock %}
