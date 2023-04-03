@@ -17,8 +17,8 @@
 						<!-- Page Navigation -->
 						<nav class="mb-5 pt-md-3" aria-label="Breadcrumb">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="../../">Home</a></li>
-								<li class="breadcrumb-item"><a href="../../listing/">Bachelors</a>
+								<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+								<li class="breadcrumb-item"><a href="{% url 'courses_listing' %}">Bachelors</a>
 								</li>
 								<li class="breadcrumb-item active">Electrical Engineering</li>
 							</ol>
@@ -52,7 +52,7 @@
 
 								<!-- Like Button -->
 								<a class="btn btn-icon btn-light btn-xs text-body shadow-sm rounded-circle ms-2 mb-2 hp-listing__action hp-listing__action--favorite"
-									data-bs-toggle="modal" href="#user_login_modal"><i
+									data-bs-toggle="modal" href="#" data-component="toggle"><i
 										class="hp-icon heart fi-heart"></i></a>
 								<!-- End Like Button -->
 
@@ -787,7 +787,7 @@
 																	(53 Reviews)
 																</li>
 															</ul>
-															<a href="../../school/" class="text-decoration-none">
+															<a href="{% url 'school_detail' %}" class="text-decoration-none">
 																<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
 																	<i class="fa fa-graduation-cap me-0"></i>
 																	Explore school
@@ -1189,10 +1189,12 @@
 																(53 Reviews)
 															</li>
 														</ul>
-														<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
-															<i class="fa fa-graduation-cap me-0"></i>
-															Explore school
-														</button>
+														<a href="{% url 'school_detail' %}" class="text-decoration-none">
+															<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
+																<i class="fa fa-graduation-cap me-0"></i>
+																Explore school
+															</button>
+														</a>
 													</div>
 												</div>
 
@@ -1308,7 +1310,7 @@
 						<!-- Interesting Courses Title -->
 						<div class="d-flex align-items-center justify-content-between  mb-4 pb-2">
 							<h2 class="h3 mb-0">Other exciting courses for you</h2>
-							<a class="btn btn-link fw-normal p-0 ms-sm-3" href="../../listing/">
+							<a class="btn btn-link fw-normal p-0 ms-sm-3" href="{% url 'courses_listing' %}">
 								More suggestions <i class="fi-arrow-long-right ms-2"></i>
 							</a>
 						</div>
@@ -1323,7 +1325,7 @@
 									<article class="position-relative">
 										<div class="position-relative mb-3">
 											<a class="btn btn-icon btn-light btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5 hp-listing__action hp-listing__action--favorite active-state-v1"
-												data-bs-toggle="modal" href="#user_login_modal"><i
+												data-bs-toggle="modal" href="#" data-component="toggle"><i
 													class="hp-icon heart fi-heart"></i></a>
 											<div>
 												<div class="aspect-ratio aspect-w-219 aspect-h-100">
@@ -1338,7 +1340,7 @@
 										</h4>
 										<h3 class="finder-hp-listing-title mb-1 fs-lg">
 											<a class="nav-link stretched-link"
-												href="../../listing/berlin-business-hotel-2/index.html">
+												href="{% url 'course_detail' %}">
 												Electrical Engineering
 											</a>
 										</h3>

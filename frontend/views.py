@@ -67,6 +67,11 @@ class PrivacyPolicyView(TemplateView):
     template_name = "frontend/about/privacy-policy.html"
 
 
+class SchoolDetailView(TemplateView):
+
+    template_name = "frontend/school/detail.html"
+
+
 class TermsofUseView(TemplateView):
 
     template_name = "frontend/about/terms-of-use.html"

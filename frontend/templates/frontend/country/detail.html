@@ -499,7 +499,7 @@
 																										</span>
 																									</div>
 																								</h3>
-																								<a href="../school/" class="stretched-link">
+																								<a href="{% url 'school_detail' %}" class="stretched-link">
 																									<p class="elementor-icon-box-description pt-1">
 																										Algoma University
 																									</p>
@@ -539,7 +539,7 @@
 																										</span>
 																									</div>
 																								</h3>
-																								<a href="../school/" class="stretched-link">
+																								<a href="{% url 'school_detail' %}" class="stretched-link">
 																									<p class="elementor-icon-box-description pt-1">
 																										Athabasca University
 																									</p>
@@ -579,7 +579,7 @@
 																										</span>
 																									</div>
 																								</h3>
-																								<a href="../school/" class="stretched-link">
+																								<a href="{% url 'school_detail' %}" class="stretched-link">
 																									<p class="elementor-icon-box-description pt-1">
 																										Durham College
 																									</p>
@@ -619,7 +619,7 @@
 																										</span>
 																									</div>
 																								</h3>
-																								<a href="../school/" class="stretched-link">
+																								<a href="{% url 'school_detail' %}" class="stretched-link">
 																									<p class="elementor-icon-box-description pt-1">
 																										Canadian College of Technology and Business
 																									</p>
@@ -1179,7 +1179,7 @@
 																										</span>
 																									</div>
 																								</h3>
-																								<a href="../school/" class="stretched-link">
+																								<a href="{% url 'school_detail' %}" class="stretched-link">
 																									<p class="elementor-icon-box-description pt-1">
 																										Canadian College of Technology and Business
 																									</p>
@@ -1379,7 +1379,7 @@
 																	Ottawa
 																</li>
 															</ul>
-															<a href="#tab-gallery" class="text-decoration-none">
+															<a href="{% url 'courses_listing' %}" class="text-decoration-none">
 																<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
 																	<i class="fa fa-graduation-cap me-0"></i>
 																	Explore schools
@@ -1710,10 +1710,12 @@
 																	Ottawa
 																</li>
 															</ul>
-															<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
-																<i class="fa fa-graduation-cap me-0"></i>
-																Explore schools
-															</button>
+															<a href="{% url 'courses_listing' %}" class="text-decoration-none">
+																<button class="rounded mb-3 btn btn-outline-primary btn-sm" type="button">
+																	<i class="fa fa-graduation-cap me-0"></i>
+																	Explore schools
+																</button>
+															</a>
 														</div>
 													</div>
 
@@ -1795,7 +1797,7 @@
 														data-widget_type="button.button-finder">
 														<div class="elementor-widget-container">
 															<div class="elementor-button-wrapper">
-																<a href="./"
+																<a href="{% url 'countries_listing' %}"
 																	class="elementor-button-link btn btn-link bg-link rounded fr-elementor-button pb-0 fw-normal ms-md-3 pb-0"
 																	role="button">
 																	<span
@@ -1832,7 +1834,7 @@
 
 													<div class="col">
 														<a class="card shadow-sm card-hover border-0"
-															href="../country/detail.html">
+															href="{% url 'country_detail' %}">
 															<div class="card-img-top card-img-hover">
 																<span class="img-overlay opacity-65"></span> <img
 																	decoding="async"
@@ -1868,7 +1870,7 @@
 
 													<div class="col">
 														<a class="card shadow-sm card-hover border-0"
-															href="../country/detail.html">
+															href="{% url 'country_detail' %}">
 															<div class="card-img-top card-img-hover">
 																<span class="img-overlay opacity-65"></span> <img
 																	decoding="async"
@@ -1907,7 +1909,7 @@
 
 													<div class="col">
 														<a class="card shadow-sm card-hover border-0"
-															href="../country/detail.html">
+															href="{% url 'country_detail' %}">
 															<div class="card-img-top card-img-hover">
 																<span class="img-overlay opacity-65"></span> <img
 																	decoding="async"
@@ -1946,7 +1948,7 @@
 
 													<div class="col">
 														<a class="card shadow-sm card-hover border-0"
-															href="../country/detail.html">
+															href="{% url 'country_detail' %}">
 															<div class="card-img-top card-img-hover">
 																<span class="img-overlay opacity-65"></span> <img
 																	decoding="async"
@@ -2001,7 +2003,7 @@
 						<!-- Interesting Courses Title -->
 						<div class="d-flex align-items-center justify-content-between  mb-4 pb-2">
 							<h2 class="h3 mb-0">Recommended courses for you</h2>
-							<a class="btn btn-link fw-normal p-0 ms-sm-3" href="../../listing/">
+							<a class="btn btn-link fw-normal p-0 ms-sm-3" href="{% url 'courses_listing' %}">
 								More suggestions <i class="fi-arrow-long-right ms-2"></i>
 							</a>
 						</div>
@@ -2031,7 +2033,7 @@
 										</h4>
 										<h3 class="finder-hp-listing-title mb-1 fs-lg">
 											<a class="nav-link stretched-link"
-												href="../../listing/berlin-business-hotel-2/index.html">
+												href="{% url 'course_detail' %}">
 												Electrical Engineering
 											</a>
 										</h3>
@@ -2077,7 +2079,7 @@
 										</h4>
 										<h3 class="finder-hp-listing-title mb-1 fs-lg">
 											<a class="nav-link stretched-link"
-												href="../../listing/berlin-business-hotel-2/index.html">
+												href="{% url 'course_detail' %}">
 												Electrical and Electronic Engineering
 											</a>
 										</h3>
@@ -2123,7 +2125,7 @@
 										</h4>
 										<h3 class="finder-hp-listing-title mb-1 fs-lg">
 											<a class="nav-link stretched-link"
-												href="../../listing/berlin-business-hotel-2/index.html">
+												href="{% url 'course_detail' %}">
 												Electrical and Computer Engineering
 											</a>
 										</h3>

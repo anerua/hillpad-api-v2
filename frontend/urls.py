@@ -18,4 +18,5 @@ urlpatterns = [
     path("course/detail", views.CourseDetailView.as_view(), name="course_detail"),
     path("disciplines", views.DisciplinesListingView.as_view(), name="disciplines_listing"),
     path("discipline/detail", views.DisciplineDetailView.as_view(), name="discipline_detail"),
+    path("school/detail", views.SchoolDetailView.as_view(), name="school_detail"),
 ]
