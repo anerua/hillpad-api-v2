@@ -12,6 +12,8 @@ urlpatterns = [
     path("account/settings", views.AccountSettingsView.as_view(), name="account_settings"),
     path("account/wishlist", views.AccountWishlistView.as_view(), name="account_wishlist"),
     path("contact", views.ContactView.as_view(), name="contact"),
+    path("countries", views.CountriesListingView.as_view(), name="countries_listing"),
+    path("country/detail", views.CountryDetailView.as_view(), name="country_detail"),
     path("courses", views.CoursesListingView.as_view(), name="courses_listing"),
-    path("courses/detail", views.CourseDetailView.as_view(), name="course_detail"),
+    path("course/detail", views.CourseDetailView.as_view(), name="course_detail"),
 ]

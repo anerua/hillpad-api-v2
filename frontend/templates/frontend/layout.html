@@ -1024,7 +1024,7 @@
 							<ul class="dropdown-menu" aria-labelledby="menu-item-dropdown-285">
 								<!-- Browse by country -->
 								<li id="menu-item-365" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-365">
-									<a itemprop="url" href="./country/" class="dropdown-item">
+									<a itemprop="url" href="{% url 'countries_listing' %}" class="dropdown-item">
 										<span itemprop="name">
 											<i class="fa fa-globe-africa fs-base opacity-50 me-2" aria-hidden="true"></i>
 											Browse by country
@@ -1062,21 +1062,21 @@
 									</a>
 									<ul class="dropdown-menu" aria-labelledby="menu-item-dropdown-2511">
 										<li id="menu-item-388" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-388">
-											<a itemprop="url" href="./listing/" class="dropdown-item">
+											<a itemprop="url" href="{% url 'courses_listing' %}" class="dropdown-item">
 												<span itemprop="name">
 													Bachelors
 												</span>
 											</a>
 										</li>
 										<li id="menu-item-388" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-388">
-											<a itemprop="url" href="./listing/" class="dropdown-item">
+											<a itemprop="url" href="{% url 'courses_listing' %}" class="dropdown-item">
 												<span itemprop="name">
 													Masters
 												</span>
 											</a>
 										</li>
 										<li id="menu-item-388" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-388">
-											<a itemprop="url" href="./listing/" class="dropdown-item">
+											<a itemprop="url" href="{% url 'courses_listing' %}" class="dropdown-item">
 												<span itemprop="name">
 													PhD &amp; Doctorates
 												</span>
@@ -1092,7 +1092,7 @@
 
 						<!-- Home -->
 						<li id="menu-item-291" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-291 nav-item">
-							<a itemprop="url" href="#" class="nav-link" id="menu-item-dropdown-291">
+							<a itemprop="url" href="{% url 'home' %}" class="nav-link" id="menu-item-dropdown-291">
 								<span itemprop="name">
 									Home
 								</span>

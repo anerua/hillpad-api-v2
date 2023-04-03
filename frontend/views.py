@@ -27,6 +27,16 @@ class ContactView(TemplateView):
     template_name = "frontend/contact/index.html"
 
 
+class CountriesListingView(TemplateView):
+
+    template_name = "frontend/country/index.html"
+
+
+class CountryDetailView(TemplateView):
+
+    template_name = "frontend/country/detail.html"
+
+
 class CoursesListingView(TemplateView):
 
     template_name = "frontend/course/index.html"
