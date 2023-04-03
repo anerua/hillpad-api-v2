@@ -10,3 +10,8 @@ class HomeView(TemplateView):
 class CoursesListingView(TemplateView):
 
     template_name = "frontend/course/index.html"
+
+
+class CourseDetailView(TemplateView):
+
+    template_name = "frontend/course/detail.html"
