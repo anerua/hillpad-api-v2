@@ -7,6 +7,11 @@ class HomeView(TemplateView):
     template_name = "frontend/index.html"    
 
 
+class AboutView(TemplateView):
+
+    template_name = "frontend/about/index.html"
+
+
 class CoursesListingView(TemplateView):
 
     template_name = "frontend/course/index.html"

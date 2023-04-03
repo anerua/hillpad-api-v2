@@ -630,6 +630,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 	<script src="{% static 'frontend/wp-includes/js/jquery/jquery.min.js' %}" id="jquery-core-js"></script>
 	<script src="{% static 'frontend/wp-includes/js/jquery/jquery-migrate.min.js' %}" id="jquery-migrate-js"></script>
+	
+	{% block page_css %}
+	{% endblock%}
+
 </head>
 
 <body itemtype="https://schema.org/WebPage" itemscope="itemscope"
@@ -1008,7 +1012,7 @@
 
 						<!-- About Us -->
 						<li id="menu-item-291" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-291 nav-item">
-							<a itemprop="url" href="./about/" class="nav-link" id="menu-item-dropdown-291">
+							<a itemprop="url" href="{% url 'about' %}" class="nav-link" id="menu-item-dropdown-291">
 								<span itemprop="name">
 									About Us
 								</span>
@@ -1141,7 +1145,7 @@
 								itemtype="http://www.schema.org/SiteNavigationElement">
 								<li id="menu-item-2808"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2808"><a
-										href="./about/">About Us</a></li>
+										href="{% url 'about' %}">About Us</a></li>
 								<li id="menu-item-2808"
 									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2808"><a
 										href="./contact/">Contact Us</a></li>
@@ -1494,10 +1498,9 @@
 	</script>
 	<script src="{% static 'frontend/wp-includes/js/custom/auth.js' %}"
 		id="login-js"></script>
-	{% block page_js %}
-	{% endblock %}
-
 	
+	{% block page_js %}
+	{% endblock %}	
 
 	<link rel="stylesheet" id="wpforms-full-css"
 		href="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/css/wpforms-full.min.css' %}" media="all">
@@ -1638,7 +1641,7 @@
 	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/js/utils.min.js' %}"
 		id="wpforms-generic-utils-js"></script>
 	<script src="{% static 'frontend/wp-content/plugins/wpforms-lite/assets/js/wpforms.min.js' %}" id="wpforms-js"></script>
-
+	
 
 
 	<script type="text/javascript">
