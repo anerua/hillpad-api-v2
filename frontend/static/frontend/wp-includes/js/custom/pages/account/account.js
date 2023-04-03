@@ -1,4 +1,3 @@
-path_to_home = "..";
 
 window.addEventListener("DOMContentLoaded", (event) => {
     getAccountDetails();
@@ -30,8 +29,8 @@ function getAccountDetails() {
         const account_details_div = document.getElementById("account-details-div");
         account_details_div.innerHTML += `
         <img alt='Avatar'
-            src='${path_to_home}/wp-content/uploads/2023/03/user.png'
-            srcset='${path_to_home}/wp-content/uploads/2023/03/user.png 2x'
+            src='${frontend_static_url}/wp-content/uploads/2023/03/user.png'
+            srcset='${frontend_static_url}/wp-content/uploads/2023/03/user.png 2x'
             class='avatar avatar-48 photo rounded-circle' height='48' width='48'
             decoding='async' />
         <div class="pt-md-2 pt-lg-0 ps-3 ps-md-0 ps-lg-3">

@@ -1,4 +1,3 @@
-var path_to_home = ".";
 
 window.addEventListener("DOMContentLoaded", (event) => {
     getLoginState();
@@ -91,7 +90,7 @@ function load_account_button(response) {
     account_div.classList.add("dropdown", "d-none", "d-lg-block", "order-lg-3", "my-n2", "me-3");
     account_div.innerHTML = `
         <a class="d-block py-2 text-decoration-none account-toogle"
-            href="${path_to_home}/account">
+            href="${account_settings_url}">
             <img alt="" src="${frontend_static_url}/wp-content/uploads/2023/03/user.png"
                 srcset="${frontend_static_url}/wp-content/uploads/2023/03/user.png 2x"
                 class="avatar avatar-40 photo rounded-circle" height="24" width="24" loading="lazy"> </a>
@@ -105,11 +104,11 @@ function load_account_button(response) {
                     <div class="fs-xs py-2">${response["email"]}</div>
                 </div>
             </div>
-            <a class="dropdown-item" href="${path_to_home}/account/listings.html">
+            <a class="dropdown-item" href="${account_wishlist_url}">
                 <i class="fi-heart opacity-60 me-2"></i>
                 Wishlist </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="${path_to_home}/account">
+            <a class="dropdown-item" href="${account_settings_url}">
                 <i class="fi-settings opacity-60 me-2"></i>
                 Account Settings </a>
             <div class="dropdown-divider"></div>

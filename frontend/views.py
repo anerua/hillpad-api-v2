@@ -12,6 +12,16 @@ class AboutView(TemplateView):
     template_name = "frontend/about/index.html"
 
 
+class AccountSettingsView(TemplateView):
+
+    template_name = "frontend/account/settings.html"
+
+
+class AccountWishlistView(TemplateView):
+
+    template_name = "frontend/account/wishlist.html"
+
+
 class CoursesListingView(TemplateView):
 
     template_name = "frontend/course/index.html"
