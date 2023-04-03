@@ -20,3 +20,18 @@ class CoursesListingView(TemplateView):
 class CourseDetailView(TemplateView):
 
     template_name = "frontend/course/detail.html"
+
+
+class DisclaimerView(TemplateView):
+
+    template_name = "frontend/about/disclaimer.html"
+
+
+class PrivacyPolicyView(TemplateView):
+
+    template_name = "frontend/about/privacy-policy.html"
+
+
+class TermsofUseView(TemplateView):
+
+    template_name = "frontend/about/terms-of-use.html"

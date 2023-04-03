@@ -1221,7 +1221,7 @@
 				<!-- Copyright -->
 				<p class="order-lg-1 order-2 fs-sm mb-2 mb-lg-0">
 					<span class="text-light opacity-50">Copyright &#169; 2023</span>
-					<a class="nav-link-light fw-bold" href="./about/">
+					<a class="nav-link-light fw-bold" href="{% url 'about' %}">
 							HillPad Limited.
 					</a>
 					<span class="text-light opacity-50">
@@ -1234,20 +1234,28 @@
 				<div class="d-flex flex-lg-row flex-column align-items-center order-lg-2 order-1 ms-lg-4 mb-lg-0 mb-4">
 					<!-- Site Links-->
 					<div class="d-flex flex-wrap fs-sm mb-lg-0 mb-4 pe-lg-4">
-						<ul id="menu-footer-menu" class="nav" itemscope
-							itemtype="http://www.schema.org/SiteNavigationElement">
-							<li id="menu-item-736"
-								class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-736"><a
-									itemprop="url" href="./about/privacy-policy.html"
-									class="nav-link-light px-2 mx-1"><span itemprop="name">Privacy policy</span></a></li>
-							<li id="menu-item-737"
-								class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-737"><a
-									itemprop="url" href="./about/terms-of-use.html"
-									class="nav-link-light px-2 mx-1"><span itemprop="name">Terms of use</span></a></li>
-							<li id="menu-item-738"
-								class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-738"><a
-									itemprop="url" href="./about/disclaimer.html"
-									class="nav-link-light px-2 mx-1"><span itemprop="name">Disclaimer</span></a></li>
+						<ul id="menu-footer-menu" class="nav" itemscope itemtype="http://www.schema.org/SiteNavigationElement">
+							<li id="menu-item-736" class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-736">
+								<a temprop="url" href="{% url 'privacy_policy' %}" class="nav-link-light px-2 mx-1">
+									<span itemprop="name">
+										Privacy policy
+									</span>
+								</a>
+							</li>
+							<li id="menu-item-737" class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-737">
+								<a itemprop="url" href="{% url 'terms_of_use' %}" class="nav-link-light px-2 mx-1">
+									<span itemprop="name">
+										Terms of use
+									</span>
+								</a>
+							</li>
+							<li id="menu-item-738" class="menu-item menu-item-type-custom menu-item-object-custom mb-0 menu-item-738">
+								<a itemprop="url" href="{% url 'disclaimer' %}" class="nav-link-light px-2 mx-1">
+									<span itemprop="name">
+										Disclaimer
+									</span>
+								</a>
+							</li>
 						</ul>
 					</div>
 					<!-- End Site Links -->
