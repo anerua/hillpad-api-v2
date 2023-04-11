@@ -18,9 +18,9 @@
                         <!-- Breadcrumb -->
                         <nav class="mb-3 pt-md-3" aria-label="Breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="./../../../index.html">Home</a></li>
-                                <li class="breadcrumb-item"><a href="./../country/">Countries</a></li>
-                                <li class="breadcrumb-item"><a href="./../country/detail.html">Canada</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'countries_listing' %}">Countries</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'country_detail' %}">Canada</a></li>
                                 <li class="breadcrumb-item active">Toronto Metropolitan University</li>
                             </ol>
                         </nav>
