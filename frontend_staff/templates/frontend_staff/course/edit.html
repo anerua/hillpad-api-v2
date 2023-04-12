@@ -1,0 +1,126 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Edit Course
+            </h4>
+            <a href="{% url 'staff_courses_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit course</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="course-name-field"><span class="text-danger">* </span>Name of course</label>
+                        <input type="text" class="form-control" id="course-name-field" value="Management Engineering" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-about-field">About</label>
+                        <input type="text" class="form-control" id="course-about-field" placeholder="Short description of course" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-overview-field">Overview</label>
+                        <textarea id="course-overview-field" class="form-control" rows=10 placeholder="Course overview"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-duration-field">Duration of course (in months)</label>
+                        <input class="form-control" type="number" id="course-duration-field" placeholder="Course duration months" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-school-field" class="form-label fw-bold"><span class="text-danger">* </span>School</label>
+                        <select id="course-school-field" class="form-select" required>
+                            <option value="0">Select school...</option>
+                            <option value="1" selected>Politecnico di Milano</option>
+                            <option value="2">Toronto Metropolitan University</option>
+                            <option value="3">University of Fairfax</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-tuition-fee-field">Tuition fee</label>
+                        <input class="form-control" type="number" id="course-tuition-fee-field" placeholder="Tuition fee" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-tuition-fee-base-field" class="form-label">Tuition fee base</label>
+                        <select id="course-tuition-fee-base-field" class="form-select">
+                            <option value="0">Select tuition fee base...</option>
+                            <option value="1">Per semester</option>
+                            <option value="2">Per year</option>
+                            <option value="3">Per full programme</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-tuition-currency-field" class="form-label">Tuition currency</label>
+                        <select id="course-tuition-currency-field" class="form-select">
+                            <option value="0">Select tuition currency...</option>
+                            <option value="1">British Pound (GBP)</option>
+                            <option value="2">Euro (EUR)</option>
+                            <option value="3">Nigerian Naira (NGN)</option>
+                            <option value="4">US Dollar (USD)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-format-field" class="form-label">Course format</label>
+                        <select id="course-format-field" class="form-select">
+                            <option value="0">Select course format...</option>
+                            <option value="1">Part-time</option>
+                            <option value="2">Full-time</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-attendance-field" class="form-label">Course attendance</label>
+                        <select id="course-attendance-field" class="form-select">
+                            <option value="0">Select course attendance...</option>
+                            <option value="1">On-site</option>
+                            <option value="2">Online</option>
+                            <option value="3">Blended</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-language-field" class="form-label fw-bold"><span class="text-danger">* </span>Language</label>
+                        <select id="course-language-field" class="form-select" required>
+                            <option value="0">Select course language...</option>
+                            <option value="1" selected>English</option>
+                            <option value="2">French</option>
+                            <option value="3">German</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-programme-structure-field">Programme structure</label>
+                        <textarea id="course-programme-structure-field" class="form-control" rows=20 placeholder="Course programme structure"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-admission-requirements-field">Admission requirements</label>
+                        <textarea id="course-admission-requirements-field" class="form-control" rows=15 placeholder="Course admission requirements"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="course-official-programme-website-field" class="form-label">Official programme website</label>
+                        <input class="form-control" type="url" placeholder="https://hillpaduni.edu/undergrad" id="course-official-programme-website-field" />
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary">Submit changes</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-courses");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}

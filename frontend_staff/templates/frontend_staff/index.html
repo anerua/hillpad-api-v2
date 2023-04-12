@@ -618,3 +618,12 @@
     <!-- / Content -->
 
 {% endblock %}
+
+{% block page_js %}
+    <script src="{% static 'frontend_staff/assets/js/dashboards-analytics.js' %}"></script>
+    
+    <script>
+        let selected_menu = document.getElementById("menu-item-dashboard");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}

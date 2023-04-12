@@ -115,8 +115,8 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li id="menu-item-dashboard" class="menu-item active">
-                        <a href="index.html" class="menu-link">
+                    <li id="menu-item-dashboard" class="menu-item">
+                        <a href="{% url 'staff_home' %}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
@@ -128,7 +128,7 @@
                     </li>
 
                     <li id="menu-item-courses" class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link">
+                        <a href="{% url 'staff_courses_listing' %}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Courses">
                                 Courses
@@ -412,11 +412,6 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <div class="buy-now">
-        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
-            class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
-    </div>
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{% static 'frontend_staff/assets/vendor/libs/jquery/jquery.js' %}"></script>
@@ -434,7 +429,8 @@
     <script src="{% static 'frontend_staff/assets/js/main.js' %}"></script>
 
     <!-- Page JS -->
-    <script src="{% static 'frontend_staff/assets/js/dashboards-analytics.js' %}"></script>
+    {% block page_js %}
+    {% endblock %}
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
