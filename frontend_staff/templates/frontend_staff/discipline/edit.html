@@ -1,0 +1,48 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Edit Discipline
+            </h4>
+            <a href="{% url 'staff_disciplines_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit discipline</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="discipline-name-field"><span class="text-danger">* </span>Name of discipline</label>
+                        <input type="text" class="form-control" id="discipline-name-field" value="Agriculture and Forestry" placeholder="Agriculture" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="discipline-about-field"><span class="text-danger">* </span>About</label>
+                        <textarea id="discipline-about-field" class="form-control" rows=10 placeholder="Discipline description" required></textarea>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary">Submit changes</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-disciplines");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}

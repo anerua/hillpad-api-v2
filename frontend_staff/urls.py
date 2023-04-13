@@ -13,4 +13,8 @@ urlpatterns = [
     path("schools", views.SchoolsListingView.as_view(), name="staff_schools_listing"),
     path("school/create", views.SchoolCreateView.as_view(), name="staff_school_create"),
     path("school/<int:id>", views.SchoolDetailView.as_view(), name="staff_school_detail"),
+
+    path("disciplines", views.DisciplinesListingView.as_view(), name="staff_disciplines_listing"),
+    path("discipline/create", views.DisciplineCreateView.as_view(), name="staff_discipline_create"),
+    path("discipline/<int:id>", views.DisciplineDetailView.as_view(), name="staff_discipline_detail"),
 ]
