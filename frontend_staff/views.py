@@ -19,3 +19,18 @@ class CourseCreateView(TemplateView):
 class CourseDetailView(TemplateView):
 
     template_name = "frontend_staff/course/edit.html"
+
+
+class SchoolsListingView(TemplateView):
+
+    template_name = "frontend_staff/school/list.html"
+
+
+class SchoolCreateView(TemplateView):
+
+    template_name = "frontend_staff/school/create.html"
+
+
+class SchoolDetailView(TemplateView):
+
+    template_name = "frontend_staff/school/edit.html"

@@ -1,0 +1,108 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Edit School
+            </h4>
+            <a href="{% url 'staff_schools_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit school</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="school-name-field"><span class="text-danger">* </span>Name of school</label>
+                        <input type="text" class="form-control" id="school-name-field" value="Politecnico di Milano" placeholder="University of HillPad" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="school-about-field"><span class="text-danger">* </span>About</label>
+                        <textarea id="school-about-field" class="form-control" rows=10 placeholder="School description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school-country-field" class="form-label fw-bold"><span class="text-danger">* </span>Country</label>
+                        <select id="school-country-field" class="form-select" required>
+                            <option value="0">Select country...</option>
+                            <option value="1">Argentina</option>
+                            <option value="2">Belgium</option>
+                            <option value="3">Canada</option>
+                            <option value="4">Denmark</option>
+                            <option value="5">Egypt</option>
+                            <option value="6">France</option>
+                            <option value="7">Germany</option>
+                            <option value="8">Hungary</option>
+                            <option value="9" selected>Italy</option>
+                            <option value="10">Japan</option>
+                            <option value="11">Kuwait</option>
+                            <option value="12">Lebanon</option>
+                            <option value="13">Malaysia</option>
+                            <option value="14">Nigeria</option>
+                            <option value="15">Oman</option>
+                            <option value="16">Portugal</option>
+                            <option value="17">Qatar</option>
+                            <option value="18">Russia</option>
+                            <option value="19">South Africa</option>
+                            <option value="20">Turkey</option>
+                            <option value="21">United States of America</option>
+                            <option value="21">Venezuela</option>
+                            <option value="22">Yemen</option>
+                            <option value="23">Zambia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="school-address-field"><span class="text-danger">* </span>Full address of school (excluding its country)</label>
+                        <input class="form-control" type="text" id="school-address-field" value="Piazza Leonardo da Vinci, 32, 20133 Milano MI" placeholder="Mockingbird Avenue, Atlantis" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="school-institution-type-field" class="form-label">Institution type</label>
+                        <select id="school-institution-type-field" class="form-select">
+                            <option value="0">Select institution type...</option>
+                            <option value="1" selected>Public</option>
+                            <option value="2">Private</option>
+                            <option value="3">Public/Private</option>
+                            <option value="4">Religious</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="school-ranking-field">Times Higher Education (THE) World University Ranking (WUR)</label>
+                        <input class="form-control" type="number" id="school-ranking-field" value="301" placeholder="201" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="school-year-of-establishment-field">Year of establishment</label>
+                        <input class="form-control" type="number" id="school-year-of-establishment-field" value="1863" placeholder="1901" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="school-academic-staff-field">Number of academic staff</label>
+                        <input class="form-control" type="number" id="school-academic-staff-field" placeholder="1000" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="school-students-field">Total number of students</label>
+                        <input class="form-control" type="number" id="school-students-field" placeholder="20000" />
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary">Submit changes</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-schools");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}
