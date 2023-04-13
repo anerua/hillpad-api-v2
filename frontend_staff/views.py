@@ -49,3 +49,18 @@ class DisciplineCreateView(TemplateView):
 class DisciplineDetailView(TemplateView):
 
     template_name = "frontend_staff/discipline/edit.html"
+
+
+class DegreeTypesListingView(TemplateView):
+
+    template_name = "frontend_staff/degree_type/list.html"
+
+
+class DegreeTypeCreateView(TemplateView):
+
+    template_name = "frontend_staff/degree_type/create.html"
+
+
+class DegreeTypeDetailView(TemplateView):
+
+    template_name = "frontend_staff/degree_type/edit.html"

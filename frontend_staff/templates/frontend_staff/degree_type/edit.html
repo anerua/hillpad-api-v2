@@ -1,0 +1,57 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Edit Degree Type
+            </h4>
+            <a href="{% url 'staff_degree_types_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit degree type</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="degree-type-name-field"><span class="text-danger">* </span>Name of Degree Type</label>
+                        <input type="text" class="form-control" id="degree-type-name-field" value="Bachelor of Science" placeholder="e.g. Bachelor of Science" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="degree-type-short-name-field"><span class="text-danger">* </span>Short Name of Degree Type</label>
+                        <input type="text" class="form-control" id="degree-type-short-name-field" value="B.Sc." placeholder="e.g. B.Sc." required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="degree-type-programme-type-field" class="form-label fw-bold"><span class="text-danger">* </span>Programme Type</label>
+                        <select id="degree-type-programme-type-field" class="form-select" required>
+                            <option value="0">Select programme type...</option>
+                            <option value="1" selected>Bachelors</option>
+                            <option value="2">Masters</option>
+                            <option value="3">Doctorates</option>
+                        </select>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary">Submit changes</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-degree-types");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}
