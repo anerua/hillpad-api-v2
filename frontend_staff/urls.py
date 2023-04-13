@@ -21,4 +21,8 @@ urlpatterns = [
     path("degree_types", views.DegreeTypesListingView.as_view(), name="staff_degree_types_listing"),
     path("degree_type/create", views.DegreeTypeCreateView.as_view(), name="staff_degree_type_create"),
     path("degree_type/<int:id>", views.DegreeTypeDetailView.as_view(), name="staff_degree_type_detail"),
+
+    path("countries", views.CountriesListingView.as_view(), name="staff_countries_listing"),
+    path("country/create", views.CountryCreateView.as_view(), name="staff_country_create"),
+    path("country/<int:id>", views.CountryDetailView.as_view(), name="staff_country_detail"),
 ]

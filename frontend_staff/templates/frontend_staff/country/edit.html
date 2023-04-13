@@ -1,0 +1,107 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Edit Country
+            </h4>
+            <a href="{% url 'staff_countries_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit country</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-name-field"><span class="text-danger">* </span>Name of country</label>
+                        <input type="text" class="form-control" id="country-name-field" placeholder="e.g. Australia" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-short-code-field"><span class="text-danger">* </span>Country short code <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">(ISO 3166-1 alpha-2)</a></label>
+                        <input type="text" class="form-control" id="country-short-code-field" placeholder="e.g. AU" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-short-caption-field"><span class="text-danger">* </span>Short caption</label>
+                        <textarea id="country-short-caption-field" class="form-control" rows=3 placeholder="Short caption about country"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-about-field"><span class="text-danger">* </span>About</label>
+                        <textarea id="country-about-field" class="form-control" rows=10 placeholder="About"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="country-continent-field" class="form-label fw-bold"><span class="text-danger">* </span>Continent</label>
+                        <select id="country-continent-field" class="form-select" required>
+                            <option value="0">Select continent...</option>
+                            <option value="1">Africa</option>
+                            <option value="2">Asia</option>
+                            <option value="3">Europe</option>
+                            <option value="4">North America</option>
+                            <option value="5">South America</option>
+                            <option value="6">Oceania</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-capital-city-field"><span class="text-danger">* </span>Capital city</label>
+                        <input class="form-control" type="number" id="country-capital-city-field" placeholder="e.g. Canberra" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="country-population-field"><span class="text-danger">* </span>Country population</label>
+                        <input class="form-control" type="number" id="country-population-field" placeholder="Population" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="country-student-population-field">Total number of students in country</label>
+                        <input class="form-control" type="number" id="country-student-population-field" placeholder="Total number of students in country" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="country-international-student-population-field">Total number of international students in country</label>
+                        <input class="form-control" type="number" id="country-international-student-population-field" placeholder="Total number of international students in country" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="country-currency-field" class="form-label fw-bold"><span class="text-danger">* </span>Country currency</label>
+                        <select id="country-currency-field" class="form-select" required>
+                            <option value="0">Select country currency...</option>
+                            <option value="1">British Pound (GBP)</option>
+                            <option value="2">Euro (EUR)</option>
+                            <option value="3">Nigerian Naira (NGN)</option>
+                            <option value="4">US Dollar (USD)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="country-wikipedia-field" class="form-label fw-bold"><span class="text-danger">* </span>Link to country Wikipedia page</label>
+                        <input class="form-control" type="url" placeholder="e.g. https://en.wikipedia.org/wiki/Australia" id="country-wikipedia-field" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-programme-structure-field">Trivia and Fun Facts</label>
+                        <textarea id="course-programme-structure-field" class="form-control" rows=10 placeholder="Country trivia and fun facts"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course-admission-requirements-field">Living Costs</label>
+                        <textarea id="course-admission-requirements-field" class="form-control" rows=10 placeholder="Country trivia and fun facts"></textarea>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-dark">Save and submit later</button>
+                        <button type="submit" class="btn btn-primary">Submit now</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-countries");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}

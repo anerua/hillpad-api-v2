@@ -64,3 +64,18 @@ class DegreeTypeCreateView(TemplateView):
 class DegreeTypeDetailView(TemplateView):
 
     template_name = "frontend_staff/degree_type/edit.html"
+
+
+class CountriesListingView(TemplateView):
+
+    template_name = "frontend_staff/country/list.html"
+
+
+class CountryCreateView(TemplateView):
+
+    template_name = "frontend_staff/country/create.html"
+
+
+class CountryDetailView(TemplateView):
+
+    template_name = "frontend_staff/country/edit.html"
