@@ -1,6 +1,16 @@
 from django.views.generic import TemplateView
 
 
+class LoginView(TemplateView):
+
+    template_name = "frontend_staff/auth/login.html"
+
+
+class ResetPasswordView(TemplateView):
+
+    template_name = "frontend_staff/auth/reset_password.html"
+
+
 class HomeView(TemplateView):
 
     template_name = "frontend_staff/index.html"

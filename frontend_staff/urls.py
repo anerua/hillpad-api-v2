@@ -5,6 +5,9 @@ from frontend_staff import views
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="staff_home"),
+
+    path("auth/login", views.LoginView.as_view(), name="staff_login"),
+    path("auth/reset-password", views.ResetPasswordView.as_view(), name="staff_reset_password"),
     
     path("courses", views.CoursesListingView.as_view(), name="staff_courses_listing"),
     path("course/create", views.CourseCreateView.as_view(), name="staff_course_create"),

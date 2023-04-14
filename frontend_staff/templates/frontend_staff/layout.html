@@ -47,14 +47,15 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{% static 'frontend_staff/assets/js/config.js' %}"></script>
+
 </head>
 
-<body>
+<body onload=display_date();>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
+            
             <!-- Menu -->
-
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
                     <a href="{% url 'staff_home' %}" class="app-brand-link">
@@ -121,22 +122,6 @@
                             <i class="menu-icon tf-icons bx bx-globe"></i>
                             <div data-i18n="Countries">
                                 Countries
-                            </div>
-                        </a>
-                    </li>
-                    <li id="menu-item-currencies" class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
-                            <div data-i18n="Currencies">
-                                Currencies
-                            </div>
-                        </a>
-                    </li>
-                    <li id="menu-item-languages" class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-message-alt-dots"></i>
-                            <div data-i18n="Languages">
-                                Languages
                             </div>
                         </a>
                     </li>
@@ -224,21 +209,23 @@
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
-                            <div class="nav-item d-flex align-items-center">
-                                <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                                    aria-label="Search..." />
-                            </div>
+                            
+                            <li class="nav-item me-3">
+                                <span id="date-span" class="text-muted fw-bold"></span>
+                                <span>&nbsp;</span>
+                                <span id="time-span" class="text-primary fw-bold"></span>
+                                
+                            </li>
                         </div>
                         <!-- /Search -->
 
+                        
+
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
-                            <li class="nav-item lh-1 me-3">
-                                <a class="github-button"
-                                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                    data-icon="octicon-star" data-size="large" data-show-count="true"
-                                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+                            
+                            <li class="nav-item me-3">
+                                <span class="h5 fw-bold text-primary">John Robinson</span>
+                                <span class="fw-bold text-muted">- Data Entry Specialist</span>
                             </li>
 
                             <!-- User -->
@@ -381,8 +368,51 @@
     {% block page_js %}
     {% endblock %}
 
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Time and Date Renderer -->
+    <script type="text/javascript"> 
+        function refresh_date() {
+            let refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_date()', refresh);
+        }
+
+        function display_date() {
+            days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            let full_date = new Date();
+
+            let day = full_date.getDay();
+
+            let date = full_date.getDate();
+            date = date.toString().length==1 ? 0+date.toString() : date;
+
+            let month = full_date.getMonth();
+            let year = full_date.getFullYear();
+            
+            let hour = full_date.getHours() % 12;
+            let meridian = hour < 12 ? "AM" : "PM";
+            hour = hour ? hour : 12;
+            hour = hour.toString().length==1 ? 0+hour.toString() : hour;
+
+            let minute = full_date.getMinutes();
+            minute = minute.toString().length==1 ? 0+minute.toString() : minute;
+
+            let seconds = full_date.getSeconds();
+            seconds = seconds.toString().length==1 ? 0+seconds.toString() : seconds;
+            
+            let time_string = full_date.toLocaleTimeString();
+            let gmt = full_date.getTimezoneOffset();
+            
+            let date_span = document.getElementById("date-span");
+            let time_span = document.getElementById("time-span");
+            
+            date_span.innerHTML = `${days[day-1]}, ${date} ${months[month-1]} ${year}`;
+            time_span.innerHTML = `${hour}:${minute}:${seconds} ${meridian}`;
+
+            refresh_date();
+        }
+    </script>
+
 </body>
 
 </html>
