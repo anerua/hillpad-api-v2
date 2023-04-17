@@ -1,0 +1,80 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_title %}
+    Notifications
+{% endblock %}
+
+{% block page_css %}
+    <style>
+        .notification-list--read {
+            background-color:ghostwhite;
+        }
+        .notification-list--unread {
+            border-left: 4px solid #29B6F6;
+            font-weight: bold;
+            color: darkslategrey;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Rejection: Corporate Finance - Imperial College London
+            </h4>
+            <a href="{% url 'staff_notifications_listing' %}">
+                <button type="button" class="btn btn-secondary mb-4">
+                    <span class="tf-icons bx bx-arrow-back"></span>&nbsp; Back
+                </button>
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bx bxs-graduation me-2"></i>
+                    Corporate Finance
+                </h5>
+                <div class="card-subtitle text-muted mb-3">3 April 2023, 09:34 AM</div>
+                <p class="card-text">
+                    Your course entry: Corporate Finance at Imperial College London was rejected.
+                    Please check the reasons for rejection below and review your submission accordingly.
+                    <ol>
+                        <li><em>About:</em> The description of the course is too long. This field should be just a short description of the course.</li>
+                        <li><em>Duration of course:</em> The duration of this course is too short to be true. The duration of the course should be in months. You entered a value of 1 which means 1 month. If what you intend to enter was 1 year then the value should be 12 (12 months).</li>
+                        <li><em>Course format:</em> Are you certain the format of the course is part-time? ICL have this course listed as full-time only. Please check again and make necessary corrections.</li>
+                    </ol>
+                    Ensure to implement these reviews before making a resubmission. If you do not agree with any of the review points or you need further clarifications, contact the reviewer directly. 
+                </p>
+                <p class="card-text">
+                    Original submission:
+                    <ol>
+                        <li><em>Name:</em> Corporate Finance</li>
+                        <li><em>About:</em> A very long description.</li>
+                        <li><em>Duration of course:</em> 1 month</li>
+                        <li><em>Course format:</em> Part-time</li>
+                        <li><em>School:</em> Imperial College London</li>
+                        <li><em>Language:</em> English</li>
+                        <li><em>Official programme website:</em> https://www.imperial.ac.uk/business-school/programmes/msc-finance/</li>
+
+                    </ol>
+                    Ensure to implement these reviews before making a resubmission. If you do not agree with any of the review points or you need further clarifications, contact the reviewer directly. 
+                </p>
+                <a href="{% url 'staff_course_detail' 1 %}" class="card-link">Edit submission</a>
+                <a href="javascript:void(0)" class="card-link">Contact reviewer</a>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-notifications");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}
