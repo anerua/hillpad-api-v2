@@ -138,15 +138,9 @@
                         </a>
                     </li>
                     <li id="menu-item-chat" class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
+                        <a href="#" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-message-rounded-dots"></i>
                             <div data-i18n="Chat">Chat</div>
-                        </a>
-                    </li>
-                    <li id="menu-item-settings" class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-cog"></i>
-                            <div data-i18n="Settings">Settings</div>
                         </a>
                     </li>
 
@@ -168,24 +162,6 @@
                             <i class="menu-icon tf-icons bx bx-file"></i>
                             <div data-i18n="Privacy Policy">
                                 Privacy Policy
-                            </div>
-                        </a>
-                    </li>
-                    <li id="menu-item-suggest-feature" class="menu-item">
-                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-file"></i>
-                            <div data-i18n="Privacy Policy">
-                                Suggest a Feature
-                            </div>
-                        </a>
-                    </li>
-                    <li id="menu-item-report-bug" class="menu-item">
-                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-file"></i>
-                            <div data-i18n="Privacy Policy">
-                                Report a Bug
                             </div>
                         </a>
                     </li>
@@ -258,7 +234,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{% url 'staff_notifications_listing' %}">
                                             <span class="d-flex align-items-center align-middle">
                                                 <i class="flex-shrink-0 bx bx-bell me-2"></i>
                                                 <span class="flex-grow-1 align-middle">Notifications</span>
@@ -268,7 +244,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{% url 'staff_change_password' %}">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Change password</span>
                                         </a>
@@ -384,7 +360,7 @@
             let year = full_date.getFullYear();
             
             let hour = full_date.getHours() % 12;
-            let meridian = hour < 12 ? "AM" : "PM";
+            let meridian = full_date.getHours() < 12 ? "AM" : "PM";
             hour = hour ? hour : 12;
             hour = hour.toString().length==1 ? 0+hour.toString() : hour;
 

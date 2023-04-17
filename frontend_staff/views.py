@@ -11,6 +11,16 @@ class ResetPasswordView(TemplateView):
     template_name = "frontend_staff/auth/reset_password.html"
 
 
+class SetPasswordView(TemplateView):
+
+    template_name = "frontend_staff/auth/set_password.html"
+
+
+class ChangePasswordView(TemplateView):
+
+    template_name = "frontend_staff/auth/change_password.html"
+
+
 class HomeView(TemplateView):
 
     template_name = "frontend_staff/index.html"
