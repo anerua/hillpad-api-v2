@@ -89,3 +89,13 @@ class CountryCreateView(TemplateView):
 class CountryDetailView(TemplateView):
 
     template_name = "frontend_staff/country/edit.html"
+
+
+class NotificationsListingView(TemplateView):
+
+    template_name = "frontend_staff/notification/list.html"
+
+
+class NotificationDetailView(TemplateView):
+
+    template_name = "frontend_staff/notification/detail.html"

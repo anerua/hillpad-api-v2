@@ -1,0 +1,227 @@
+{% extends "frontend_staff/layout.html" %}
+{% load static %}
+
+{% block page_title %}
+    Notifications
+{% endblock %}
+
+{% block page_css %}
+    <style>
+        .notification-list--read {
+            background-color:ghostwhite;
+        }
+        .notification-list--unread {
+            border-left: 4px solid #29B6F6;
+            font-weight: bold;
+            color: darkslategrey;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                Notifications
+            </h4>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle mb-4" data-bs-toggle="dropdown" aria-expanded="false">
+                    All
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Unread</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Approvals</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Rejections</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Submissions</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Chat</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        
+
+        <div class="card">
+
+            <div class="">
+                <div class="list-group">
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-school me-2"></i>
+                                Approval: Toronto Metropolitan University
+                            </h6>
+                            <small class="text-muted">1 hour ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your school entry: Toronto Metropolitan University has been reviewed and approved. Click on the link below to see the live version. You can also submit changes to this entry if the ...
+                        </p>
+                        <small class="text-muted">Approval</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-graduation me-2"></i>
+                                Submission: Electrical Engineering - University of Fairfax
+                            </h6>
+                            <small class="text-muted">22 hours ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your course entry: Electrical Engineering at University of Fairfax has been submitted successfully and is now under review. You can no longer make changes to this entry until after ...
+                        </p>
+                        <small class="text-muted">Submission</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--unread">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-cog me-2"></i>
+                                Password Changed
+                            </h6>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your password was changed successfully. If you did not change your password please contact support immediately to report this account activity. You are partly responsible for ...
+                        </p>
+                        <small class="text-muted">Settings</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-message-dots me-2"></i>
+                                Message from Jane Doe
+                            </h6>
+                            <small class="text-muted">6 days ago</small>
+                        </div>
+                        <p class="mb-1">
+                            You have a new message from Jane Doe. Click on the link below to go to your chat.
+                        </p>
+                        <small class="text-muted">Chat</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-graduation me-2"></i>
+                                Rejection: Corporate Finance - Imperial College London
+                            </h6>
+                            <small class="text-muted">2 weeks ago</small>
+                        </div>
+                        <p class="mb-1">
+                            You course entry: Corporate Finance at Imperial College London was rejected. Please check the reasons for rejection below and review your submission accordingly.
+                        </p>
+                        <small class="text-muted">Rejection</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--unread">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-school me-2"></i>
+                                Approval: Toronto Metropolitan University
+                            </h6>
+                            <small class="text-muted">1 hour ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your school entry: Toronto Metropolitan University has been reviewed and approved. Click on the link below to see the live version. You can also submit changes to this entry if the ...
+                        </p>
+                        <small class="text-muted">Approval</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--unread">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-graduation me-2"></i>
+                                Submission: Electrical Engineering - University of Fairfax
+                            </h6>
+                            <small class="text-muted">22 hours ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your course entry: Electrical Engineering at University of Fairfax has been submitted successfully and is now under review. You can no longer make changes to this entry until after ...
+                        </p>
+                        <small class="text-muted">Submission</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-cog me-2"></i>
+                                Password Changed
+                            </h6>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">
+                            Your password was changed successfully. If you did not change your password please contact support immediately to report this account activity. You are partly responsible for ...
+                        </p>
+                        <small class="text-muted">Settings</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-message-dots me-2"></i>
+                                Message from Jane Doe
+                            </h6>
+                            <small class="text-muted">6 days ago</small>
+                        </div>
+                        <p class="mb-1">
+                            You have a new message from Jane Doe. Click on the link below to go to your chat.
+                        </p>
+                        <small class="text-muted">Chat</small>
+                    </a>
+                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start notification-list--read">
+                        <div class="d-flex justify-content-between w-100">
+                            <h6>
+                                <i class="bx bxs-graduation me-2"></i>
+                                Rejection: Corporate Finance - Imperial College London
+                            </h6>
+                            <small class="text-muted">2 weeks ago</small>
+                        </div>
+                        <p class="mb-1">
+                            You course entry: Corporate Finance at Imperial College London was rejected. Please check the reasons for rejection below and review your submission accordingly.
+                        </p>
+                        <small class="text-muted">Rejection</small>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <nav aria-label="Page navigation" class="my-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item prev">
+                    <a class="page-link" href="javascript:void(0);">
+                        <i class="tf-icon bx bx-chevrons-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0);">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0);">2</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="javascript:void(0);">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0);">4</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0);">5</a>
+                </li>
+                <li class="page-item next">
+                    <a class="page-link" href="javascript:void(0);">
+                        <i class="tf-icon bx bx-chevrons-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        let selected_menu = document.getElementById("menu-item-notifications");
+        selected_menu.classList.add("active");
+    </script>
+{% endblock %}

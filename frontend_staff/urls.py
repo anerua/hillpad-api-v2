@@ -28,4 +28,7 @@ urlpatterns = [
     path("countries", views.CountriesListingView.as_view(), name="staff_countries_listing"),
     path("country/create", views.CountryCreateView.as_view(), name="staff_country_create"),
     path("country/<int:id>", views.CountryDetailView.as_view(), name="staff_country_detail"),
+
+    path("notifications", views.NotificationsListingView.as_view(), name="staff_notifications_listing"),
+    path("notification/<int:id>", views.NotificationDetailView.as_view(), name="staff_notification_detail"),
 ]
