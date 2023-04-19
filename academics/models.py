@@ -6,26 +6,28 @@ from helpers.models import TrackingModel
 
 class Country(TrackingModel):
 
-    AFRICA = "AFRICA"
-    ASIA = "ASIA"
-    EUROPE = "EUROPE"
-    NORTH_AMERICA = "NORTH AMERICA"
-    SOUTH_AMERICA = "SOUTH AMERICA"
-    OCEANIA = "OCEANIA"
+    AFRICA = "AF"
+    ASIA = "AS"
+    EUROPE = "EU"
+    NORTH_AMERICA = "NA"
+    SOUTH_AMERICA = "SA"
+    OCEANIA = "OC"
+    ANTARCTICA = "AN"
     CONTINENT_CHOICES = (
-        (AFRICA, AFRICA),
-        (ASIA, ASIA),
-        (EUROPE, EUROPE),
-        (NORTH_AMERICA, NORTH_AMERICA),
-        (SOUTH_AMERICA, SOUTH_AMERICA),
-        (OCEANIA, OCEANIA),
+        (AFRICA, "Africa"),
+        (ASIA, "Asia"),
+        (EUROPE, "Europe"),
+        (NORTH_AMERICA, "North America"),
+        (SOUTH_AMERICA, "South America"),
+        (OCEANIA, "Oceania"),
+        (ANTARCTICA, "Antarctica"),
     )
 
     name = models.CharField(_("Name of country"), max_length=255)
     short_code = models.CharField(_("Short code of the country (ISO 3166-1 alpha-2)"), max_length=2)
     caption = models.TextField(_("Short caption"))
 
-    continent = models.CharField(_("Continent"), max_length=16, choices=CONTINENT_CHOICES)
+    continent = models.CharField(_("Continent"), max_length=2, choices=CONTINENT_CHOICES)
     capital = models.CharField(_("Capital city"), max_length=125)
     population = models.IntegerField(_("Population of country"))
     students = models.IntegerField(_("Total number of students in country"), blank=True, null=True)

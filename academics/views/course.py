@@ -1,4 +1,3 @@
-from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -6,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.models import Course
 from academics.serializers import CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer, UpdateCourseSerializer, DeleteCourseSerializer
-
+from academics.filters import CourseFilter
 
 class CreateCourseAPIView(CreateAPIView):
     
@@ -17,20 +16,8 @@ class CreateCourseAPIView(CreateAPIView):
 class ListCourseAPIView(ListAPIView):
     
     serializer_class = ListCourseSerializer
-    filter_params = [
-        "id",
-        "name",
-        "duration",
-        "school", 
-        "course_format",
-        "attendance",
-        "programme_type",
-        "degree_type",
-        "language",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filterset_class = CourseFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = Course.objects.all()
 
 
