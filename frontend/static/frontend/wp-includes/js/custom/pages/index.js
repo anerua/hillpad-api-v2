@@ -6,17 +6,24 @@ function load_countries() {
     const countries_list_element = document.getElementById("search-countries-list");
 
     // Continents
-    let continents = ["Africa", "Asia", "Europe", "North America", "South America", "Oceania"];
-    continents.forEach((continent) => {
+    let continents = {
+        "Africa": "_AF",
+        "Asia": "_AS",
+        "Europe": "_EU",
+        "North America": "_NA",
+        "South America": "_SA",
+        "Oceania": "_OC"
+    }
+    for (const continent in continents) {
         countries_list_element.innerHTML += `
             <li>
                 <a class="dropdown-item" href="#">
-                    <span class="dropdown-item-value d-none">${continent}</span>
+                    <span class="dropdown-item-value d-none">${continents[continent]}</span>
                     <span class="dropdown-item-label hivepress-advanced">${continent}</span>
                 </a>
             </li>`;
-    });
-
+    }
+ 
     // Horizontal divide between continents and countries
     countries_list_element.innerHTML += `
         <div class="dropdown-item text-decoration-none">

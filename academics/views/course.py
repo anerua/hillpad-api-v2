@@ -6,6 +6,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.models import Course
 from academics.serializers import CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer, UpdateCourseSerializer, DeleteCourseSerializer
 from academics.filters import CourseFilter
+from academics.paginations import CoursePagination
+
 
 class CreateCourseAPIView(CreateAPIView):
     
@@ -16,6 +18,7 @@ class CreateCourseAPIView(CreateAPIView):
 class ListCourseAPIView(ListAPIView):
     
     serializer_class = ListCourseSerializer
+    pagination_class = CoursePagination
     filterset_class = CourseFilter
     filter_backends = [DjangoFilterBackend]
     queryset = Course.objects.all()
