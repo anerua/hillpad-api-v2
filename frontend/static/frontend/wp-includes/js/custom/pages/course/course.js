@@ -67,7 +67,7 @@ function loadCourses() {
                             S.B.
                         </h4>
                         <h3 class="finder-hp-listing-title mb-1 fs-lg">
-                            <a class="nav-link stretched-link" href=${course_detail_url}>
+                            <a class="nav-link stretched-link" href="/course/${course['slug']}">
                                 ${course["name"]}
                             </a>
                         </h3>

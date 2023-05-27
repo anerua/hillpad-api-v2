@@ -1,5 +1,7 @@
-from django.views.generic import TemplateView
+from django.http import HttpResponseNotFound
+from django.views.generic import TemplateView, DetailView
 
+from academics.models import Course, School, ProgrammeType, DegreeType
 
 class HomeView(TemplateView):
 
@@ -41,9 +43,10 @@ class CoursesListingView(TemplateView):
     template_name = "frontend/course/index.html"
 
 
-class CourseDetailView(TemplateView):
+class CourseDetailView(DetailView):
 
     template_name = "frontend/course/detail.html"
+    model = Course
 
 
 class DisciplinesListingView(TemplateView):

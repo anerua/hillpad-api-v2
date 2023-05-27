@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_title %}
-	Electrical Engineering &#8211; HillPad
+	{{ course.name }} &#8211; {{ course.school.name }}
 {% endblock %}
 
 {% block page_content %}
@@ -18,9 +18,9 @@
 						<nav class="mb-5 pt-md-3" aria-label="Breadcrumb">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-								<li class="breadcrumb-item"><a href="{% url 'courses_listing' %}">Bachelors</a>
+								<li class="breadcrumb-item"><a href="{% url 'courses_listing' %}?programme={{ course.programme_type.name }}">{{ course.programme_type.name }}</a>
 								</li>
-								<li class="breadcrumb-item active">Electrical Engineering</li>
+								<li class="breadcrumb-item active">{{ course.name }}</li>
 							</ol>
 						</nav>
 						<!-- End Page Navigation -->
@@ -29,7 +29,7 @@
 						<div class="mb-1">
 							<p class="finder-elementor-highlighted-heading__title mb-0 fs-sm">
 								<i class="finder-icon mt-n1 me-1 align-middle fa fa-graduation-cap"></i>
-								B.Eng.
+								{{ course.degree_type.short_name }}
 							</p>
 						</div>
 						<!-- End Degree Type -->
@@ -37,7 +37,7 @@
 						<!-- Header Text Area -->
 						<div class="d-sm-flex align-items-center justify-content-between mb-0 pb-sm-2">
 							<!-- Course Title -->
-							<h1 class="h2 finder-hp-listing-single-title me-3 mb-sm-0">Electrical Engineering</h1>
+							<h1 class="h2 finder-hp-listing-single-title me-3 mb-sm-0">{{ course.name }}</h1>
 							<!-- End Course Title -->
 							
 							<!-- Like and Share Area -->
@@ -83,7 +83,7 @@
 						<!-- University -->
 						<div class="mb-5">
 							<p class="finder-elementor-highlighted-heading__title mb-0 text-muted">
-								Toronto Metropolitan University
+								{{ course.school.name }}
 							</p>
 						</div>
 						<!-- End University -->
@@ -770,7 +770,7 @@
 													<!-- Place info-->
 													<div class="d-flex align-items-start mb-3 pb-2 border-bottom">
 														<div class="ps-2 ms-1">
-															<h3 class="h5 mb-2">Toronto Metropolitan University</h3>
+															<h3 class="h5 mb-2">{{ course.school.name }}</h3>
 															<ul class="list-unstyled d-flex flex-wrap fs-sm">
 																<li class="me-2 mb-1 pe-1">
 																	<i class="finder-icon mt-n1 me-1 align-middle fi-map-pin text-success"></i>
@@ -1340,7 +1340,7 @@
 										</h4>
 										<h3 class="finder-hp-listing-title mb-1 fs-lg">
 											<a class="nav-link stretched-link"
-												href="{% url 'course_detail' %}">
+												href="{% url 'course_detail' 'electrical-engineering-3301742' %}">
 												Electrical Engineering
 											</a>
 										</h3>
