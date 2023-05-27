@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/academics/', include("academics.urls")),
     path('.well-known/pki-validation/529534C77577221035E87408FF697AE9.txt', TemplateView.as_view(template_name="hillpad/529534C77577221035E87408FF697AE9.txt", content_type="text/plain")),
     path('staff/', include("frontend_staff.urls")),
+    path('supervisor/', include("frontend_supervisor.urls")),
     path('', include("frontend.urls")),
 ]

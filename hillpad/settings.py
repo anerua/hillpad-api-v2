@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'academics',
     'frontend',
     'frontend_staff',
+    'frontend_supervisor',
 ]
 
 # CORS headers settings
