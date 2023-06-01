@@ -9,3 +9,8 @@ class CoursePagination(PageNumberPagination):
 class SchoolPagination(PageNumberPagination):
 
     page_size = 20
+
+
+class CountryPagination(PageNumberPagination):
+
+    page_size = 20

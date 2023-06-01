@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import CountryFilter
 from academics.models import Country
+from academics.paginations import CountryPagination
 from academics.serializers import CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer
 
 
@@ -16,19 +18,9 @@ class CreateCountryAPIView(CreateAPIView):
 class ListCountryAPIView(ListAPIView):
     
     serializer_class = ListCountrySerializer
-    filter_params = [
-        "id",
-        "name",
-        "continent",
-        "capital", 
-        "population",
-        "students",
-        "international_students",
-        "currency",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = CountryPagination
+    filterset_class = CountryFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = Country.objects.all()
 
 

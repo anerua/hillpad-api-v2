@@ -29,3 +29,15 @@ class SchoolFilter(FilterSet):
     class Meta:
         model = School
         fields = ("id", "name", "country", "institution_type", "year_established")
+
+
+class CountryFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr='exact')
+    name = CharFilter(field_name='name', lookup_expr='icontains')
+    continent = CharFilter(field_name='continent', lookup_expr='iexact')
+    capital = CharFilter(field_name="capital", lookup_expr='iexact')
+    population = NumberFilter(field_name="population", lookup_expr='exact')
+    students = NumberFilter(field_name="students", lookup_expr='exact')
+    international_students = NumberFilter(field_name="international_students", lookup_expr='exact')
+    currency = CharFilter(field_name="currency__short_code", lookup_expr='iexact')
