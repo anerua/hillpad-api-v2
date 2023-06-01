@@ -3,8 +3,10 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import SchoolFilter
 from academics.models import School
 from academics.serializers import CreateSchoolSerializer, ListSchoolSerializer, DetailSchoolSerializer, UpdateSchoolSerializer, DeleteSchoolSerializer
+from academics.paginations import SchoolPagination
 
 
 class CreateSchoolAPIView(CreateAPIView):
@@ -16,16 +18,9 @@ class CreateSchoolAPIView(CreateAPIView):
 class ListSchoolAPIView(ListAPIView):
     
     serializer_class = ListSchoolSerializer
-    filter_params = [
-        "id",
-        "name",
-        "country",
-        "institution_type", 
-        "year_established",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = SchoolPagination
+    filterset_class = SchoolFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = School.objects.all()
 
 
