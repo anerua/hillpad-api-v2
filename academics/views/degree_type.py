@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import DegreeTypeFilter
 from academics.models import DegreeType
+from academics.paginations import DegreeTypePagination
 from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer
 
 
@@ -16,15 +18,9 @@ class CreateDegreeTypeAPIView(CreateAPIView):
 class ListDegreeTypeAPIView(ListAPIView):
     
     serializer_class = ListDegreeTypeSerializer
-    filter_params = [
-        "id",
-        "name",
-        "short_name",
-        "programme_type",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = DegreeTypePagination
+    filterset_class = DegreeTypeFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = DegreeType.objects.all()
 
 

@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import ProgrammeTypeFilter
 from academics.models import ProgrammeType
+from academics.paginations import ProgrammeTypePagination
 from academics.serializers import CreateProgrammeTypeSerializer, ListProgrammeTypeSerializer, DetailProgrammeTypeSerializer, UpdateProgrammeTypeSerializer, DeleteProgrammeTypeSerializer
 
 
@@ -16,13 +18,9 @@ class CreateProgrammeTypeAPIView(CreateAPIView):
 class ListProgrammeTypeAPIView(ListAPIView):
     
     serializer_class = ListProgrammeTypeSerializer
-    filter_params = [
-        "id",
-        "name",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = ProgrammeTypePagination
+    filterset_class = ProgrammeTypeFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = ProgrammeType.objects.all()
 
 

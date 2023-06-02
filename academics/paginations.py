@@ -24,3 +24,13 @@ class CurrencyPagination(PageNumberPagination):
 class DisciplinePagination(PageNumberPagination):
 
     page_size = 20
+
+
+class DegreeTypePagination(PageNumberPagination):
+
+    page_size = 20
+
+
+class ProgrammeTypePagination(PageNumberPagination):
+
+    page_size = 20

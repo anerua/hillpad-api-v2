@@ -54,3 +54,16 @@ class DisciplineFilter(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
+
+
+class DegreeTypeFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
+    programme_type = CharFilter(field_name="programme_type__name", lookup_expr="iexact")
+
+
+class ProgrammeTypeFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
