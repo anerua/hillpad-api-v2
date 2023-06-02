@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import LanguageFilter
 from academics.models import Language
+from academics.paginations import LanguagePagination
 from academics.serializers import CreateLanguageSerializer, ListLanguageSerializer, DetailLanguageSerializer, UpdateLanguageSerializer, DeleteLanguageSerializer
 
 
@@ -16,14 +18,9 @@ class CreateLanguageAPIView(CreateAPIView):
 class ListLanguageAPIView(ListAPIView):
     
     serializer_class = ListLanguageSerializer
-    filter_params = [
-        "id",
-        "name",
-        "iso_639_code",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = LanguagePagination
+    filterset_class = LanguageFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = Language.objects.all()
 
 

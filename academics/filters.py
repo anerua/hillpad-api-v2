@@ -67,3 +67,10 @@ class ProgrammeTypeFilter(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
+
+
+class LanguageFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
+    iso_639_code = CharFilter(field_name="iso_639_code", lookup_expr="iexact")
