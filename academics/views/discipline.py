@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import DisciplineFilter
 from academics.models import Discipline
+from academics.paginations import DisciplinePagination
 from academics.serializers import CreateDisciplineSerializer, ListDisciplineSerializer, DetailDisciplineSerializer, UpdateDisciplineSerializer, DeleteDisciplineSerializer
 
 
@@ -16,14 +18,9 @@ class CreateDisciplineAPIView(CreateAPIView):
 class ListDisciplineAPIView(ListAPIView):
     
     serializer_class = ListDisciplineSerializer
-    filter_params = [
-        "id",
-        "name",
-        "about",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = DisciplinePagination
+    filterset_class = DisciplineFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = Discipline.objects.all()
 
 

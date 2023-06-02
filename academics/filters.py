@@ -41,3 +41,16 @@ class CountryFilter(FilterSet):
     students = NumberFilter(field_name="students", lookup_expr='exact')
     international_students = NumberFilter(field_name="international_students", lookup_expr='exact')
     currency = CharFilter(field_name="currency__short_code", lookup_expr='iexact')
+
+
+class CurrencyFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
+    short_code = CharFilter(field_name="short_code", lookup_expr="iexact")
+
+
+class DisciplineFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")

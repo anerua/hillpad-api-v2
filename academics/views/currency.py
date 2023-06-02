@@ -3,7 +3,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import CurrencyFilter
 from academics.models import Currency
+from academics.paginations import CurrencyPagination
 from academics.serializers import CreateCurrencySerializer, ListCurrencySerializer, DetailCurrencySerializer, UpdateCurrencySerializer, DeleteCurrencySerializer
 
 
@@ -16,14 +18,9 @@ class CreateCurrencyAPIView(CreateAPIView):
 class ListCurrencyAPIView(ListAPIView):
     
     serializer_class = ListCurrencySerializer
-    filter_params = [
-        "id",
-        "name",
-        "short_code",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    pagination_class = CurrencyPagination
+    filterset_class = CurrencyFilter
+    filter_backends = [DjangoFilterBackend]
     queryset = Currency.objects.all()
 
 

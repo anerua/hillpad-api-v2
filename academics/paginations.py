@@ -14,3 +14,13 @@ class SchoolPagination(PageNumberPagination):
 class CountryPagination(PageNumberPagination):
 
     page_size = 20
+
+
+class CurrencyPagination(PageNumberPagination):
+
+    page_size = 20
+
+
+class DisciplinePagination(PageNumberPagination):
+
+    page_size = 20
