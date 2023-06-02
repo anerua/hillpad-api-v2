@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'frontend',
     'frontend_staff',
     'frontend_supervisor',
+    'notification',
 ]
 
 # CORS headers settings
