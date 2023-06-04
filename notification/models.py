@@ -24,7 +24,7 @@ class Notification(TrackingModel):
     title = models.CharField(_("Title"), max_length=255)
     detail = models.TextField(_("Detail"))
 
-    read = models.BooleanField(_("Read Status (True means message has been read)"), default=False)
+    is_read = models.BooleanField(_("Read Status (True means message has been read)"), default=False)
 
     # Add Sender and Receiver field
     # sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender_notifications")
