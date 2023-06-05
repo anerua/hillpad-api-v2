@@ -10,8 +10,7 @@ from academics.serializers import CreateCourseSerializer, ListCourseSerializer, 
 from academics.filters import CourseFilter
 from academics.paginations import CoursePagination
 
-from notification.models import Notification
-from notification.utilities import create_notification
+from notification.notifications import CourseSubmissionNotification
 
 
 class CreateCourseAPIView(CreateAPIView):
@@ -23,14 +22,9 @@ class CreateCourseAPIView(CreateAPIView):
         response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
         # Create a notification after a course is created
         if response.status_code == status.HTTP_201_CREATED:
-            data = {
-                "type": Notification.SUBMISSION,
-                "entry": "course",
-                "entry_data": response.data
-            }
+            notification = CourseSubmissionNotification(data=response.data)
             try:
-                create_notification(data)
-                print("okay")
+                notification.create_notification()
             except ValidationError as e:
                 print(repr(e))
             except Exception as e:
