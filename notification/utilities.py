@@ -29,3 +29,29 @@ def compose_notification(data):
             "title": title,
             "detail": detail
         }
+    
+    elif data["type"] == Notification.APPROVAL:
+        entry_data = data["entry_data"]
+        title = f"Approval: {entry_data['name']}"
+        detail = f"Your {data['entry']} entry: {entry_data['name']} has been reviewed and approved.\nEntry:\n"
+        for item, i in zip(entry_data, range(len(entry_data))):
+            detail += f"{i+1}. {item}: {entry_data[item]}\n"
+        
+        return {
+            "type": Notification.APPROVAL,
+            "title": title,
+            "detail": detail
+        }
+    
+    elif data["type"] == Notification.REJECTION:
+        entry_data = data["entry_data"]
+        title = f"Rejection: {entry_data['name']}"
+        detail = f"Your {data['entry']} entry: {entry_data['name']} was rejected. Please check the reasons for rejection below.\nEntry:\n"
+        for item, i in zip(entry_data, range(len(entry_data))):
+            detail += f"{i+1}. {item}: {entry_data[item]}\n"
+        
+        return {
+            "type": Notification.REJECTION,
+            "title": title,
+            "detail": detail
+        }
