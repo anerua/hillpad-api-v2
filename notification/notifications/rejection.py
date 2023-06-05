@@ -21,7 +21,7 @@ class EntryRejectionNotification():
     def compose_notification(self): ...
 
 
-class CourseSubmissionNotification(EntryRejectionNotification):
+class CourseRejectionNotification(EntryRejectionNotification):
 
     def compose_notification(self):
         title = f"Rejection: {self.data['name']}"

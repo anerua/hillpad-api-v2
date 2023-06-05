@@ -10,7 +10,7 @@ from academics.serializers import CreateCourseSerializer, ListCourseSerializer, 
 from academics.filters import CourseFilter
 from academics.paginations import CoursePagination
 
-from notification.notifications import CourseSubmissionNotification
+from notification.notifications import CourseSubmissionNotification, CourseUpdateSubmissionNotification
 
 
 class CreateCourseAPIView(CreateAPIView):
@@ -20,7 +20,8 @@ class CreateCourseAPIView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
-        # Create a notification after a course is created
+        
+        # Create a submission notification after a new course is submitted
         if response.status_code == status.HTTP_201_CREATED:
             notification = CourseSubmissionNotification(data=response.data)
             try:
@@ -54,6 +55,22 @@ class UpdateCourseAPIView(UpdateAPIView):
     serializer_class = UpdateCourseSerializer
     queryset = Course.objects.all()
 
+    def patch(self, request, *args, **kwargs):
+        response = super(UpdateCourseAPIView, self).patch(request, *args, **kwargs)
+        
+        # # Create a submission notification after a course update is submitted
+        if response.status_code == status.HTTP_200_OK:
+            notification = CourseUpdateSubmissionNotification(data=response.data)
+            try:
+                notification.create_notification()
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+
+        return response
 
 class DeleteCourseAPIView(DestroyAPIView):
 
