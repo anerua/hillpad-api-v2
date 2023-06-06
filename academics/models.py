@@ -161,6 +161,8 @@ class Course(TrackingModel):
     published = models.BooleanField(_("Published status of course"), default=False)
     status = models.CharField(_("Course status"), max_length=16, choices=COURSE_STATUS_CHOICES, default=REVIEW)
 
+    reject_reason = models.TextField(_("Reason for rejection"), blank=True)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             while True:

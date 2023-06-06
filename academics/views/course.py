@@ -6,13 +6,13 @@ from rest_framework import response, status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.models import Course
-from academics.serializers import CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer, UpdateCourseSerializer, DeleteCourseSerializer
+from academics.serializers import CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer, UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer
 from academics.filters import CourseFilter
 from academics.paginations import CoursePagination
 
-from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction
+from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction, AdminCoursePublishAction
 
-from notification.notifications import CourseSubmissionNotification, CourseUpdateSubmissionNotification
+from notification.notifications import CourseSubmissionNotification, CourseUpdateSubmissionNotification, CourseApprovalNotification, SupervisorCourseApprovalNotification
 
 
 class CreateCourseAPIView(CreateAPIView):
@@ -81,6 +81,38 @@ class UpdateCourseAPIView(UpdateAPIView):
                 return response
 
         return response
+
+
+class ApproveCourseAPIView(UpdateAPIView):
+
+    serializer_class = ApproveCourseSerializer
+    queryset = Course.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super(ApproveCourseAPIView, self).put(request, *args, **kwargs)
+
+        # Create a status update notification for both supervisor and specialist
+        # Also create a publish action for admin
+        if response.status_code == status.HTTP_200_OK:
+            try:
+                notification = CourseApprovalNotification(data=response.data)
+                notification.create_notification()
+
+                supervisor_notification = SupervisorCourseApprovalNotification(data=response.data)
+                supervisor_notification.create_notification()
+
+                admin_action = AdminCoursePublishAction(data=response.data)
+                admin_action.create_action()
+            
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        
+        return response
+    
 
 class DeleteCourseAPIView(DestroyAPIView):
 

@@ -134,6 +134,30 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
         # user = self.context["request"].user
         # validated_data["author"] = user.id
         return super(UpdateCourseSerializer, self).update(instance, validated_data)
+    
+
+class ApproveCourseSerializer(serializers.ModelSerializer):
+
+    status = serializers.ChoiceField(choices=(Course.APPROVED,))
+
+    class Meta:
+        model = Course
+        fields = (
+            "id",
+            "status",
+        )
+
+
+class RejectCourseSerializer(serializers.ModelSerializer):
+
+    status = serializers.ChoiceField(choices=(Course.REJECTED,))
+
+    class Meta:
+        model = Course
+        fields = (
+            "id",
+            "status",
+        )
 
 
 class DeleteCourseSerializer(serializers.ModelSerializer):

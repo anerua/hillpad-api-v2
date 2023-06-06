@@ -44,5 +44,4 @@ class Action(TrackingModel):
     entry_object_type = models.CharField(_("Entry object type"), max_length=16, choices=ENTRY_OBJECT_TYPE_CHOICES)
     entry_object_id = models.PositiveIntegerField()
 
-    reject_reason = models.TextField(_("Reason for rejection"))
 
