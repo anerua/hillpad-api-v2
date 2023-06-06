@@ -17,20 +17,32 @@ class Action(TrackingModel):
         (REVIEW, "Review"),
     )
 
+    COUNTRY = "country"
+    COURSE = "course"
+    CURRENCY = "currency"
+    DEGREE_TYPE = "degree_type"
+    DISCIPLINE = "discipline"
+    LANGUAGE = "language"
+    PROGRAMME_TYPE = "programme_type"
+    SCHOOL = "school"
+    ENTRY_OBJECT_TYPE_CHOICES = (
+        (COUNTRY, "Country"),
+        (COURSE, "Course"),
+        (CURRENCY, "Currency"),
+        (DEGREE_TYPE, "Degree Type"),
+        (DISCIPLINE, "Discipline"),
+        (LANGUAGE, "Language"),
+        (PROGRAMME_TYPE, "Programme Type"),
+        (SCHOOL, "School"),
+    )
+
     title = models.CharField(_("Title"), max_length=255)
     detail = models.TextField(_("Detail"))
 
     status = models.CharField(_("Status"), max_length=16, choices=ACTION_STATUS_CHOICES, default=REVIEW)
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    entry = GenericForeignKey('content_type', 'object_id')
+    entry_object_type = models.CharField(_("Entry object type"), max_length=16, choices=ENTRY_OBJECT_TYPE_CHOICES)
+    entry_object_id = models.PositiveIntegerField()
 
     reject_reason = models.TextField(_("Reason for rejection"))
-
-    class Meta:
-        indexes = [
-            models.Index(fields=["content_type", "object_id"]),
-        ]
-
 
