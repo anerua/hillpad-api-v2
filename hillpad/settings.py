@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
 
-    'account',
     'academics',
+    'account',
+    'action',
     'frontend',
     'frontend_staff',
     'frontend_supervisor',
