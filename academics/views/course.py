@@ -10,7 +10,7 @@ from academics.serializers import CreateCourseSerializer, ListCourseSerializer, 
 from academics.filters import CourseFilter
 from academics.paginations import CoursePagination
 
-from action.actions import SupervisorCourseSubmissionAction
+from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction
 
 from notification.notifications import CourseSubmissionNotification, CourseUpdateSubmissionNotification
 
@@ -31,7 +31,7 @@ class CreateCourseAPIView(CreateAPIView):
                 
                 action = SupervisorCourseSubmissionAction(data=response.data)
                 action.create_action()
-                
+
             except ValidationError as e:
                 print(repr(e))
             except Exception as e:
@@ -64,11 +64,15 @@ class UpdateCourseAPIView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         response = super(UpdateCourseAPIView, self).patch(request, *args, **kwargs)
         
-        # # Create a submission notification after a course update is submitted
+        # Create a submission notification after a course update is submitted
         if response.status_code == status.HTTP_200_OK:
-            notification = CourseUpdateSubmissionNotification(data=response.data)
             try:
+                notification = CourseUpdateSubmissionNotification(data=response.data)
                 notification.create_notification()
+
+                action = SupervisorCourseUpdateSubmissionAction(data=response.data)
+                action.create_action()
+
             except ValidationError as e:
                 print(repr(e))
             except Exception as e:

@@ -22,3 +22,23 @@ class SupervisorCourseSubmissionAction(GenericAction):
             "entry_object_type": entry_object_type,
             "entry_object_id": entry_object_id
         }
+    
+
+class SupervisorCourseUpdateSubmissionAction(GenericAction):
+
+    def compose_action(self):
+        
+        title = f"Action Required: Course Update Submission - {self.data['name']}"
+        detail = f"An update to a course entry requires your approval or rejection.\n\nEntry:\n"
+        for item, i in zip(self.data, range(len(self.data))):
+            detail += f"{i+1}. {item}: {self.data[item]}\n"
+
+        entry_object_type = Action.COURSE
+        entry_object_id = self.data['id']
+
+        return {
+            "title": title,
+            "detail": detail,
+            "entry_object_type": entry_object_type,
+            "entry_object_id": entry_object_id
+        }
