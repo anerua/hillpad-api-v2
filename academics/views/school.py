@@ -10,6 +10,8 @@ from academics.models import School
 from academics.serializers import CreateSchoolSerializer, ListSchoolSerializer, DetailSchoolSerializer, UpdateSchoolSerializer, DeleteSchoolSerializer
 from academics.paginations import SchoolPagination
 
+from action.actions import SupervisorSchoolSubmissionAction, SupervisorSchoolUpdateSubmissionAction
+
 from notification.notifications import SchoolSubmissionNotification, SchoolUpdateSubmissionNotification
 
 
@@ -23,9 +25,13 @@ class CreateSchoolAPIView(CreateAPIView):
         
         # Create a submission notification after a new school is submitted
         if response.status_code == status.HTTP_201_CREATED:
-            notification = SchoolSubmissionNotification(data=response.data)
             try:
+                notification = SchoolSubmissionNotification(data=response.data)
                 notification.create_notification()
+
+                action = SupervisorSchoolSubmissionAction(data=response.data)
+                action.create_action()
+
             except ValidationError as e:
                 print(repr(e))
             except Exception as e:
@@ -60,9 +66,13 @@ class UpdateSchoolAPIView(UpdateAPIView):
         
         # # Create a submission notification after a school update is submitted
         if response.status_code == status.HTTP_200_OK:
-            notification = SchoolUpdateSubmissionNotification(data=response.data)
             try:
+                notification = SchoolUpdateSubmissionNotification(data=response.data)
                 notification.create_notification()
+
+                action = SupervisorSchoolUpdateSubmissionAction(data=response.data)
+                action.create_action()
+
             except ValidationError as e:
                 print(repr(e))
             except Exception as e:
