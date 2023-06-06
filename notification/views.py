@@ -6,8 +6,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from notification.filters import NotificationFilter
 from notification.models import Notification
-from notification.serializers import CreateNotificationSerializer, ListNotificationSerializer, DetailNotificationSerializer, UpdateNotificationSerializer, DeleteNotificationSerializer
 from notification.paginations import NotificationPagination
+from notification.serializers import CreateNotificationSerializer, ListNotificationSerializer, DetailNotificationSerializer, UpdateNotificationSerializer, DeleteNotificationSerializer
 
 
 class CreateNotificationAPIView(CreateAPIView):
