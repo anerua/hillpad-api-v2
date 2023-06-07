@@ -13,4 +13,3 @@ urlpatterns = [
     path("reject/<int:pk>", views.RejectSchoolAPIView.as_view(), name="reject_course"),
     path("publish/<int:pk>", views.PublishSchoolAPIView.as_view(), name="publish_course"),
 ]
-]

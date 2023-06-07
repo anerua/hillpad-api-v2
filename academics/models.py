@@ -8,6 +8,7 @@ from account.models import User
 import secrets
 import string
 
+
 class Country(TrackingModel):
 
     AFRICA = "AF"
@@ -47,6 +48,15 @@ class Country(TrackingModel):
 
 class School(TrackingModel):
 
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    REVIEW = "REVIEW"
+    SCHOOL_STATUS_CHOICES = (
+        (APPROVED, _("APPROVED")),
+        (REJECTED, _("REJECTED")),
+        (REVIEW, _("REVIEW")),
+    )
+
     name = models.CharField(_("Name of school"), max_length=255)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="country_schools")
     about = models.TextField(_("About"))
@@ -58,6 +68,9 @@ class School(TrackingModel):
     year_established = models.IntegerField(_("Year of establishment"), blank=True, null=True)
     academic_staff = models.IntegerField(_("Number of academic staff"), blank=True, null=True)
     students = models.IntegerField(_("Total number of students in the school"), blank=True, null=True)
+
+    published = models.BooleanField(_("Published status of school"), default=False)
+    status = models.CharField(_("School status"), max_length=16, choices=SCHOOL_STATUS_CHOICES, default=REVIEW)
 
     reject_reason = models.TextField(_("Reason for rejection"), blank=True)
 
