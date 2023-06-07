@@ -1,5 +1,6 @@
-from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.serializers import ValidationError
+from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -8,11 +9,35 @@ from academics.models import DegreeType
 from academics.paginations import DegreeTypePagination
 from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer
 
+from action.actions import AdminDegreeTypePublishAction
+
+from notification.notifications import SupervisorDegreeTypeSubmissionNotification
 
 class CreateDegreeTypeAPIView(CreateAPIView):
     
     serializer_class = CreateDegreeTypeSerializer
     queryset = DegreeType.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        response = super(CreateDegreeTypeAPIView, self).post(request, *args, **kwargs)
+        
+        # Create a supervisor submission notification after a new degree type is created by supervisor
+        # Create a publish action for admin
+        if response.status_code == status.HTTP_201_CREATED:
+            try:
+                supervisor_notification = SupervisorDegreeTypeSubmissionNotification(data=response.data)
+                supervisor_notification.create_notification()
+                
+                admin_action = AdminDegreeTypePublishAction(data=response.data)
+                admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        return response
 
 
 class ListDegreeTypeAPIView(ListAPIView):
