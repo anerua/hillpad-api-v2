@@ -1,5 +1,6 @@
-from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.serializers import ValidationError
+from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -8,11 +9,36 @@ from academics.models import Discipline
 from academics.paginations import DisciplinePagination
 from academics.serializers import CreateDisciplineSerializer, ListDisciplineSerializer, DetailDisciplineSerializer, UpdateDisciplineSerializer, DeleteDisciplineSerializer
 
+from action.actions import AdminDisciplinePublishAction
+
+from notification.notifications import SupervisorDisciplineSubmissionNotification
+
 
 class CreateDisciplineAPIView(CreateAPIView):
     
     serializer_class = CreateDisciplineSerializer
     queryset = Discipline.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        response = super(CreateDisciplineAPIView, self).post(request, *args, **kwargs)
+        
+        # Create a supervisor submission notification after a new country is created by supervisor
+        # Create a publish action for admin
+        if response.status_code == status.HTTP_201_CREATED:
+            try:
+                supervisor_notification = SupervisorDisciplineSubmissionNotification(data=response.data)
+                supervisor_notification.create_notification()
+                
+                admin_action = AdminDisciplinePublishAction(data=response.data)
+                admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        return response
 
 
 class ListDisciplineAPIView(ListAPIView):

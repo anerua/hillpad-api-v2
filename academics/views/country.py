@@ -19,26 +19,9 @@ class CreateCountryAPIView(CreateAPIView):
     serializer_class = CreateCountrySerializer
     queryset = Country.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        response = super(CreateCountryAPIView, self).post(request, *args, **kwargs)
-        
-        # Create a supervisor submission notification after a new country is created by supervisor
-        # Create a publish action for admin
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                supervisor_notification = SupervisorCountrySubmissionNotification(data=response.data)
-                supervisor_notification.create_notification()
-                
-                admin_action = AdminCountryPublishAction(data=response.data)
-                admin_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+    from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.serializers import ValidationError
+from rest_framework import status
 
 
 class ListCountryAPIView(ListAPIView):
