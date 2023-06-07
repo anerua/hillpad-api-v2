@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School, Country, Currency
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer, DetailCurrencySerializer
+from academics.models import Course, School, Country, Currency, DegreeType
+from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -226,6 +226,60 @@ class AdminCurrencyPublishNotification(EntryPublishNotification):
         detail = f"The currency entry: {currency.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(currency.data, range(len(currency.data))):
             detail += f"{i+1}. {item}: {currency.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+
+
+class DegreeTypePublishNotification(EntryPublishNotification):
+    """
+        TODO: Just create a single notification that should be broadcast to all staff users
+    """
+    
+    def compose_notification(self):
+        degree_type_object = DegreeType.objects.get(pk=self.data["id"])
+        degree_type = DetailDegreeTypeSerializer(degree_type_object)
+        title = f"Published: {degree_type.data['name']}"
+        detail = f"Your degree_type entry: {degree_type.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(degree_type.data, range(len(degree_type.data))):
+            detail += f"{i+1}. {item}: {degree_type.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorDegreeTypePublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        degree_type_object = DegreeType.objects.get(pk=self.data["id"])
+        degree_type = DetailDegreeTypeSerializer(degree_type_object)
+        title = f"Published: {degree_type.data['name']}"
+        detail = f"The degree_type entry: {degree_type.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(degree_type.data, range(len(degree_type.data))):
+            detail += f"{i+1}. {item}: {degree_type.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class AdminDegreeTypePublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        degree_type_object = DegreeType.objects.get(pk=self.data["id"])
+        degree_type = DetailDegreeTypeSerializer(degree_type_object)
+        title = f"Published: {degree_type.data['name']}"
+        detail = f"The degree_type entry: {degree_type.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(degree_type.data, range(len(degree_type.data))):
+            detail += f"{i+1}. {item}: {degree_type.data[item]}\n"
         
         return {
             "type": Notification.PUBLISH,

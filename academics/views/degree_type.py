@@ -7,11 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.filters import DegreeTypeFilter
 from academics.models import DegreeType
 from academics.paginations import DegreeTypePagination
-from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer
+from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer
 
 from action.actions import AdminDegreeTypePublishAction
 
-from notification.notifications import SupervisorDegreeTypeSubmissionNotification
+from notification.notifications import SupervisorDegreeTypeSubmissionNotification, DegreeTypePublishNotification, SupervisorDegreeTypePublishNotification, AdminDegreeTypePublishNotification
 
 class CreateDegreeTypeAPIView(CreateAPIView):
     
@@ -59,6 +59,36 @@ class UpdateDegreeTypeAPIView(UpdateAPIView):
 
     serializer_class = UpdateDegreeTypeSerializer
     queryset = DegreeType.objects.all()
+
+
+class PublishDegreeTypeAPIView(UpdateAPIView):
+
+    serializer_class = PublishDegreeTypeSerializer
+    queryset = DegreeType.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super(PublishDegreeTypeAPIView, self).put(request, *args, **kwargs)
+
+        # Create a published notification for specialist, supervisor and admin
+        if response.status_code == status.HTTP_200_OK:
+            try:
+                specialist_notification = DegreeTypePublishNotification(data=response.data)
+                specialist_notification.create_notification()
+
+                supervisor_notification = SupervisorDegreeTypePublishNotification(data=response.data)
+                supervisor_notification.create_notification()
+
+                admin_notification = AdminDegreeTypePublishNotification(data=response.data)
+                admin_notification.create_notification()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        
+        return response
 
 
 class DeleteDegreeTypeAPIView(DestroyAPIView):

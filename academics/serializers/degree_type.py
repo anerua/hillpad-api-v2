@@ -41,6 +41,18 @@ class UpdateDegreeTypeSerializer(serializers.ModelSerializer):
         )
 
 
+class PublishDegreeTypeSerializer(serializers.ModelSerializer):
+
+    published = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = DegreeType
+        fields = (
+            "id",
+            "published",
+        )
+
+
 class DeleteDegreeTypeSerializer(serializers.ModelSerializer):
 
     class Meta:

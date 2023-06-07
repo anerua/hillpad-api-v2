@@ -9,4 +9,5 @@ urlpatterns = [
     path("detail/<int:pk>", views.DetailDegreeTypeAPIView.as_view(), name="detail_degree_type"),
     path("update/<int:pk>", views.UpdateDegreeTypeAPIView.as_view(), name="update_degree_type"),
     path("delete/<int:pk>", views.DeleteDegreeTypeAPIView.as_view(), name="delete_degree_type"),
+    path("publish/<int:pk>", views.PublishDegreeTypeAPIView.as_view(), name="publish_degree_type"),
 ]
