@@ -11,11 +11,13 @@ class Notification(TrackingModel):
     APPROVAL = "APPROVAL"
     REJECTION = "REJECTION"
     SUBMISSION = "SUBMISSION"
+    PUBLISH = "PUBLISH"
     SETTINGS = "SETTINGS"
     NOTIFICATION_TYPE_CHOICES = (
         (APPROVAL, "Approval"),
         (REJECTION, "Rejection"),
         (SUBMISSION, "Submission"),
+        (PUBLISH, "Publish"),
         (SETTINGS, "Settings"),
     )
 

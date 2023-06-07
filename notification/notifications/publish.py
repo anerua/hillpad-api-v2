@@ -7,7 +7,7 @@ from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
 
 
-class EntryRejectionNotification():
+class EntryPublishNotification():
 
     def __init__(self, data):
         self.data = data
@@ -24,39 +24,52 @@ class EntryRejectionNotification():
     def compose_notification(self): ...
 
 
-class CourseRejectionNotification(EntryRejectionNotification):
+class CoursePublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         course_object = Course.objects.get(pk=self.data["id"])
         course = DetailCourseSerializer(course_object)
-        title = f"Rejection: {course.data['name']}"
-        detail = f"Your course entry: {course.data['name']} was rejected due to the following reasons:\n\n{course.data['reject_reason']}\n\nOriginal Entry:\n"
+        title = f"Published: {course.data['name']}"
+        detail = f"Your course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
-            if item == "reject_reason":
-                continue
             detail += f"{i+1}. {item}: {course.data[item]}\n"
         
         return {
-            "type": Notification.REJECTION,
+            "type": Notification.PUBLISH,
             "title": title,
             "detail": detail
         }
     
 
-class SupervisorCourseRejectionNotification(EntryRejectionNotification):
+class SupervisorCoursePublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         course_object = Course.objects.get(pk=self.data["id"])
         course = DetailCourseSerializer(course_object)
-        title = f"Rejection: {course.data['name']}"
-        detail = f"You rejected a course entry: {course.data['name']} due to the following reasons:\n\n{course.data['reject_reason']}\n\nOriginal Entry:\n"
+        title = f"Published: {course.data['name']}"
+        detail = f"The course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
-            if item == "reject_reason":
-                continue
             detail += f"{i+1}. {item}: {course.data[item]}\n"
         
         return {
-            "type": Notification.REJECTION,
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class AdminCoursePublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        course_object = Course.objects.get(pk=self.data["id"])
+        course = DetailCourseSerializer(course_object)
+        title = f"Published: {course.data['name']}"
+        detail = f"The course entry: {course.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(course.data, range(len(course.data))):
+            detail += f"{i+1}. {item}: {course.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
             "title": title,
             "detail": detail
         }

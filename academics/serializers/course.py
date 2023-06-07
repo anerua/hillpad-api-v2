@@ -151,12 +151,26 @@ class ApproveCourseSerializer(serializers.ModelSerializer):
 class RejectCourseSerializer(serializers.ModelSerializer):
 
     status = serializers.ChoiceField(choices=(Course.REJECTED,))
+    reject_reason = serializers.CharField(required=True)
 
     class Meta:
         model = Course
         fields = (
             "id",
             "status",
+            "reject_reason",
+        )
+
+
+class PublishCourseSerializer(serializers.ModelSerializer):
+
+    publish = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Course
+        fields = (
+            "id",
+            "publish",
         )
 
 
