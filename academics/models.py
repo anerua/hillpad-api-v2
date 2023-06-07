@@ -82,6 +82,8 @@ class Discipline(TrackingModel):
     name = models.CharField(_("Name of discipline"), max_length=255)
     about = models.TextField(_("About"))
 
+    published = models.BooleanField(_("Published status of discipline"), default=False)
+
 
 class Currency(TrackingModel):
 
