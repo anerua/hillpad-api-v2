@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School, Country, Currency, DegreeType
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer
+from academics.models import Course, School, Country, Currency, DegreeType, Discipline
+from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer, DetailDisciplineSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -280,6 +280,60 @@ class AdminDegreeTypePublishNotification(EntryPublishNotification):
         detail = f"The degree_type entry: {degree_type.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(degree_type.data, range(len(degree_type.data))):
             detail += f"{i+1}. {item}: {degree_type.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class DisciplinePublishNotification(EntryPublishNotification):
+    """
+        TODO: Just create a single notification that should be broadcast to all staff users
+    """
+    
+    def compose_notification(self):
+        discipline_object = Discipline.objects.get(pk=self.data["id"])
+        discipline = DetailDisciplineSerializer(discipline_object)
+        title = f"Published: {discipline.data['name']}"
+        detail = f"Your discipline entry: {discipline.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(discipline.data, range(len(discipline.data))):
+            detail += f"{i+1}. {item}: {discipline.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorDisciplinePublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        discipline_object = Discipline.objects.get(pk=self.data["id"])
+        discipline = DetailDisciplineSerializer(discipline_object)
+        title = f"Published: {discipline.data['name']}"
+        detail = f"The discipline entry: {discipline.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(discipline.data, range(len(discipline.data))):
+            detail += f"{i+1}. {item}: {discipline.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class AdminDisciplinePublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        discipline_object = Discipline.objects.get(pk=self.data["id"])
+        discipline = DetailDisciplineSerializer(discipline_object)
+        title = f"Published: {discipline.data['name']}"
+        detail = f"The discipline entry: {discipline.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(discipline.data, range(len(discipline.data))):
+            detail += f"{i+1}. {item}: {discipline.data[item]}\n"
         
         return {
             "type": Notification.PUBLISH,

@@ -39,6 +39,18 @@ class UpdateDisciplineSerializer(serializers.ModelSerializer):
         )
 
 
+class PublishDisciplineSerializer(serializers.ModelSerializer):
+
+    published = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Discipline
+        fields = (
+            "id",
+            "published",
+        )
+
+
 class DeleteDisciplineSerializer(serializers.ModelSerializer):
 
     class Meta:
