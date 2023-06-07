@@ -41,6 +41,18 @@ class UpdateCurrencySerializer(serializers.ModelSerializer):
         )
 
 
+class PublishCurrencySerializer(serializers.ModelSerializer):
+
+    published = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Currency
+        fields = (
+            "id",
+            "published",
+        )
+
+
 class DeleteCurrencySerializer(serializers.ModelSerializer):
 
     class Meta:
