@@ -163,13 +163,13 @@ class RejectCourseSerializer(serializers.ModelSerializer):
 
 class PublishCourseSerializer(serializers.ModelSerializer):
 
-    publish = serializers.BooleanField(required=True)
+    published = serializers.BooleanField(required=True)
 
     class Meta:
         model = Course
         fields = (
             "id",
-            "publish",
+            "published",
         )
 
 
