@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course
-from academics.serializers import DetailCourseSerializer
+from academics.models import Course, School
+from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -50,6 +50,40 @@ class SupervisorCourseApprovalNotification(EntryApprovalNotification):
         detail = f"You approved a course entry: {course.data['name']}. Awaiting publishing.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
             detail += f"{i+1}. {item}: {course.data[item]}\n"
+        
+        return {
+            "type": Notification.APPROVAL,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SchoolApprovalNotification(EntryApprovalNotification):
+
+    def compose_notification(self):
+        school_object = School.objects.get(pk=self.data["id"])
+        school = DetailSchoolSerializer(school_object)
+        title = f"Approval: {school.data['name']}"
+        detail = f"Your school {school.data['name']} has been reviewed and approved. Awaiting publishing.\n\nEntry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.APPROVAL,
+            "title": title,
+            "detail": detail
+        }
+
+
+class SupervisorSchoolApprovalNotification(EntryApprovalNotification):
+
+    def compose_notification(self):
+        school_object = School.objects.get(pk=self.data["id"])
+        school = DetailSchoolSerializer(school_object)
+        title = f"Approval: {school.data['name']}"
+        detail = f"You approved a school entry: {school.data['name']}. Awaiting publishing.\n\nEntry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
         
         return {
             "type": Notification.APPROVAL,

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from academics.models import Course
-from account.models import User
 
 
 class CreateCourseSerializer(serializers.ModelSerializer):

@@ -53,6 +53,44 @@ class UpdateSchoolSerializer(serializers.ModelSerializer):
         )
 
 
+class ApproveSchoolSerializer(serializers.ModelSerializer):
+
+    status = serializers.ChoiceField(choices=(School.APPROVED,))
+
+    class Meta:
+        model = School
+        fields = (
+            "id",
+            "status",
+        )
+
+
+class RejectSchoolSerializer(serializers.ModelSerializer):
+
+    status = serializers.ChoiceField(choices=(School.REJECTED,))
+    reject_reason = serializers.CharField(required=True)
+
+    class Meta:
+        model = School
+        fields = (
+            "id",
+            "status",
+            "reject_reason",
+        )
+
+
+class PublishSchoolSerializer(serializers.ModelSerializer):
+
+    publish = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = School
+        fields = (
+            "id",
+            "publish",
+        )
+
+
 class DeleteSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:

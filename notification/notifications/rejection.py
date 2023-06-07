@@ -60,3 +60,41 @@ class SupervisorCourseRejectionNotification(EntryRejectionNotification):
             "title": title,
             "detail": detail
         }
+
+
+class SchoolRejectionNotification(EntryRejectionNotification):
+
+    def compose_notification(self):
+        school_object = Course.objects.get(pk=self.data["id"])
+        school = DetailCourseSerializer(school_object)
+        title = f"Rejection: {school.data['name']}"
+        detail = f"Your school entry: {school.data['name']} was rejected due to the following reasons:\n\n{school.data['reject_reason']}\n\nOriginal Entry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            if item == "reject_reason":
+                continue
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.REJECTION,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorSchoolRejectionNotification(EntryRejectionNotification):
+
+    def compose_notification(self):
+        school_object = Course.objects.get(pk=self.data["id"])
+        school = DetailCourseSerializer(school_object)
+        title = f"Rejection: {school.data['name']}"
+        detail = f"You rejected a school entry: {school.data['name']} due to the following reasons:\n\n{school.data['reject_reason']}\n\nOriginal Entry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            if item == "reject_reason":
+                continue
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.REJECTION,
+            "title": title,
+            "detail": detail
+        }

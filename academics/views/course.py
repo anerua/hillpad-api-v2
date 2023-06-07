@@ -1,16 +1,15 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.serializers import ValidationError
-from rest_framework import response, status
+from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from academics.filters import CourseFilter
 from academics.models import Course
+from academics.paginations import CoursePagination
 from academics.serializers import (CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer,
                                    UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
-from academics.filters import CourseFilter
-from academics.paginations import CoursePagination
 
 from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction, AdminCoursePublishAction
 
@@ -31,11 +30,11 @@ class CreateCourseAPIView(CreateAPIView):
         # Create a submission notification after a new course is submitted
         if response.status_code == status.HTTP_201_CREATED:
             try:
-                notification = CourseSubmissionNotification(data=response.data)
-                notification.create_notification()
+                specialist_notification = CourseSubmissionNotification(data=response.data)
+                specialist_notification.create_notification()
                 
-                action = SupervisorCourseSubmissionAction(data=response.data)
-                action.create_action()
+                supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
+                supervisor_action.create_action()
 
             except ValidationError as e:
                 print(repr(e))
@@ -72,11 +71,11 @@ class UpdateCourseAPIView(UpdateAPIView):
         # Create a submission notification after a course update is submitted
         if response.status_code == status.HTTP_200_OK:
             try:
-                notification = CourseUpdateSubmissionNotification(data=response.data)
-                notification.create_notification()
+                specialist_notification = CourseUpdateSubmissionNotification(data=response.data)
+                specialist_notification.create_notification()
 
-                action = SupervisorCourseUpdateSubmissionAction(data=response.data)
-                action.create_action()
+                supervisor_action = SupervisorCourseUpdateSubmissionAction(data=response.data)
+                supervisor_action.create_action()
 
             except ValidationError as e:
                 print(repr(e))

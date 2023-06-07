@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course
-from academics.serializers import DetailCourseSerializer
+from academics.models import Course, School
+from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -67,6 +67,57 @@ class AdminCoursePublishNotification(EntryPublishNotification):
         detail = f"The course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
             detail += f"{i+1}. {item}: {course.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+
+
+class SchoolPublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        school_object = School.objects.get(pk=self.data["id"])
+        school = DetailSchoolSerializer(school_object)
+        title = f"Published: {school.data['name']}"
+        detail = f"Your school entry: {school.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorSchoolPublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        school_object = School.objects.get(pk=self.data["id"])
+        school = DetailSchoolSerializer(school_object)
+        title = f"Published: {school.data['name']}"
+        detail = f"The school entry: {school.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class AdminSchoolPublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        school_object = School.objects.get(pk=self.data["id"])
+        school = DetailSchoolSerializer(school_object)
+        title = f"Published: {school.data['name']}"
+        detail = f"The school entry: {school.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(school.data, range(len(school.data))):
+            detail += f"{i+1}. {item}: {school.data[item]}\n"
         
         return {
             "type": Notification.PUBLISH,

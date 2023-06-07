@@ -59,6 +59,8 @@ class School(TrackingModel):
     academic_staff = models.IntegerField(_("Number of academic staff"), blank=True, null=True)
     students = models.IntegerField(_("Total number of students in the school"), blank=True, null=True)
 
+    reject_reason = models.TextField(_("Reason for rejection"), blank=True)
+
 
 class Discipline(TrackingModel):
 
