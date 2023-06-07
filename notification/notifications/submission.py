@@ -24,7 +24,7 @@ class EntrySubmissionNotification():
 class CourseSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
-        title = f"Submission: {self.data['name']}"
+        title = f"Course Submission: {self.data['name']}"
         detail = f"Your course entry: {self.data['name']} has been submitted successfully and is now under review.\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
@@ -39,7 +39,7 @@ class CourseSubmissionNotification(EntrySubmissionNotification):
 class CourseUpdateSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
-        title = f"Submission (Update): {self.data['name']}"
+        title = f"Course Submission (Update): {self.data['name']}"
         detail = f"An update to your course entry: {self.data['name']} has been submitted successfully and is now under review.\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
@@ -54,7 +54,7 @@ class CourseUpdateSubmissionNotification(EntrySubmissionNotification):
 class SchoolSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
-        title = f"Submission: {self.data['name']}"
+        title = f"School Submission: {self.data['name']}"
         detail = f"Your school entry: {self.data['name']} has been submitted successfully and is now under review.\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
@@ -69,7 +69,7 @@ class SchoolSubmissionNotification(EntrySubmissionNotification):
 class SchoolUpdateSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
-        title = f"Submission (Update): {self.data['name']}"
+        title = f"School Submission (Update): {self.data['name']}"
         detail = f"An update to your school entry: {self.data['name']} has been submitted successfully and is now under review.\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
@@ -79,3 +79,19 @@ class SchoolUpdateSubmissionNotification(EntrySubmissionNotification):
             "title": title,
             "detail": detail
         }
+
+
+class SupervisorCountrySubmissionNotification(EntrySubmissionNotification):
+
+    def compose_notification(self):
+        title = f"Supervisor Country Submission: {self.data['name']}"
+        detail = f"Your country entry: {self.data['name']} has been submitted successfully and is awaiting publishing.\n\nEntry:\n"
+        for item, i in zip(self.data, range(len(self.data))):
+            detail += f"{i+1}. {item}: {self.data[item]}\n"
+        
+        return {
+            "type": Notification.SUBMISSION,
+            "title": title,
+            "detail": detail
+        }
+    

@@ -51,7 +51,7 @@ class AdminCoursePublishAction(GenericAction):
     def compose_action(self):
         course_object = Course.objects.get(pk=self.data["id"])
         course = DetailCourseSerializer(course_object)
-        title = f"Action Required: Course Approval - {course.data['name']}"
+        title = f"Action Required: Course Publish - {course.data['name']}"
         detail = f"A new course entry has been approved and needs to be published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
             detail += f"{i+1}. {item}: {course.data[item]}\n"

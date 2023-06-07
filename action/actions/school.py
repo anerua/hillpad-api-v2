@@ -50,7 +50,7 @@ class AdminSchoolPublishAction(GenericAction):
     def compose_action(self):
         school_object = School.objects.get(pk=self.data["id"])
         school = DetailSchoolSerializer(school_object)
-        title = f"Action Required: School Approval - {school.data['name']}"
+        title = f"Action Required: School Publish - {school.data['name']}"
         detail = f"A new school entry has been approved and needs to be published.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
             detail += f"{i+1}. {item}: {school.data[item]}\n"

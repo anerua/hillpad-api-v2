@@ -10,6 +10,7 @@ class CreateCountrySerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "short_code",
             "caption",
             "continent",
             "capital",
@@ -45,6 +46,7 @@ class UpdateCountrySerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "short_code",
             "caption",
             "continent",
             "capital",
