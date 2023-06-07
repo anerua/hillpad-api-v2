@@ -11,7 +11,7 @@ class AdminCountryPublishAction(GenericAction):
     def compose_action(self):
         country_object = Country.objects.get(pk=self.data["id"])
         country = DetailCountrySerializer(country_object)
-        title = f"Action Required: Country Publish - {country.data['name']}"
+        title = f"Action Required: Publish Country - {country.data['name']}"
         detail = f"A new country entry has been submitted by the supervisor and needs to be published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
             detail += f"{i+1}. {item}: {country.data[item]}\n"
