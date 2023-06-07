@@ -7,11 +7,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.filters import CountryFilter
 from academics.models import Country
 from academics.paginations import CountryPagination
-from academics.serializers import CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer
+from academics.serializers import (CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
 from action.actions import AdminCountryPublishAction
 
-from notification.notifications import SupervisorCountrySubmissionNotification
+from notification.notifications import (SupervisorCountrySubmissionNotification, CountryPublishNotification,
+                                        SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
 
 class CreateCountryAPIView(CreateAPIView):
     
@@ -61,10 +62,34 @@ class UpdateCountryAPIView(UpdateAPIView):
     queryset = Country.objects.all()
 
 
-# class PublishCountryAPIView(UpdateAPIView):
+class PublishCountryAPIView(UpdateAPIView):
 
-#     serializer_class = PublishCountrySerializer
-#     queryset = Country.objects.all()
+    serializer_class = PublishCountrySerializer
+    queryset = Country.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super(PublishCountryAPIView, self).put(request, *args, **kwargs)
+
+        # Create a published notification for specialist, supervisor and admin
+        if response.status_code == status.HTTP_200_OK:
+            try:
+                specialist_notification = CountryPublishNotification(data=response.data)
+                specialist_notification.create_notification()
+
+                supervisor_notification = SupervisorCountryPublishNotification(data=response.data)
+                supervisor_notification.create_notification()
+
+                admin_notification = AdminCountryPublishNotification(data=response.data)
+                admin_notification.create_notification()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        
+        return response
 
 
 class DeleteCountryAPIView(DestroyAPIView):

@@ -61,6 +61,18 @@ class UpdateCountrySerializer(serializers.ModelSerializer):
         )
 
 
+class PublishCountrySerializer(serializers.ModelSerializer):
+
+    published = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Country
+        fields = (
+            "id",
+            "published",
+        )
+
+
 class DeleteCountrySerializer(serializers.ModelSerializer):
 
     class Meta:

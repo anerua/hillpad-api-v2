@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer
+from academics.models import Course, School, Country
+from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -118,6 +118,60 @@ class AdminSchoolPublishNotification(EntryPublishNotification):
         detail = f"The school entry: {school.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
             detail += f"{i+1}. {item}: {school.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+
+
+class CountryPublishNotification(EntryPublishNotification):
+    """
+        TODO: Just create a single notification that should be broadcast to all staff users
+    """
+    
+    def compose_notification(self):
+        country_object = Country.objects.get(pk=self.data["id"])
+        country = DetailCountrySerializer(country_object)
+        title = f"Published: {country.data['name']}"
+        detail = f"Your country entry: {country.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(country.data, range(len(country.data))):
+            detail += f"{i+1}. {item}: {country.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorCountryPublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        country_object = Country.objects.get(pk=self.data["id"])
+        country = DetailCountrySerializer(country_object)
+        title = f"Published: {country.data['name']}"
+        detail = f"The country entry: {country.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(country.data, range(len(country.data))):
+            detail += f"{i+1}. {item}: {country.data[item]}\n"
+        
+        return {
+            "type": Notification.PUBLISH,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class AdminCountryPublishNotification(EntryPublishNotification):
+
+    def compose_notification(self):
+        country_object = Country.objects.get(pk=self.data["id"])
+        country = DetailCountrySerializer(country_object)
+        title = f"Published: {country.data['name']}"
+        detail = f"The country entry: {country.data['name']} has been published.\n\nEntry:\n"
+        for item, i in zip(country.data, range(len(country.data))):
+            detail += f"{i+1}. {item}: {country.data[item]}\n"
         
         return {
             "type": Notification.PUBLISH,
