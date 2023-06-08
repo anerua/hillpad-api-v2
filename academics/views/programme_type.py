@@ -8,9 +8,12 @@ from academics.models import ProgrammeType
 from academics.paginations import ProgrammeTypePagination
 from academics.serializers import CreateProgrammeTypeSerializer, ListProgrammeTypeSerializer, DetailProgrammeTypeSerializer, UpdateProgrammeTypeSerializer, DeleteProgrammeTypeSerializer
 
+from account.permissions import AdminPermission
+
 
 class CreateProgrammeTypeAPIView(CreateAPIView):
     
+    permission_classes = (AdminPermission,)
     serializer_class = CreateProgrammeTypeSerializer
     queryset = ProgrammeType.objects.all()
 
@@ -32,11 +35,13 @@ class DetailProgrammeTypeAPIView(RetrieveAPIView):
 
 class UpdateProgrammeTypeAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = UpdateProgrammeTypeSerializer
     queryset = ProgrammeType.objects.all()
 
 
 class DeleteProgrammeTypeAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteProgrammeTypeSerializer
     queryset = ProgrammeType.objects.all()
