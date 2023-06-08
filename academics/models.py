@@ -81,6 +81,7 @@ class Discipline(TrackingModel):
 
     name = models.CharField(_("Name of discipline"), max_length=255)
     about = models.TextField(_("About"))
+    # icon = FaTractor (Font Awesome) v5.5 fa-thermometer-three-quarters v4.7
 
     published = models.BooleanField(_("Published status of discipline"), default=False)
 

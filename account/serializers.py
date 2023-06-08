@@ -36,7 +36,7 @@ class RegisterSpecialistAccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["role"] = User.SPECIALIST
-        return User.objects.create_user(**validated_data)
+        return User.objects.create_staff(**validated_data)
     
 
 class RegisterSupervisorAccountSerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class RegisterSupervisorAccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["role"] = User.SUPERVISOR
-        return User.objects.create_user(**validated_data)
+        return User.objects.create_staff(**validated_data)
 
 
 class RegisterAdminAccountSerializer(serializers.ModelSerializer):
@@ -72,7 +72,7 @@ class RegisterAdminAccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["role"] = User.ADMIN
-        return User.objects.create_user(**validated_data)
+        return User.objects.create_staff(**validated_data)
 
 
 class DetailAccountSerializer(serializers.ModelSerializer):
@@ -119,6 +119,11 @@ class UpdateAccountSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {
             "email": {"read_only": True},
+            "first_name": {"required": False},
+            "last_name": {"required": False},
+            "gender": {"required": False},
+            "date_of_birth": {"required": False},
+            "country_of_residence": {"required": False},
         }
 
 
@@ -126,21 +131,7 @@ class ListStaffAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
-            "id",
-            "email",
-            "first_name",
-            "last_name", 
-            "is_active",
-            "created_at",
-        )
-        extra_kwargs = {
-            'email': {'write_only': True},
-            'first_name': {'write_only': True},
-            'last_name': {'write_only': True},
-            'is_active': {'write_only': True},
-            'created_at': {'write_only': True},
-        }
+        fields = '__all__'
 
 
 class RetrieveStaffAccountSerializer(serializers.ModelSerializer):

@@ -15,5 +15,5 @@ urlpatterns = [
     path("detail", views.DetailAccountAPIView.as_view(), name="detail_account"),
     path("update", views.UpdateAccountAPIView.as_view(), name="update_account"),
     path("list_staff", views.ListStaffAccountAPIView.as_view(), name="list_staff_account"),
-    path("retrieve_staff/<int:id>", views.RetrieveStaffAccountAPIView.as_view(), name="retrieve_staff_account"),
+    path("retrieve_staff/<int:pk>", views.RetrieveStaffAccountAPIView.as_view(), name="retrieve_staff_account"),
 ]
