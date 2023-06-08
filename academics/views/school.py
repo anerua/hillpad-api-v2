@@ -11,6 +11,8 @@ from academics.serializers import (CreateSchoolSerializer, ListSchoolSerializer,
                                    UpdateSchoolSerializer, DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
+from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission
+
 from action.actions import SupervisorSchoolSubmissionAction, SupervisorSchoolUpdateSubmissionAction, AdminSchoolPublishAction
 
 from notification.notifications import (SchoolSubmissionNotification, SchoolUpdateSubmissionNotification,
@@ -21,6 +23,7 @@ from notification.notifications import (SchoolSubmissionNotification, SchoolUpda
 
 class CreateSchoolAPIView(CreateAPIView):
     
+    permission_classes = (SpecialistPermission,)
     serializer_class = CreateSchoolSerializer
     queryset = School.objects.all()
 
@@ -62,6 +65,7 @@ class DetailSchoolAPIView(RetrieveAPIView):
 
 class UpdateSchoolAPIView(UpdateAPIView):
 
+    permission_classes = (SpecialistPermission,)
     serializer_class = UpdateSchoolSerializer
     queryset = School.objects.all()
 
@@ -89,6 +93,7 @@ class UpdateSchoolAPIView(UpdateAPIView):
 
 class ApproveSchoolAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = ApproveSchoolSerializer
     queryset = School.objects.all()
 
@@ -120,6 +125,7 @@ class ApproveSchoolAPIView(UpdateAPIView):
 
 class RejectSchoolAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = RejectSchoolSerializer
     queryset = School.objects.all()
 
@@ -147,6 +153,7 @@ class RejectSchoolAPIView(UpdateAPIView):
 
 class PublishSchoolAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishSchoolSerializer
     queryset = School.objects.all()
 
@@ -178,5 +185,6 @@ class PublishSchoolAPIView(UpdateAPIView):
 
 class DeleteSchoolAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteSchoolSerializer
     queryset = School.objects.all()
