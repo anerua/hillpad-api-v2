@@ -45,6 +45,8 @@ class Country(TrackingModel):
 
     living_costs = models.TextField(_("Living costs essay"), blank=True, null=True)
 
+    banner = models.ImageField(upload_to="uploads/academics/country/banners", blank=True, null=True)
+
     published = models.BooleanField(_("Published status of country"), default=False)
 
 
