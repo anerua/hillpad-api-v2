@@ -5,7 +5,9 @@ from account import views
 
 urlpatterns = [
     path("register", views.RegisterAccountAPIView.as_view(), name="register_account"),
-    path("register_staff", views.RegisterStaffAccountAPIView.as_view(), name="register_staff_account"),
+    path("register_specialist", views.RegisterSpecialistAccountAPIView.as_view(), name="register_specialist_account"),
+    path("register_supervisor", views.RegisterSupervisorAccountAPIView.as_view(), name="register_supervisor_account"),
+    path("register_admin", views.RegisterAdminAccountAPIView.as_view(), name="register_admin_account"),
     path("token", views.CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh", views.CustomTokenRefreshView.as_view(), name="token_refresh"),
     path("logout", views.LogOutAccountAPIView.as_view(), name="logout"),

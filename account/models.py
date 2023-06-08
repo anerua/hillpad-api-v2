@@ -56,7 +56,7 @@ class CustomUserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
     CLIENT = "CLIENT"
-    SPECIALIST = "SPECIALIST",
+    SPECIALIST = "SPECIALIST"
     SUPERVISOR = "SUPERVISOR"
     ADMIN = "ADMIN"
     USER_ROLE_CHOICES = (
@@ -76,7 +76,7 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
     email = models.EmailField(_("email address"), unique=True)
-    role = models.CharField(_("role"), max_length=6, choices=USER_ROLE_CHOICES)
+    role = models.CharField(_("role"), max_length=16, choices=USER_ROLE_CHOICES)
     
     gender = models.CharField(_("gender"), max_length=6, choices=GENDER_CHOICES, blank=True)
     date_of_birth = models.DateTimeField(_("date of birth"), blank=True, null=True)

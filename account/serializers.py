@@ -21,7 +21,7 @@ class RegisterAccountSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 
-class RegisterStaffAccountSerializer(serializers.ModelSerializer):
+class RegisterSpecialistAccountSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(max_length=255, min_length=8, write_only=True)
 
@@ -35,7 +35,43 @@ class RegisterStaffAccountSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        validated_data["role"] = User.STAFF
+        validated_data["role"] = User.SPECIALIST
+        return User.objects.create_user(**validated_data)
+    
+
+class RegisterSupervisorAccountSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(max_length=255, min_length=8, write_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "first_name",
+            "last_name",
+            "password",
+        )
+
+    def create(self, validated_data):
+        validated_data["role"] = User.SUPERVISOR
+        return User.objects.create_user(**validated_data)
+
+
+class RegisterAdminAccountSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(max_length=255, min_length=8, write_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "first_name",
+            "last_name",
+            "password",
+        )
+
+    def create(self, validated_data):
+        validated_data["role"] = User.ADMIN
         return User.objects.create_user(**validated_data)
 
 

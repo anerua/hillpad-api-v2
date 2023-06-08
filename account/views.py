@@ -91,10 +91,24 @@ class RegisterAccountAPIView(CreateAPIView):
     #     return response
 
 
-class RegisterStaffAccountAPIView(CreateAPIView):
+class RegisterSpecialistAccountAPIView(CreateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = RegisterStaffAccountSerializer
+    serializer_class = RegisterSpecialistAccountSerializer
+    queryset = User.objects.all()
+
+
+class RegisterSupervisorAccountAPIView(CreateAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = RegisterSupervisorAccountSerializer
+    queryset = User.objects.all()
+
+
+class RegisterAdminAccountAPIView(CreateAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = RegisterAdminAccountSerializer
     queryset = User.objects.all()
 
 
@@ -149,11 +163,11 @@ class ListStaffAccountAPIView(ListAPIView):
     filterset_fields = filter_params
     search_fields = filter_params 
     filter_backends = [SearchFilter, DjangoFilterBackend]
-    queryset = User.objects.filter(role=User.STAFF)
+    queryset = User.objects.filter(is_staff=True)
 
 
 class RetrieveStaffAccountAPIView(RetrieveAPIView):
 
     permission_classes = (AdminPermission,)
     serializer_class = RetrieveStaffAccountSerializer
-    queryset = User.objects.filter(role=User.STAFF)
+    queryset = User.objects.filter(is_staff=True)
