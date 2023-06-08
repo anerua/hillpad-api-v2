@@ -9,6 +9,8 @@ from academics.models import Country
 from academics.paginations import CountryPagination
 from academics.serializers import (CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
+from account.permissions import AdminPermission, SupervisorPermission
+
 from action.actions import AdminCountryPublishAction
 
 from notification.notifications import (SupervisorCountrySubmissionNotification, CountryPublishNotification,
@@ -16,6 +18,7 @@ from notification.notifications import (SupervisorCountrySubmissionNotification,
 
 class CreateCountryAPIView(CreateAPIView):
     
+    permission_classes = (SupervisorPermission,)
     serializer_class = CreateCountrySerializer
     queryset = Country.objects.all()
 
@@ -58,12 +61,14 @@ class DetailCountryAPIView(RetrieveAPIView):
 
 class UpdateCountryAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = UpdateCountrySerializer
     queryset = Country.objects.all()
 
 
 class PublishCountryAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishCountrySerializer
     queryset = Country.objects.all()
 
@@ -94,5 +99,6 @@ class PublishCountryAPIView(UpdateAPIView):
 
 class DeleteCountryAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteCountrySerializer
     queryset = Country.objects.all()

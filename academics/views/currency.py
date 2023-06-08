@@ -9,6 +9,8 @@ from academics.models import Currency
 from academics.paginations import CurrencyPagination
 from academics.serializers import CreateCurrencySerializer, ListCurrencySerializer, DetailCurrencySerializer, UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer
 
+from account.permissions import AdminPermission, SupervisorPermission
+
 from action.actions import AdminCurrencyPublishAction
 
 from notification.notifications import SupervisorCurrencySubmissionNotification, CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification
@@ -16,6 +18,7 @@ from notification.notifications import SupervisorCurrencySubmissionNotification,
 
 class CreateCurrencyAPIView(CreateAPIView):
     
+    permission_classes = (SupervisorPermission,)
     serializer_class = CreateCurrencySerializer
     queryset = Currency.objects.all()
 
@@ -58,12 +61,14 @@ class DetailCurrencyAPIView(RetrieveAPIView):
 
 class UpdateCurrencyAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = UpdateCurrencySerializer
     queryset = Currency.objects.all()
 
 
 class PublishCurrencyAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishCurrencySerializer
     queryset = Currency.objects.all()
 
@@ -94,5 +99,6 @@ class PublishCurrencyAPIView(UpdateAPIView):
 
 class DeleteCurrencyAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteCurrencySerializer
     queryset = Currency.objects.all()
