@@ -32,6 +32,11 @@ class CustomUserManager(UserManager):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
+    
+    def create_staff(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", False)
+        return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
@@ -51,12 +56,14 @@ class CustomUserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
     CLIENT = "CLIENT"
-    STAFF = "STAFF"
+    SPECIALIST = "SPECIALIST",
+    SUPERVISOR = "SUPERVISOR"
     ADMIN = "ADMIN"
     USER_ROLE_CHOICES = (
         (CLIENT, _("Client role")),
-        (STAFF, _("Staff role")),
-        (ADMIN, _("Administrator role")),
+        (SPECIALIST, _("Data Entry Specialist role")),
+        (SUPERVISOR, _("Data Entry Supervisor role")),
+        (ADMIN, _("Admin role")),
     )
 
     MALE = "MALE"
