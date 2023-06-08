@@ -7,11 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.filters import LanguageFilter
 from academics.models import Language
 from academics.paginations import LanguagePagination
-from academics.serializers import CreateLanguageSerializer, ListLanguageSerializer, DetailLanguageSerializer, UpdateLanguageSerializer, DeleteLanguageSerializer
+from academics.serializers import CreateLanguageSerializer, ListLanguageSerializer, DetailLanguageSerializer, UpdateLanguageSerializer, DeleteLanguageSerializer, PublishLanguageSerializer
 
 from action.actions import AdminLanguagePublishAction
 
-from notification.notifications import SupervisorLanguageSubmissionNotification
+from notification.notifications import SupervisorLanguageSubmissionNotification, LanguagePublishNotification, SupervisorLanguagePublishNotification, AdminLanguagePublishNotification
 
 
 class CreateLanguageAPIView(CreateAPIView):
@@ -60,6 +60,36 @@ class UpdateLanguageAPIView(UpdateAPIView):
 
     serializer_class = UpdateLanguageSerializer
     queryset = Language.objects.all()
+
+
+class PublishLanguageAPIView(UpdateAPIView):
+
+    serializer_class = PublishLanguageSerializer
+    queryset = Language.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super(PublishLanguageAPIView, self).put(request, *args, **kwargs)
+
+        # Create a published notification for specialist, supervisor and admin
+        if response.status_code == status.HTTP_200_OK:
+            try:
+                specialist_notification = LanguagePublishNotification(data=response.data)
+                specialist_notification.create_notification()
+
+                supervisor_notification = SupervisorLanguagePublishNotification(data=response.data)
+                supervisor_notification.create_notification()
+
+                admin_notification = AdminLanguagePublishNotification(data=response.data)
+                admin_notification.create_notification()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        
+        return response
 
 
 class DeleteLanguageAPIView(DestroyAPIView):

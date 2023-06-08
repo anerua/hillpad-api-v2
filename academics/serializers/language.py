@@ -39,6 +39,18 @@ class UpdateLanguageSerializer(serializers.ModelSerializer):
         )
 
 
+class PublishLanguageSerializer(serializers.ModelSerializer):
+
+    published = serializers.BooleanField(required=True)
+
+    class Meta:
+        model = Language
+        fields = (
+            "id",
+            "published",
+        )
+
+
 class DeleteLanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
