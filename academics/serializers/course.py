@@ -24,7 +24,6 @@ class CreateCourseSerializer(serializers.ModelSerializer):
             "deadline_year",
             "course_dates",
             "school",
-            # "author",
             "disciplines",
             "tuition_fee",
             "tuition_fee_base",
@@ -50,24 +49,13 @@ class CreateCourseSerializer(serializers.ModelSerializer):
         del validated_data["start_year"]
         del validated_data["deadline_month"]
         del validated_data["deadline_year"]
-        # user = self.context["request"].user
-        # validated_data["author"] = user.id
+
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user.id
+
         return super(CreateCourseSerializer, self).create(validated_data)
-
-        # def validate(self, data):
-        #     data["course_dates"] = {
-        #         "start_month": data.get("start_month"),
-        #         "start_year": data.get("start_year"),
-        #         "deadline_month": data.get("deadline_month"),
-        #         "deadline_year": data.get("deadline_year")
-        #     }
-        #     del data["start_month"]
-        #     del data["start_year"]
-        #     del data["deadline_month"]
-        #     del data["deadline_year"]
-
-        #     return super(CreateCourseSerializer, self).validate(data)
-
 
 
 class ListCourseSerializer(serializers.ModelSerializer):
