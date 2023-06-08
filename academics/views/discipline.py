@@ -9,6 +9,8 @@ from academics.models import Discipline
 from academics.paginations import DisciplinePagination
 from academics.serializers import CreateDisciplineSerializer, ListDisciplineSerializer, DetailDisciplineSerializer, UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer
 
+from account.permissions import AdminPermission, SupervisorPermission
+
 from action.actions import AdminDisciplinePublishAction
 
 from notification.notifications import SupervisorDisciplineSubmissionNotification, DisciplinePublishNotification, SupervisorDisciplinePublishNotification, AdminDisciplinePublishNotification
@@ -16,6 +18,7 @@ from notification.notifications import SupervisorDisciplineSubmissionNotificatio
 
 class CreateDisciplineAPIView(CreateAPIView):
     
+    permission_classes = (SupervisorPermission,)
     serializer_class = CreateDisciplineSerializer
     queryset = Discipline.objects.all()
 
@@ -58,12 +61,14 @@ class DetailDisciplineAPIView(RetrieveAPIView):
 
 class UpdateDisciplineAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = UpdateDisciplineSerializer
     queryset = Discipline.objects.all()
 
 
 class PublishDisciplineAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishDisciplineSerializer
     queryset = Discipline.objects.all()
 
@@ -95,5 +100,6 @@ class PublishDisciplineAPIView(UpdateAPIView):
 
 class DeleteDisciplineAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteDisciplineSerializer
     queryset = Discipline.objects.all()

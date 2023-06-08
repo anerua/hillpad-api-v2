@@ -9,6 +9,8 @@ from academics.models import Language
 from academics.paginations import LanguagePagination
 from academics.serializers import CreateLanguageSerializer, ListLanguageSerializer, DetailLanguageSerializer, UpdateLanguageSerializer, DeleteLanguageSerializer, PublishLanguageSerializer
 
+from account.permissions import AdminPermission, SupervisorPermission
+
 from action.actions import AdminLanguagePublishAction
 
 from notification.notifications import SupervisorLanguageSubmissionNotification, LanguagePublishNotification, SupervisorLanguagePublishNotification, AdminLanguagePublishNotification
@@ -16,6 +18,7 @@ from notification.notifications import SupervisorLanguageSubmissionNotification,
 
 class CreateLanguageAPIView(CreateAPIView):
     
+    permission_classes = (SupervisorPermission,)
     serializer_class = CreateLanguageSerializer
     queryset = Language.objects.all()
 
@@ -58,12 +61,14 @@ class DetailLanguageAPIView(RetrieveAPIView):
 
 class UpdateLanguageAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = UpdateLanguageSerializer
     queryset = Language.objects.all()
 
 
 class PublishLanguageAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishLanguageSerializer
     queryset = Language.objects.all()
 
@@ -94,5 +99,6 @@ class PublishLanguageAPIView(UpdateAPIView):
 
 class DeleteLanguageAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteLanguageSerializer
     queryset = Language.objects.all()
