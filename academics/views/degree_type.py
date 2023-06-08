@@ -9,12 +9,16 @@ from academics.models import DegreeType
 from academics.paginations import DegreeTypePagination
 from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer
 
+from account.permissions import AdminPermission, SupervisorPermission
+
 from action.actions import AdminDegreeTypePublishAction
 
 from notification.notifications import SupervisorDegreeTypeSubmissionNotification, DegreeTypePublishNotification, SupervisorDegreeTypePublishNotification, AdminDegreeTypePublishNotification
 
+
 class CreateDegreeTypeAPIView(CreateAPIView):
     
+    permission_classes = (SupervisorPermission,)
     serializer_class = CreateDegreeTypeSerializer
     queryset = DegreeType.objects.all()
 
@@ -57,12 +61,14 @@ class DetailDegreeTypeAPIView(RetrieveAPIView):
 
 class UpdateDegreeTypeAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = UpdateDegreeTypeSerializer
     queryset = DegreeType.objects.all()
 
 
 class PublishDegreeTypeAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishDegreeTypeSerializer
     queryset = DegreeType.objects.all()
 
@@ -93,5 +99,6 @@ class PublishDegreeTypeAPIView(UpdateAPIView):
 
 class DeleteDegreeTypeAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteDegreeTypeSerializer
     queryset = DegreeType.objects.all()
