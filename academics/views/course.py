@@ -24,7 +24,6 @@ from notification.notifications import (CourseSubmissionNotification, CourseUpda
 class CreateCourseAPIView(CreateAPIView):
 
     permission_classes = (SpecialistPermission,)
-    
     serializer_class = CreateCourseSerializer
     queryset = Course.objects.all()
 

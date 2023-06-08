@@ -63,6 +63,7 @@ class ListCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        depth = 2
 
 
 class DetailCourseSerializer(serializers.ModelSerializer):
@@ -70,6 +71,7 @@ class DetailCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        depth = 2
 
 
 class UpdateCourseSerializer(serializers.ModelSerializer):
