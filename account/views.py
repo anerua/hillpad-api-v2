@@ -11,7 +11,7 @@ from decouple import config
 from django_filters.rest_framework import DjangoFilterBackend
 
 from account.models import User
-from account.permissions import AdminPermission, ClientPermission
+from account.permissions import AdminPermission
 from account.serializers import *
 
 
@@ -138,7 +138,7 @@ class DetailAccountAPIView(GenericAPIView):
 
 class UpdateAccountAPIView(GenericAPIView):
 
-    permission_classes = (ClientPermission,)
+    permission_classes = (IsAuthenticated,)
     
     def patch(self, request):
         user = request.user

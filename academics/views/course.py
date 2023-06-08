@@ -11,6 +11,8 @@ from academics.serializers import (CreateCourseSerializer, ListCourseSerializer,
                                    UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
+from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission
+
 from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction, AdminCoursePublishAction
 
 from notification.notifications import (CourseSubmissionNotification, CourseUpdateSubmissionNotification,
@@ -20,6 +22,8 @@ from notification.notifications import (CourseSubmissionNotification, CourseUpda
 
 
 class CreateCourseAPIView(CreateAPIView):
+
+    permission_classes = (SpecialistPermission,)
     
     serializer_class = CreateCourseSerializer
     queryset = Course.objects.all()
@@ -62,6 +66,7 @@ class DetailCourseAPIView(RetrieveAPIView):
 
 class UpdateCourseAPIView(UpdateAPIView):
 
+    permission_classes = (SpecialistPermission,)
     serializer_class = UpdateCourseSerializer
     queryset = Course.objects.all()
 
@@ -89,6 +94,7 @@ class UpdateCourseAPIView(UpdateAPIView):
 
 class ApproveCourseAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = ApproveCourseSerializer
     queryset = Course.objects.all()
 
@@ -120,6 +126,7 @@ class ApproveCourseAPIView(UpdateAPIView):
 
 class RejectCourseAPIView(UpdateAPIView):
 
+    permission_classes = (SupervisorPermission,)
     serializer_class = RejectCourseSerializer
     queryset = Course.objects.all()
 
@@ -147,6 +154,7 @@ class RejectCourseAPIView(UpdateAPIView):
 
 class PublishCourseAPIView(UpdateAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = PublishCourseSerializer
     queryset = Course.objects.all()
 
@@ -178,5 +186,6 @@ class PublishCourseAPIView(UpdateAPIView):
 
 class DeleteCourseAPIView(DestroyAPIView):
 
+    permission_classes = (AdminPermission,)
     serializer_class = DeleteCourseSerializer
     queryset = Course.objects.all()

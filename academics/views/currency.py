@@ -13,6 +13,7 @@ from action.actions import AdminCurrencyPublishAction
 
 from notification.notifications import SupervisorCurrencySubmissionNotification, CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification
 
+
 class CreateCurrencyAPIView(CreateAPIView):
     
     serializer_class = CreateCurrencySerializer
