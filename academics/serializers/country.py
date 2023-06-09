@@ -22,6 +22,7 @@ class CreateCountrySerializer(serializers.ModelSerializer):
             "about_wiki_link",
             "trivia_facts",
             "living_costs",
+            "banner",
         )
 
 
@@ -30,6 +31,7 @@ class ListCountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = '__all__'
+        depth = 2
 
 
 class DetailCountrySerializer(serializers.ModelSerializer):
@@ -37,6 +39,7 @@ class DetailCountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = '__all__'
+        depth = 2
 
 
 class UpdateCountrySerializer(serializers.ModelSerializer):
@@ -58,6 +61,7 @@ class UpdateCountrySerializer(serializers.ModelSerializer):
             "about_wiki_link",
             "trivia_facts",
             "living_costs",
+            "banner",
         )
 
 

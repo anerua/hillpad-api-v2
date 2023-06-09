@@ -42,7 +42,6 @@ class Country(TrackingModel):
     about = models.TextField(_("About"))
     about_wiki_link = models.URLField(_("Link to about on Wikipedia"))
     trivia_facts = models.TextField(_("Trivia and fun facts"), blank=True, null=True)
-
     living_costs = models.TextField(_("Living costs essay"), blank=True, null=True)
 
     banner = models.ImageField(upload_to="uploads/academics/country/banners", blank=True, null=True)
