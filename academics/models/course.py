@@ -39,7 +39,6 @@ class Course(TrackingModel):
     overview = models.TextField(_("Overview"), blank=True)
 
     duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
-    # course_dates = models.ManyToManyField(CourseDates, related_name="course_dates_courses", blank=True)
     course_dates = models.JSONField(blank=True, null=True)
 
     school = models.ForeignKey('School', on_delete=models.CASCADE, related_name="school_courses")
