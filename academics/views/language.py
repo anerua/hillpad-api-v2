@@ -9,7 +9,7 @@ from academics.models import Language
 from academics.paginations import LanguagePagination
 from academics.serializers import CreateLanguageSerializer, ListLanguageSerializer, DetailLanguageSerializer, UpdateLanguageSerializer, DeleteLanguageSerializer, PublishLanguageSerializer
 
-from account.permissions import AdminPermission, SupervisorPermission
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminLanguagePublishAction
 
@@ -50,13 +50,31 @@ class ListLanguageAPIView(ListAPIView):
     pagination_class = LanguagePagination
     filterset_class = LanguageFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = Language.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all languages.
+        # Specialists, Clients and Anonymous users can only view published languages
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Language.objects.all()
+        else:
+            self.queryset = Language.objects.filter(published=True)
+        
+        return super(ListLanguageAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailLanguageAPIView(RetrieveAPIView):
 
     serializer_class = DetailLanguageSerializer
-    queryset = Language.objects.all()
+    
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all languages.
+        # Specialists, Clients and Anonymous users can only view published languages
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Language.objects.all()
+        else:
+            self.queryset = Language.objects.filter(published=True)
+        
+        return super(ListLanguageAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateLanguageAPIView(UpdateAPIView):
