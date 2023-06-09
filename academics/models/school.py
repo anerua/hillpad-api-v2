@@ -75,8 +75,6 @@ class SchoolDraft(TrackingModel):
     logo = models.ImageField(upload_to="uploads/academics/school/logos", blank=True, null=True)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_draft_schools", blank=True, null=True)
-
-    # State
     status = models.CharField(_("School status"), max_length=16, choices=SCHOOL_DRAFT_STATUS_CHOICES, default=SAVED)
 
     reject_reason = models.TextField(_("Reason for rejection"), blank=True)
