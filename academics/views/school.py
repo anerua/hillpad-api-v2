@@ -11,7 +11,7 @@ from academics.serializers import (CreateSchoolSerializer, ListSchoolSerializer,
                                    UpdateSchoolSerializer, DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
-from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission
+from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
 from action.actions import SupervisorSchoolSubmissionAction, SupervisorSchoolUpdateSubmissionAction, AdminSchoolPublishAction
 
@@ -61,6 +61,7 @@ class ListSchoolAPIView(ListAPIView):
             self.queryset = School.objects.all()
         else:
             self.queryset = School.objects.filter(published=True)
+            
         return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
 
 
@@ -69,11 +70,12 @@ class DetailSchoolAPIView(RetrieveAPIView):
     serializer_class = DetailSchoolSerializer
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        if hasattr(user, "is_staff") and (user.is_staff):
+
+        if StaffPermission.has_permission(request):
             self.queryset = School.objects.all()
         else:
             self.queryset = School.objects.filter(published=True)
+        
         return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
 
 

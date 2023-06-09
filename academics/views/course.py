@@ -11,7 +11,7 @@ from academics.serializers import (CreateCourseSerializer, ListCourseSerializer,
                                    UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
-from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission
+from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
 
 from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction, AdminCoursePublishAction
 
@@ -56,11 +56,12 @@ class ListCourseAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        if hasattr(user, "is_staff") and (user.is_staff):
+
+        if StaffPermission.has_permission(request):
             self.queryset = Course.objects.all()
         else:
             self.queryset = Course.objects.filter(published=True)
+        
         return super(ListCourseAPIView, self).get(request, *args, **kwargs)
 
 
@@ -69,11 +70,12 @@ class DetailCourseAPIView(RetrieveAPIView):
     serializer_class = DetailCourseSerializer
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        if hasattr(user, "is_staff") and (user.is_staff):
+
+        if StaffPermission.has_permission(request):
             self.queryset = Course.objects.all()
         else:
             self.queryset = Course.objects.filter(published=True)
+        
         return super(DetailCourseAPIView, self).get(request, *args, **kwargs)
 
 
