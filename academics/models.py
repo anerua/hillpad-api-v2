@@ -104,7 +104,7 @@ class Discipline(TrackingModel):
 
     # icon = FaTractor (Font Awesome) v5.5 fa-thermometer-three-quarters v4.7
     icon = models.CharField(_("Font Awesome 4.7 icon class name without the fa- part"), max_length=64, blank=True)
-    color = models.CharField(_("Icon color"), max_length=64, choices=DISCIPLINE_ICON_COLOR_CHOICES, blank=True)
+    icon_color = models.CharField(_("Icon color"), max_length=64, choices=DISCIPLINE_ICON_COLOR_CHOICES, blank=True)
 
     published = models.BooleanField(_("Published status of discipline"), default=False)
 

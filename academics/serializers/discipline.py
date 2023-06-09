@@ -11,6 +11,8 @@ class CreateDisciplineSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "about",
+            "icon",
+            "icon_color",
         )
 
 
@@ -36,6 +38,8 @@ class UpdateDisciplineSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "about",
+            "icon",
+            "icon_color",
         )
 
 
