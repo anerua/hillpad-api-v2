@@ -61,7 +61,7 @@ class ListCourseAPIView(ListAPIView):
             self.queryset = Course.objects.filter(published=True)
         else:
             self.queryset = Course.objects.all()
-        super(ListCourseAPIView, self).get(request, *args, **kwargs)
+        return super(ListCourseAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCourseAPIView(RetrieveAPIView):
@@ -74,7 +74,7 @@ class DetailCourseAPIView(RetrieveAPIView):
             self.queryset = Course.objects.filter(published=True)
         else:
             self.queryset = Course.objects.all()
-        super(DetailCourseAPIView, self).get(request, *args, **kwargs)
+        return super(DetailCourseAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCourseAPIView(UpdateAPIView):
