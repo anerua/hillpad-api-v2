@@ -16,6 +16,7 @@ from action.actions import AdminCountryPublishAction
 from notification.notifications import (SupervisorCountrySubmissionNotification, CountryPublishNotification,
                                         SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
 
+
 class CreateCountryAPIView(CreateAPIView):
     
     permission_classes = (SupervisorPermission,)

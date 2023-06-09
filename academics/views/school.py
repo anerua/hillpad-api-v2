@@ -54,13 +54,27 @@ class ListSchoolAPIView(ListAPIView):
     pagination_class = SchoolPagination
     filterset_class = SchoolFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = School.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, "is_staff") and not (user.is_staff):
+            self.queryset = School.objects.filter(published=True)
+        else:
+            self.queryset = School.objects.all()
+        return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailSchoolAPIView(RetrieveAPIView):
 
     serializer_class = DetailSchoolSerializer
-    queryset = School.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, "is_staff") and not (user.is_staff):
+            self.queryset = School.objects.filter(published=True)
+        else:
+            self.queryset = School.objects.all()
+        return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateSchoolAPIView(UpdateAPIView):
