@@ -33,8 +33,8 @@ class CurrencyDraft(TrackingModel):
     )
 
     name = models.CharField(_("Name of currency"), max_length=255)
-    short_code = models.CharField(_("Short code of the currency (ISO 4217)"), max_length=3)
-    usd_exchange_rate = models.DecimalField(_("Exchange rate with the USD"), max_digits=18, decimal_places=2)
+    short_code = models.CharField(_("Short code of the currency (ISO 4217)"), max_length=3, blank=True)
+    usd_exchange_rate = models.DecimalField(_("Exchange rate with the USD"), max_digits=18, decimal_places=2, blank=True, null=True)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_draft_currencies", blank=True, null=True)
-    status = models.CharField(_("Country status"), max_length=16, choices=CURRENCY_DRAFT_STATUS_CHOICES, default=SAVED)
+    status = models.CharField(_("Currency status"), max_length=16, choices=CURRENCY_DRAFT_STATUS_CHOICES, default=SAVED)
