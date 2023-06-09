@@ -10,14 +10,17 @@ class CreateSchoolSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            "country",
             "about",
             "address",
+            "city",
+            "country",
             "institution_type",
             "ranking",
             "year_established",
             "academic_staff",
             "students",
+            "banner",
+            "logo",
         )
 
 
@@ -26,6 +29,7 @@ class ListSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = '__all__'
+        depth = 2
 
 
 class DetailSchoolSerializer(serializers.ModelSerializer):
@@ -33,6 +37,7 @@ class DetailSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = '__all__'
+        depth = 2
 
 
 class UpdateSchoolSerializer(serializers.ModelSerializer):
@@ -42,14 +47,17 @@ class UpdateSchoolSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            "country",
             "about",
             "address",
+            "city",
+            "country",
             "institution_type",
             "ranking",
             "year_established",
             "academic_staff",
             "students",
+            "banner",
+            "logo",
         )
 
 
