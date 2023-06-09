@@ -5,7 +5,7 @@ from account.models import User
 
 class AdminPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Admin
@@ -16,7 +16,7 @@ class AdminPermission(IsAuthenticated):
 
 class SpecialistPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Specialist
@@ -27,7 +27,7 @@ class SpecialistPermission(IsAuthenticated):
 
 class SupervisorPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Supervisor
@@ -38,7 +38,7 @@ class SupervisorPermission(IsAuthenticated):
 
 class ClientPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Client
@@ -49,7 +49,7 @@ class ClientPermission(IsAuthenticated):
 
 class StaffPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Admin
@@ -62,7 +62,7 @@ class StaffPermission(IsAuthenticated):
 
 class AdminAndSupervisorPermission(IsAuthenticated):
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view=None):
         """
         Allowed User Roles:
             1. Admin

@@ -5,11 +5,11 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import CountryFilter
-from academics.models import Country
+from academics.models import Country, User
 from academics.paginations import CountryPagination
 from academics.serializers import (CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
-from account.permissions import AdminPermission, SupervisorPermission
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminCountryPublishAction
 
@@ -51,13 +51,32 @@ class ListCountryAPIView(ListAPIView):
     pagination_class = CountryPagination
     filterset_class = CountryFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = Country.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all countries.
+        # Specialists, Clients and Anonymous users can only view published countries
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Country.objects.all()
+        else:
+            self.queryset = Country.objects.filter(published=True)
+        
+        return super(ListCountryAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCountryAPIView(RetrieveAPIView):
 
     serializer_class = DetailCountrySerializer
     queryset = Country.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view details of any countries.
+        # Specialists, Clients and Anonymous users can only view details of published countries
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Country.objects.all()
+        else:
+            self.queryset = Country.objects.filter(published=True)
+        
+        return super(ListCountryAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCountryAPIView(UpdateAPIView):

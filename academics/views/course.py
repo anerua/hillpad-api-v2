@@ -57,10 +57,10 @@ class ListCourseAPIView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        if hasattr(user, "is_staff") and not (user.is_staff):
-            self.queryset = Course.objects.filter(published=True)
-        else:
+        if hasattr(user, "is_staff") and (user.is_staff):
             self.queryset = Course.objects.all()
+        else:
+            self.queryset = Course.objects.filter(published=True)
         return super(ListCourseAPIView, self).get(request, *args, **kwargs)
 
 
@@ -70,10 +70,10 @@ class DetailCourseAPIView(RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        if hasattr(user, "is_staff") and not (user.is_staff):
-            self.queryset = Course.objects.filter(published=True)
-        else:
+        if hasattr(user, "is_staff") and (user.is_staff):
             self.queryset = Course.objects.all()
+        else:
+            self.queryset = Course.objects.filter(published=True)
         return super(DetailCourseAPIView, self).get(request, *args, **kwargs)
 
 
