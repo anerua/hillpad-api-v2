@@ -9,7 +9,7 @@ from academics.models import Discipline
 from academics.paginations import DisciplinePagination
 from academics.serializers import CreateDisciplineSerializer, ListDisciplineSerializer, DetailDisciplineSerializer, UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer
 
-from account.permissions import AdminPermission, SupervisorPermission
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminDisciplinePublishAction
 
@@ -50,13 +50,31 @@ class ListDisciplineAPIView(ListAPIView):
     pagination_class = DisciplinePagination
     filterset_class = DisciplineFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = Discipline.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all disciplines.
+        # Specialists, Clients and Anonymous users can only view published disciplines
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Discipline.objects.all()
+        else:
+            self.queryset = Discipline.objects.filter(published=True)
+        
+        return super(ListDisciplineAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailDisciplineAPIView(RetrieveAPIView):
 
     serializer_class = DetailDisciplineSerializer
-    queryset = Discipline.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all disciplines.
+        # Specialists, Clients and Anonymous users can only view published disciplines
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Discipline.objects.all()
+        else:
+            self.queryset = Discipline.objects.filter(published=True)
+        
+        return super(ListDisciplineAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateDisciplineAPIView(UpdateAPIView):
