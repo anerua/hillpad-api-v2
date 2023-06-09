@@ -24,13 +24,32 @@ class ListProgrammeTypeAPIView(ListAPIView):
     pagination_class = ProgrammeTypePagination
     filterset_class = ProgrammeTypeFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = ProgrammeType.objects.all()
+    
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all programmetype.
+        # Specialists, Clients and Anonymous users can only view published programmetype
+        if AdminPermission.has_permission(request):
+            self.queryset = ProgrammeType.objects.all()
+        else:
+            self.queryset = ProgrammeType.objects.filter(published=True)
+        
+        return super(ListProgrammeTypeAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailProgrammeTypeAPIView(RetrieveAPIView):
 
     serializer_class = DetailProgrammeTypeSerializer
-    queryset = ProgrammeType.objects.all()
+    
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all programmetype.
+        # Specialists, Clients and Anonymous users can only view published programmetype
+        if AdminPermission.has_permission(request):
+            self.queryset = ProgrammeType.objects.all()
+        else:
+            self.queryset = ProgrammeType.objects.filter(published=True)
+        
+        return super(ListProgrammeTypeAPIView, self).get(request, *args, **kwargs)
+
 
 
 class UpdateProgrammeTypeAPIView(UpdateAPIView):
