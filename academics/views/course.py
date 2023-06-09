@@ -54,13 +54,27 @@ class ListCourseAPIView(ListAPIView):
     pagination_class = CoursePagination
     filterset_class = CourseFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = Course.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, "is_staff") and not (user.is_staff):
+            self.queryset = Course.objects.filter(published=True)
+        else:
+            self.queryset = Course.objects.all()
+        super(ListCourseAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCourseAPIView(RetrieveAPIView):
 
     serializer_class = DetailCourseSerializer
-    queryset = Course.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, "is_staff") and not (user.is_staff):
+            self.queryset = Course.objects.filter(published=True)
+        else:
+            self.queryset = Course.objects.all()
+        super(DetailCourseAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCourseAPIView(UpdateAPIView):
