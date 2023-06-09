@@ -9,7 +9,7 @@ from academics.models import Currency
 from academics.paginations import CurrencyPagination
 from academics.serializers import CreateCurrencySerializer, ListCurrencySerializer, DetailCurrencySerializer, UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer
 
-from account.permissions import AdminPermission, SupervisorPermission
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminCurrencyPublishAction
 
@@ -50,14 +50,32 @@ class ListCurrencyAPIView(ListAPIView):
     pagination_class = CurrencyPagination
     filterset_class = CurrencyFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = Currency.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all currencies.
+        # Specialists, Clients and Anonymous users can only view published currencies
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Currency.objects.all()
+        else:
+            self.queryset = Currency.objects.filter(published=True)
+        
+        return super(ListCurrencyAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCurrencyAPIView(RetrieveAPIView):
 
     serializer_class = DetailCurrencySerializer
-    queryset = Currency.objects.all()
 
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view details of any currency.
+        # Specialists, Clients and Anonymous users can only view details of published currency
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = Currency.objects.all()
+        else:
+            self.queryset = Currency.objects.filter(published=True)
+        
+        return super(ListCurrencyAPIView, self).get(request, *args, **kwargs)
+    
 
 class UpdateCurrencyAPIView(UpdateAPIView):
 
