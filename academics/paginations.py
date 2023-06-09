@@ -6,6 +6,11 @@ class CoursePagination(PageNumberPagination):
     page_size = 9
 
 
+class CourseDraftPagination(PageNumberPagination):
+
+    page_size = 9
+
+
 class SchoolPagination(PageNumberPagination):
 
     page_size = 20

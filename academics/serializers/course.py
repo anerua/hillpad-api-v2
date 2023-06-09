@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import Course
+from academics.models import Course, CourseDraft
 
 
 class CreateCourseSerializer(serializers.ModelSerializer):
@@ -62,6 +62,14 @@ class ListCourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
+        fields = '__all__'
+        depth = 2
+
+
+class ListCourseDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CourseDraft
         fields = '__all__'
         depth = 2
 

@@ -4,10 +4,10 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CourseFilter
-from academics.models import Course
-from academics.paginations import CoursePagination
-from academics.serializers import (CreateCourseSerializer, ListCourseSerializer, DetailCourseSerializer,
+from academics.filters import CourseFilter, CourseDraftFilter
+from academics.models import Course, CourseDraft
+from academics.paginations import CoursePagination, CourseDraftPagination
+from academics.serializers import (CreateCourseSerializer, ListCourseSerializer, ListCourseDraftSerializer, DetailCourseSerializer,
                                    UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
@@ -63,6 +63,30 @@ class ListCourseAPIView(ListAPIView):
             self.queryset = Course.objects.filter(published=True)
         
         return super(ListCourseAPIView, self).get(request, *args, **kwargs)
+    
+
+class ListCourseDraftAPIView(ListAPIView):
+    
+    permission_classes = StaffPermission
+    serializer_class = ListCourseDraftSerializer
+    pagination_class = CourseDraftPagination
+    filterset_class = CourseDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CourseDraft
+            Client:     No CourseDraft
+            Specialist: All CourseDrafts authored by user
+            Supervisor: All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
+            Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
+        """
+        if SpecialistPermission.has_permission(request):
+            self.queryset = Course.objects.filter(author=request.user)
+        else:
+            self.queryset = Course.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
+        
+        return super(ListCourseDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCourseAPIView(RetrieveAPIView):
