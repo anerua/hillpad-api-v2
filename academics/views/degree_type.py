@@ -9,7 +9,7 @@ from academics.models import DegreeType
 from academics.paginations import DegreeTypePagination
 from academics.serializers import CreateDegreeTypeSerializer, ListDegreeTypeSerializer, DetailDegreeTypeSerializer, UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer
 
-from account.permissions import AdminPermission, SupervisorPermission
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminDegreeTypePublishAction
 
@@ -50,13 +50,31 @@ class ListDegreeTypeAPIView(ListAPIView):
     pagination_class = DegreeTypePagination
     filterset_class = DegreeTypeFilter
     filter_backends = [DjangoFilterBackend]
-    queryset = DegreeType.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view all degree types.
+        # Specialists, Clients and Anonymous users can only view published degree types
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = DegreeType.objects.all()
+        else:
+            self.queryset = DegreeType.objects.filter(published=True)
+        
+        return super(ListDegreeTypeAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailDegreeTypeAPIView(RetrieveAPIView):
 
     serializer_class = DetailDegreeTypeSerializer
-    queryset = DegreeType.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # Only Admin and Supervisor can view details of any degree type.
+        # Specialists, Clients and Anonymous users can only view details of published degree types
+        if AdminAndSupervisorPermission.has_permission(request):
+            self.queryset = DegreeType.objects.all()
+        else:
+            self.queryset = DegreeType.objects.filter(published=True)
+        
+        return super(ListDegreeTypeAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateDegreeTypeAPIView(UpdateAPIView):
