@@ -7,7 +7,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.filters import CourseFilter, CourseDraftFilter
 from academics.models import Course, CourseDraft
 from academics.paginations import CoursePagination, CourseDraftPagination
-from academics.serializers import (CreateCourseSerializer, ListCourseSerializer, ListCourseDraftSerializer, DetailCourseSerializer,
+from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSerializer,
+                                   ListCourseSerializer, ListCourseDraftSerializer,
+                                   DetailCourseSerializer, DetailCourseDraftSerializer,
                                    UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
@@ -26,6 +28,33 @@ class CreateCourseAPIView(CreateAPIView):
     permission_classes = (SpecialistPermission,)
     serializer_class = CreateCourseSerializer
     queryset = Course.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
+        
+        # Create a submission notification after a new course is submitted
+        if response.status_code == status.HTTP_201_CREATED:
+            try:
+                specialist_notification = CourseSubmissionNotification(data=response.data)
+                specialist_notification.create_notification()
+                
+                supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
+                supervisor_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+            finally:
+                return response
+        return response
+
+
+class CreateCourseDraftAPIView(CreateAPIView):
+
+    permission_classes = (SpecialistPermission,)
+    serializer_class = CreateCourseDraftSerializer
+    queryset = CourseDraft.objects.all()
 
     def post(self, request, *args, **kwargs):
         response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
@@ -82,9 +111,9 @@ class ListCourseDraftAPIView(ListAPIView):
             Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
         """
         if SpecialistPermission.has_permission(request):
-            self.queryset = Course.objects.filter(author=request.user)
+            self.queryset = CourseDraft.objects.filter(author=request.user)
         else:
-            self.queryset = Course.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
+            self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
         
         return super(ListCourseDraftAPIView, self).get(request, *args, **kwargs)
 
@@ -101,6 +130,21 @@ class DetailCourseAPIView(RetrieveAPIView):
             self.queryset = Course.objects.filter(published=True)
         
         return super(DetailCourseAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailCourseDraftAPIView(RetrieveAPIView):
+
+    permission_classes = StaffPermission
+    serializer_class = DetailCourseDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+
+        if SpecialistPermission.has_permission(request):
+            self.queryset = CourseDraft.objects.filter(author=request.user)
+        else:
+            self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
+        
+        return super(DetailCourseDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCourseAPIView(UpdateAPIView):
