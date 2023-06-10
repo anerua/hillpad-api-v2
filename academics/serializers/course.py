@@ -90,14 +90,6 @@ class DetailCourseDraftSerializer(serializers.ModelSerializer):
         depth = 2
 
 
-class DetailCourseDraftSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CourseDraft
-        fields = '__all__'
-        depth = 2
-
-
 class UpdateCourseSerializer(serializers.ModelSerializer):
 
     start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
