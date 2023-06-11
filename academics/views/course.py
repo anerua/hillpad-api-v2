@@ -10,7 +10,8 @@ from academics.paginations import CoursePagination, CourseDraftPagination
 from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSerializer,
                                    ListCourseSerializer, ListCourseDraftSerializer,
                                    DetailCourseSerializer, DetailCourseDraftSerializer,
-                                   UpdateCourseSerializer, DeleteCourseSerializer, ApproveCourseSerializer,
+                                   UpdateCourseSerializer, UpdateCourseDraftSerializer,
+                                   DeleteCourseSerializer, ApproveCourseSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
 from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
@@ -23,31 +24,33 @@ from notification.notifications import (CourseSubmissionNotification, CourseUpda
                                         CoursePublishNotification, SupervisorCoursePublishNotification, AdminCoursePublishNotification,)
 
 
-class CreateCourseAPIView(CreateAPIView):
+# DEPRECATED: Don't Create Courses directly. Create Course Drafts first then courses after approval.
+#             No API route to create courses directly. Courses are only created by admin during PUBLISH
+# class CreateCourseAPIView(CreateAPIView):
 
-    permission_classes = (SpecialistPermission,)
-    serializer_class = CreateCourseSerializer
-    queryset = Course.objects.all()
+#     permission_classes = (SpecialistPermission,)
+#     serializer_class = CreateCourseSerializer
+#     queryset = Course.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
         
-        # Create a submission notification after a new course is submitted
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                specialist_notification = CourseSubmissionNotification(data=response.data)
-                specialist_notification.create_notification()
+#         # Create a submission notification after a new course is submitted
+#         if response.status_code == status.HTTP_201_CREATED:
+#             try:
+#                 specialist_notification = CourseSubmissionNotification(data=response.data)
+#                 specialist_notification.create_notification()
                 
-                supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
-                supervisor_action.create_action()
+#                 supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
+#                 supervisor_action.create_action()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+#             except ValidationError as e:
+#                 print(repr(e))
+#             except Exception as e:
+#                 print(repr(e))
+#             finally:
+#                 return response
+#         return response
 
 
 class CreateCourseDraftAPIView(CreateAPIView):
@@ -173,6 +176,13 @@ class UpdateCourseAPIView(UpdateAPIView):
                 return response
 
         return response
+
+
+class UpdateCourseDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SpecialistPermission,)
+    serializer_class = UpdateCourseDraftSerializer
+    queryset = CourseDraft.objects.all()
 
 
 class ApproveCourseAPIView(UpdateAPIView):

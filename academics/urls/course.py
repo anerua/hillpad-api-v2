@@ -4,7 +4,8 @@ from academics import views
 
 
 urlpatterns = [
-    path("create", views.CreateCourseAPIView.as_view(), name="create_course"),
+    # path("create", views.CreateCourseAPIView.as_view(), name="create_course"),
+    path("create_draft", views.CreateCourseDraftAPIView.as_view(), name="create_course_draft"),
     path("list", views.ListCourseAPIView.as_view(), name="list_course"),
     path("detail/<int:pk>", views.DetailCourseAPIView.as_view(), name="detail_course"),
     path("update/<int:pk>", views.UpdateCourseAPIView.as_view(), name="update_course"),
