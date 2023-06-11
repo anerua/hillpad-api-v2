@@ -56,6 +56,62 @@ class CreateCourseSerializer(serializers.ModelSerializer):
             validated_data["author"] = user.id
 
         return super(CreateCourseSerializer, self).create(validated_data)
+    
+
+class CreateCourseDraftSerializer(serializers.ModelSerializer):
+
+    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True, required=False)
+    start_year = serializers.IntegerField(write_only=True, required=False)
+    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True, required=False)
+    deadline_year = serializers.IntegerField(write_only=True, required=False)
+
+    class Meta:
+        model = CourseDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "overview",
+            "duration",
+            "start_month",
+            "start_year",
+            "deadline_month",
+            "deadline_year",
+            "course_dates",
+            "school",
+            "disciplines",
+            "tuition_fee",
+            "tuition_fee_base",
+            "tuition_currency",
+            "course_format",
+            "attendance",
+            "programme_type",
+            "degree_type",
+            "language",
+            "programme_structure",
+            "admission_requirements",
+            "official_programme_website",
+        )
+
+    def create(self, validated_data):
+        if hasattr(validated_data, "course_dates"):
+            validated_data["course_dates"] = {
+                "start_month": validated_data["start_month"],
+                "start_year": validated_data["start_year"],
+                "deadline_month": validated_data["deadline_month"],
+                "deadline_year": validated_data["deadline_year"]
+            }
+            del validated_data["start_month"]
+            del validated_data["start_year"]
+            del validated_data["deadline_month"]
+            del validated_data["deadline_year"]
+
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user.id
+
+        return super(CreateCourseDraftSerializer, self).create(validated_data)
 
 
 class ListCourseSerializer(serializers.ModelSerializer):

@@ -56,25 +56,25 @@ class CreateCourseDraftAPIView(CreateAPIView):
     serializer_class = CreateCourseDraftSerializer
     queryset = CourseDraft.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
+    # def post(self, request, *args, **kwargs):
+        # response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
         
-        # Create a submission notification after a new course is submitted
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                specialist_notification = CourseSubmissionNotification(data=response.data)
-                specialist_notification.create_notification()
+        # # Create a submission notification after a new course is submitted
+        # if response.status_code == status.HTTP_201_CREATED:
+        #     try:
+        #         specialist_notification = CourseSubmissionNotification(data=response.data)
+        #         specialist_notification.create_notification()
                 
-                supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
-                supervisor_action.create_action()
+        #         supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
+        #         supervisor_action.create_action()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+        #     except ValidationError as e:
+        #         print(repr(e))
+        #     except Exception as e:
+        #         print(repr(e))
+        #     finally:
+        #         return response
+        # return response
 
 
 class ListCourseAPIView(ListAPIView):
