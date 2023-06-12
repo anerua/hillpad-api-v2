@@ -13,7 +13,7 @@ from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSeri
                                    UpdateCourseSerializer, UpdateCourseDraftSerializer,
                                    SubmitCourseDraftSerializer,
                                    DeleteCourseSerializer, ApproveCourseDraftSerializer,
-                                   RejectCourseDraftSerializer, PublishCourseSerializer,)
+                                   RejectCourseDraftSerializer, PublishCourseDraftSerializer,)
 
 from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
 
@@ -307,33 +307,33 @@ class RejectCourseDraftAPIView(UpdateAPIView):
         return response
 
 
-class PublishCourseAPIView(UpdateAPIView):
+class PublishCourseDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = PublishCourseSerializer
-    queryset = Course.objects.all()
+    serializer_class = PublishCourseDraftSerializer
+    queryset = CourseDraft.objects.filter(status=CourseDraft.APPROVED)
 
     def put(self, request, *args, **kwargs):
-        response = super(PublishCourseAPIView, self).put(request, *args, **kwargs)
+        response = super(PublishCourseDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a published notification for specialist, supervisor and admin
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CoursePublishNotification(data=response.data)
-                specialist_notification.create_notification()
+        # if response.status_code == status.HTTP_200_OK:
+        #     try:
+        #         specialist_notification = CoursePublishNotification(data=response.data)
+        #         specialist_notification.create_notification()
 
-                supervisor_notification = SupervisorCoursePublishNotification(data=response.data)
-                supervisor_notification.create_notification()
+        #         supervisor_notification = SupervisorCoursePublishNotification(data=response.data)
+        #         supervisor_notification.create_notification()
 
-                admin_notification = AdminCoursePublishNotification(data=response.data)
-                admin_notification.create_notification()
+        #         admin_notification = AdminCoursePublishNotification(data=response.data)
+        #         admin_notification.create_notification()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
+        #     except ValidationError as e:
+        #         print(repr(e))
+        #     except Exception as e:
+        #         print(repr(e))
+        #     finally:
+        #         return response
         
         return response
 

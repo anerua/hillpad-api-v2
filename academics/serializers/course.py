@@ -385,7 +385,7 @@ class RejectCourseDraftSerializer(serializers.ModelSerializer):
     reject_reason = serializers.CharField(required=True)
 
     class Meta:
-        model = Course
+        model = CourseDraft
         fields = (
             "id",
             "status",
@@ -404,16 +404,25 @@ class RejectCourseDraftSerializer(serializers.ModelSerializer):
         return super(RejectCourseDraftSerializer, self).validate(data)
 
 
-class PublishCourseSerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishCourseDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Course
+        model = CourseDraft
         fields = (
             "id",
             "published",
         )
+    
+    def update(self, validated_data):
+        validated_data["status"] = CourseDraft.PUBLISHED
+        return super(PublishCourseDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != CourseDraft.APPROVED:
+            raise serializers.ValidationError("This course has not been approved by the supervisor and hence cannot be published.")
+        
+        return super(PublishCourseDraftSerializer, self).validate(data)
 
 
 class DeleteCourseSerializer(serializers.ModelSerializer):

@@ -15,5 +15,5 @@ urlpatterns = [
     path("delete/<int:pk>", views.DeleteCourseAPIView.as_view(), name="delete_course"),
     path("approve_draft/<int:pk>", views.ApproveCourseDraftAPIView.as_view(), name="approve_course_draft"),
     path("reject_draft/<int:pk>", views.RejectCourseDraftAPIView.as_view(), name="reject_course_draft"),
-    path("publish/<int:pk>", views.PublishCourseAPIView.as_view(), name="publish_course"),
+    path("publish_draft/<int:pk>", views.PublishCourseDraftAPIView.as_view(), name="publish_course_draft"),
 ]
