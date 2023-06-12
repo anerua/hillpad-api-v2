@@ -316,6 +316,49 @@ class PublishCourseDraftAPIView(UpdateAPIView):
     def put(self, request, *args, **kwargs):
         response = super(PublishCourseDraftAPIView, self).put(request, *args, **kwargs)
 
+        # If Course is already attached to draft, update course with draft otherwise create course with draft details
+        if response.status_code == status.HTTP_200_OK:
+            draft_id = response.data["id"]
+            course_draft = CourseDraft.objects.get(id=draft_id)
+            course = course_draft.related_course
+            
+            course_data = {
+                "name": course_draft.name,
+                "about": course_draft.about,
+                "overview": course_draft.overview,
+                "duration": course_draft.duration,
+                "start_month": course_draft.course_dates["start_month"],
+                "start_year": course_draft.course_dates["start_year"],
+                "deadline_month": course_draft.course_dates["deadline_month"],
+                "deadline_year": course_draft.course_dates["deadline_year"],
+                "school": course_draft.school,
+                "disciplines": course_draft.disciplines,
+                "tuition_fee": course_draft.tuition_fee,
+                "tuition_fee_base": course_draft.tuition_fee_base,
+                "tuition_currency": course_draft.tuition_currency,
+                "course_format": course_draft.course_format,
+                "attendance": course_draft.attendance,
+                "programme_type": course_draft.programme_type,
+                "degree_type": course_draft.degree_type,
+                "language": course_draft.language,
+                "programme_structure": course_draft.programme_structure,
+                "admission_requirements": course_draft.admission_requirements,
+                "official_programme_website": course_draft.official_programme_website,
+                "author": course_draft.author,
+                "course_draft": course_draft.id,
+                "published": True,
+            }
+
+            if course:
+                # Update course with draft details
+                update_serializer = UpdateCourseSerializer(course, data=course_data)
+                update_serializer.save()
+            else:
+                # Create new course with draft details
+                create_serializer = CreateCourseSerializer(data=course_data)
+                create_serializer.save()
+                
+
         # Create a published notification for specialist, supervisor and admin
         # if response.status_code == status.HTTP_200_OK:
         #     try:
