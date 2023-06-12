@@ -290,18 +290,91 @@ class UpdateCourseDraftSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This course cannot be edited because it is currently in the review process.")
         
         return super(UpdateCourseDraftSerializer, self).validate(data)
+    
 
+class SubmitCourseDraftSerializer(serializers.ModelSerializer):
 
-class ApproveCourseSerializer(serializers.ModelSerializer):
-
-    status = serializers.ChoiceField(choices=(Course.APPROVED,))
+    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    start_year = serializers.IntegerField(write_only=True)
+    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    deadline_year = serializers.IntegerField(write_only=True)
 
     class Meta:
-        model = Course
+        model = CourseDraft
         fields = (
             "id",
+            "name",
+            "about",
+            "overview",
+            "duration",
+            "start_month",
+            "start_year",
+            "deadline_month",
+            "deadline_year",
+            "course_dates",
+            "school",
+            "disciplines",
+            "tuition_fee",
+            "tuition_fee_base",
+            "tuition_currency",
+            "course_format",
+            "attendance",
+            "programme_type",
+            "degree_type",
+            "language",
+            "programme_structure",
+            "admission_requirements",
+            "official_programme_website",
             "status",
         )
+
+    def update(self, validated_data):
+        course_dates = {}
+        if hasattr(validated_data, "start_month"):
+            course_dates["start_month"] = validated_data["start_month"]
+            del validated_data["start_month"]
+        if hasattr(validated_data, "start_year"):
+            course_dates["start_year"] = validated_data["start_year"]
+            del validated_data["start_year"]
+        if hasattr(validated_data, "deadline_month"):
+            course_dates["deadline_month"] = validated_data["deadline_month"]
+            del validated_data["deadline_month"]
+        if hasattr(validated_data, "deadline_year"):
+            course_dates["deadline_year"] = validated_data["deadline_year"]
+            del validated_data["deadline_year"]
+        if course_dates:
+            validated_data["course_dates"] = course_dates
+
+        validated_data["status"] = CourseDraft.REVIEW
+
+        return super(SubmitCourseDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (CourseDraft.SAVED, CourseDraft.PUBLISHED):
+            raise serializers.ValidationError("This course cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitCourseDraftSerializer, self).validate(data)
+
+
+class ApproveCourseDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CourseDraft
+        fields = (
+            "status",
+        )
+
+    def update(self, validated_data):
+        validated_data["status"] = CourseDraft.APPROVED
+        return super(ApproveCourseDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != CourseDraft.REVIEW:
+            raise serializers.ValidationError("This course in not under review by the supervisor and hence cannot be approved.")
+        
+        return super(ApproveCourseDraftSerializer, self).validate(data)
 
 
 class RejectCourseSerializer(serializers.ModelSerializer):

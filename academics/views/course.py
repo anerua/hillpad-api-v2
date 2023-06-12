@@ -11,7 +11,8 @@ from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSeri
                                    ListCourseSerializer, ListCourseDraftSerializer,
                                    DetailCourseSerializer, DetailCourseDraftSerializer,
                                    UpdateCourseSerializer, UpdateCourseDraftSerializer,
-                                   DeleteCourseSerializer, ApproveCourseSerializer,
+                                   SubmitCourseDraftSerializer,
+                                   DeleteCourseSerializer, ApproveCourseDraftSerializer,
                                    RejectCourseSerializer, PublishCourseSerializer,)
 
 from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
@@ -187,7 +188,7 @@ class UpdateCourseDraftAPIView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         self.queryset = CourseDraft.objects.filter(author=request.user)
 
-        response = super(UpdateCourseAPIView, self).patch(request, *args, **kwargs)
+        response = super(UpdateCourseDraftAPIView, self).patch(request, *args, **kwargs)
         
         # # Create a submission notification after a course update is submitted
         # if response.status_code == status.HTTP_200_OK:
@@ -208,34 +209,72 @@ class UpdateCourseDraftAPIView(UpdateAPIView):
         return response
 
 
-class ApproveCourseAPIView(UpdateAPIView):
+# SubmitCourseDraftAPIView: Ensure all required course fields are not blank. Status = REVIEW
+# ApproveCourseDraftAPIView: Ensure all required course fields are not blank. Status = APPROVED
+# RejectCourseDraftAPIView: Ensure all required course fields are not blank. Status = REJECTED
+# PublishCourseDraftAPIView: Ensure all required course fields are not blank. Status = PUBLISHED.
+#       Create new course and link to CourseDraft/Update values of Course with CourseDraft values.
+# DeleteCourseDraftAPView: Only delete CourseDraft objects that have no associated Course and whose status = SAVED.
+# ResetCourseDraftAPIView: Revert CourseDraft values to PUBLISHED course values. Only when Status != REVIEW, APPROVED or REJECTED
+
+
+class SubmitCourseDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SpecialistPermission,)
+    serializer_class = SubmitCourseDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = CourseDraft.objects.filter(author=request.user)
+
+        response = super(SubmitCourseDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # # Create a submission notification after a course update is submitted
+        # if response.status_code == status.HTTP_200_OK:
+        #     try:
+        #         specialist_notification = CourseUpdateSubmissionNotification(data=response.data)
+        #         specialist_notification.create_notification()
+
+        #         supervisor_action = SupervisorCourseUpdateSubmissionAction(data=response.data)
+        #         supervisor_action.create_action()
+
+        #     except ValidationError as e:
+        #         print(repr(e))
+        #     except Exception as e:
+        #         print(repr(e))
+        #     finally:
+        #         return response
+
+        return response
+
+
+class ApproveCourseDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = ApproveCourseSerializer
-    queryset = Course.objects.all()
+    serializer_class = ApproveCourseDraftSerializer
+    queryset = CourseDraft.objects.all()
 
     def put(self, request, *args, **kwargs):
-        response = super(ApproveCourseAPIView, self).put(request, *args, **kwargs)
+        response = super(ApproveCourseDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a status update notification for both supervisor and specialist
         # Also create a publish action for admin
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CourseApprovalNotification(data=response.data)
-                specialist_notification.create_notification()
+        # if response.status_code == status.HTTP_200_OK:
+        #     try:
+        #         specialist_notification = CourseApprovalNotification(data=response.data)
+        #         specialist_notification.create_notification()
 
-                supervisor_notification = SupervisorCourseApprovalNotification(data=response.data)
-                supervisor_notification.create_notification()
+        #         supervisor_notification = SupervisorCourseApprovalNotification(data=response.data)
+        #         supervisor_notification.create_notification()
 
-                admin_action = AdminCoursePublishAction(data=response.data)
-                admin_action.create_action()
+        #         admin_action = AdminCoursePublishAction(data=response.data)
+        #         admin_action.create_action()
             
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
+        #     except ValidationError as e:
+        #         print(repr(e))
+        #     except Exception as e:
+        #         print(repr(e))
+        #     finally:
+        #         return response
         
         return response
     
