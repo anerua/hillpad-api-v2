@@ -326,6 +326,7 @@ class SubmitCourseDraftSerializer(serializers.ModelSerializer):
             "admission_requirements",
             "official_programme_website",
             "status",
+            "reject_reason",
         )
 
     def update(self, validated_data):
@@ -346,6 +347,7 @@ class SubmitCourseDraftSerializer(serializers.ModelSerializer):
             validated_data["course_dates"] = course_dates
 
         validated_data["status"] = CourseDraft.REVIEW
+        validated_data["reject_reason"] = ""
 
         return super(SubmitCourseDraftSerializer, self).update(validated_data)
 
@@ -362,6 +364,7 @@ class ApproveCourseDraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseDraft
         fields = (
+            "id",
             "status",
         )
 
@@ -377,9 +380,8 @@ class ApproveCourseDraftSerializer(serializers.ModelSerializer):
         return super(ApproveCourseDraftSerializer, self).validate(data)
 
 
-class RejectCourseSerializer(serializers.ModelSerializer):
+class RejectCourseDraftSerializer(serializers.ModelSerializer):
 
-    status = serializers.ChoiceField(choices=(Course.REJECTED,))
     reject_reason = serializers.CharField(required=True)
 
     class Meta:
@@ -389,6 +391,17 @@ class RejectCourseSerializer(serializers.ModelSerializer):
             "status",
             "reject_reason",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = CourseDraft.REJECTED
+        return super(RejectCourseDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != CourseDraft.REVIEW:
+            raise serializers.ValidationError("This course in not under review by the supervisor and hence cannot be rejected.")
+        
+        return super(RejectCourseDraftSerializer, self).validate(data)
 
 
 class PublishCourseSerializer(serializers.ModelSerializer):

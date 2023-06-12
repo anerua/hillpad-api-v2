@@ -13,7 +13,7 @@ from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSeri
                                    UpdateCourseSerializer, UpdateCourseDraftSerializer,
                                    SubmitCourseDraftSerializer,
                                    DeleteCourseSerializer, ApproveCourseDraftSerializer,
-                                   RejectCourseSerializer, PublishCourseSerializer,)
+                                   RejectCourseDraftSerializer, PublishCourseSerializer,)
 
 from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
 
@@ -251,7 +251,7 @@ class ApproveCourseDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
     serializer_class = ApproveCourseDraftSerializer
-    queryset = CourseDraft.objects.all()
+    queryset = CourseDraft.objects.filter(status=CourseDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
         response = super(ApproveCourseDraftAPIView, self).put(request, *args, **kwargs)
@@ -279,30 +279,30 @@ class ApproveCourseDraftAPIView(UpdateAPIView):
         return response
     
 
-class RejectCourseAPIView(UpdateAPIView):
+class RejectCourseDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = RejectCourseSerializer
-    queryset = Course.objects.all()
+    serializer_class = RejectCourseDraftSerializer
+    queryset = CourseDraft.objects.filter(status=CourseDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
-        response = super(RejectCourseAPIView, self).put(request, *args, **kwargs)
+        response = super(RejectCourseDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a status update notification for both supervisor and specialist
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CourseRejectionNotification(data=response.data)
-                specialist_notification.create_notification()
+        # if response.status_code == status.HTTP_200_OK:
+        #     try:
+        #         specialist_notification = CourseRejectionNotification(data=response.data)
+        #         specialist_notification.create_notification()
 
-                supervisor_notification = SupervisorCourseRejectionNotification(data=response.data)
-                supervisor_notification.create_notification()
+        #         supervisor_notification = SupervisorCourseRejectionNotification(data=response.data)
+        #         supervisor_notification.create_notification()
             
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
+        #     except ValidationError as e:
+        #         print(repr(e))
+        #     except Exception as e:
+        #         print(repr(e))
+        #     finally:
+        #         return response
         
         return response
 
