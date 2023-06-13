@@ -51,7 +51,7 @@ class CourseDraftUpdateSubmissionNotification(EntrySubmissionNotification):
         }
     
 
-class SchoolSubmissionNotification(EntrySubmissionNotification):
+class SchoolDraftSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
         title = f"School Submission: {self.data['name']}"
@@ -66,7 +66,7 @@ class SchoolSubmissionNotification(EntrySubmissionNotification):
         }
     
 
-class SchoolUpdateSubmissionNotification(EntrySubmissionNotification):
+class SchoolDraftUpdateSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
         title = f"School Submission (Update): {self.data['name']}"

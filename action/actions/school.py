@@ -6,7 +6,7 @@ from academics.serializers import DetailSchoolSerializer
 from action.models import Action
 
 
-class SupervisorSchoolSubmissionAction(GenericAction):
+class SupervisorSchoolDraftSubmissionAction(GenericAction):
 
     def compose_action(self):
         
@@ -26,11 +26,11 @@ class SupervisorSchoolSubmissionAction(GenericAction):
         }
     
 
-class SupervisorSchoolUpdateSubmissionAction(GenericAction):
+class SupervisorSchoolDraftUpdateSubmissionAction(GenericAction):
 
     def compose_action(self):
         
-        title = f"Action Required: School Update Submission - {self.data['name']}"
+        title = f"Action Required: School Submission (Update) - {self.data['name']}"
         detail = f"An update to a school entry requires your approval or rejection.\n\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
@@ -44,7 +44,8 @@ class SupervisorSchoolUpdateSubmissionAction(GenericAction):
             "entry_object_type": entry_object_type,
             "entry_object_id": entry_object_id
         }
-    
+
+   
 class AdminSchoolPublishAction(GenericAction):
 
     def compose_action(self):

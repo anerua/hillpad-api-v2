@@ -11,14 +11,15 @@ from academics.serializers import (CreateSchoolDraftSerializer,
                                    ListSchoolSerializer, ListSchoolDraftSerializer,
                                    DetailSchoolSerializer, DetailSchoolDraftSerializer,
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
+                                   SubmitSchoolDraftSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
-from action.actions import SupervisorSchoolSubmissionAction, SupervisorSchoolUpdateSubmissionAction, AdminSchoolPublishAction
+from action.actions import SupervisorSchoolDraftSubmissionAction, SupervisorSchoolDraftUpdateSubmissionAction, AdminSchoolPublishAction
 
-from notification.notifications import (SchoolSubmissionNotification, SchoolUpdateSubmissionNotification,
+from notification.notifications import (SchoolDraftSubmissionNotification, SchoolDraftUpdateSubmissionNotification,
                                         SchoolApprovalNotification, SupervisorSchoolApprovalNotification, 
                                         SchoolRejectionNotification, SupervisorSchoolRejectionNotification,
                                         SchoolPublishNotification, SupervisorSchoolPublishNotification, AdminSchoolPublishNotification,)
@@ -136,6 +137,46 @@ class UpdateSchoolDraftAPIView(UpdateAPIView):
         self.queryset = SchoolDraft.objects.filter(author=request.user)
 
         return super(UpdateSchoolDraftAPIView, self).patch(request, *args, **kwargs)
+
+
+class SubmitSchoolDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SpecialistPermission,)
+    serializer_class = SubmitSchoolDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = SchoolDraft.objects.filter(author=request.user)
+
+        response = super(SubmitSchoolDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            school_draft = SchoolDraft.objects.get(id=draft_id)
+            school = school_draft.related_course
+            try:
+                # if school is attached to draft, then issue SchoolDraftUpdateSubmissionNotification
+                # else issue SchoolDraftSubmissionNotification
+                if school:
+                    specialist_notification = SchoolDraftUpdateSubmissionNotification(data=response.data)
+                    specialist_notification.create_notification()
+
+                    supervisor_action = SupervisorSchoolDraftUpdateSubmissionAction(data=response.data)
+                    supervisor_action.create_action()
+                else:
+                    specialist_notification = SchoolDraftSubmissionNotification(data=response.data)
+                    specialist_notification.create_notification()
+                    
+                    supervisor_action = SupervisorSchoolDraftSubmissionAction(data=response.data)
+                    supervisor_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
 
 
 class ApproveSchoolAPIView(UpdateAPIView):

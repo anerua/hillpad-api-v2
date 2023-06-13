@@ -162,6 +162,43 @@ class UpdateSchoolDraftSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This school cannot be edited because it is currently in the review process.")
         
         return super(UpdateSchoolDraftSerializer, self).validate(data)
+    
+
+class SubmitSchoolDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SchoolDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "address",
+            "city",
+            "country",
+            "institution_type",
+            "ranking",
+            "year_established",
+            "academic_staff",
+            "students",
+            "banner",
+            "logo",
+            "author",
+            "status",
+        )
+
+    def update(self, validated_data):
+
+        validated_data["status"] = SchoolDraft.REVIEW
+        validated_data["reject_reason"] = ""
+
+        return super(SubmitSchoolDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (SchoolDraft.SAVED, SchoolDraft.PUBLISHED):
+            raise serializers.ValidationError("This school cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitSchoolDraftSerializer, self).validate(data)
 
 
 class ApproveSchoolSerializer(serializers.ModelSerializer):
