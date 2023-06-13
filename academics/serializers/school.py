@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import School
+from academics.models import School, SchoolDraft
 
 
 class CreateSchoolSerializer(serializers.ModelSerializer):
@@ -21,7 +21,56 @@ class CreateSchoolSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "author",
+            "school_draft",
+            "published",
         )
+
+
+class CreateSchoolDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SchoolDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "address",
+            "city",
+            "country",
+            "institution_type",
+            "ranking",
+            "year_established",
+            "academic_staff",
+            "students",
+            "banner",
+            "logo",
+            "author",
+        )
+        extra_kwargs = {
+            "about": {"required": False},
+            "address": {"required": False},
+            "duration": {"required": False},
+            "city": {"required": False},
+            "country": {"required": False},
+            "institution_type": {"required": False},
+            "ranking": {"required": False},
+            "year_established": {"required": False},
+            "academic_staff": {"required": False},
+            "students": {"required": False},
+            "banner": {"required": False},
+            "logo": {"required": False},
+        }
+
+        def create(self, validated_data):
+
+            request = self.context.get("request")
+            if request and hasattr(request, "user"):
+                user = request.user
+                validated_data["author"] = user.id
+
+            return super(CreateSchoolDraftSerializer, self).create(validated_data)
+
 
 
 class ListSchoolSerializer(serializers.ModelSerializer):

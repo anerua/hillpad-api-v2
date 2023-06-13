@@ -5,9 +5,9 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import SchoolFilter
-from academics.models import School
+from academics.models import School, SchoolDraft
 from academics.paginations import SchoolPagination
-from academics.serializers import (CreateSchoolSerializer, ListSchoolSerializer, DetailSchoolSerializer,
+from academics.serializers import (CreateSchoolDraftSerializer, ListSchoolSerializer, DetailSchoolSerializer,
                                    UpdateSchoolSerializer, DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
@@ -21,31 +21,37 @@ from notification.notifications import (SchoolSubmissionNotification, SchoolUpda
                                         SchoolPublishNotification, SupervisorSchoolPublishNotification, AdminSchoolPublishNotification,)
 
 
-class CreateSchoolAPIView(CreateAPIView):
+# class CreateSchoolAPIView(CreateAPIView):
     
-    permission_classes = (SpecialistPermission,)
-    serializer_class = CreateSchoolSerializer
-    queryset = School.objects.all()
+#     permission_classes = (SpecialistPermission,)
+#     serializer_class = CreateSchoolSerializer
+#     queryset = School.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        response = super(CreateSchoolAPIView, self).post(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         response = super(CreateSchoolAPIView, self).post(request, *args, **kwargs)
         
-        # Create a submission notification after a new school is submitted
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                specialist_notification = SchoolSubmissionNotification(data=response.data)
-                specialist_notification.create_notification()
+#         # Create a submission notification after a new school is submitted
+#         if response.status_code == status.HTTP_201_CREATED:
+#             try:
+#                 specialist_notification = SchoolSubmissionNotification(data=response.data)
+#                 specialist_notification.create_notification()
 
-                supervisor_action = SupervisorSchoolSubmissionAction(data=response.data)
-                supervisor_action.create_action()
+#                 supervisor_action = SupervisorSchoolSubmissionAction(data=response.data)
+#                 supervisor_action.create_action()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+#             except ValidationError as e:
+#                 print(repr(e))
+#             except Exception as e:
+#                 print(repr(e))
+#             finally:
+#                 return response
+#         return response
+
+class CreateCourseDraftAPIView(CreateAPIView):
+
+    permission_classes = (SpecialistPermission,)
+    serializer_class = CreateSchoolDraftSerializer
+    queryset = SchoolDraft.objects.all()
 
 
 class ListSchoolAPIView(ListAPIView):
@@ -196,7 +202,6 @@ class PublishSchoolAPIView(UpdateAPIView):
                 return response
         
         return response
-
 
 
 class DeleteSchoolAPIView(DestroyAPIView):
