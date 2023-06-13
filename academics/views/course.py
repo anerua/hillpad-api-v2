@@ -17,9 +17,9 @@ from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSeri
 
 from account.permissions import SpecialistPermission, SupervisorPermission, AdminPermission, StaffPermission
 
-from action.actions import SupervisorCourseSubmissionAction, SupervisorCourseUpdateSubmissionAction, AdminCoursePublishAction
+from action.actions import SupervisorCourseDraftSubmissionAction, SupervisorCourseDraftUpdateSubmissionAction, AdminCoursePublishAction
 
-from notification.notifications import (CourseSubmissionNotification, CourseUpdateSubmissionNotification,
+from notification.notifications import (CourseDraftSubmissionNotification, CourseDraftUpdateSubmissionNotification,
                                         CourseApprovalNotification, SupervisorCourseApprovalNotification, 
                                         CourseRejectionNotification, SupervisorCourseRejectionNotification,
                                         CoursePublishNotification, SupervisorCoursePublishNotification, AdminCoursePublishNotification,)
@@ -228,21 +228,32 @@ class SubmitCourseDraftAPIView(UpdateAPIView):
 
         response = super(SubmitCourseDraftAPIView, self).patch(request, *args, **kwargs)
         
-        # # Create a submission notification after a course update is submitted
-        # if response.status_code == status.HTTP_200_OK:
-        #     try:
-        #         specialist_notification = CourseUpdateSubmissionNotification(data=response.data)
-        #         specialist_notification.create_notification()
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
 
-        #         supervisor_action = SupervisorCourseUpdateSubmissionAction(data=response.data)
-        #         supervisor_action.create_action()
+            draft_id = response.data["id"]
+            course_draft = CourseDraft.objects.get(id=draft_id)
+            course = course_draft.related_course
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if course:
+                    specialist_notification = CourseDraftUpdateSubmissionNotification(data=response.data)
+                    specialist_notification.create_notification()
 
-        #     except ValidationError as e:
-        #         print(repr(e))
-        #     except Exception as e:
-        #         print(repr(e))
-        #     finally:
-        #         return response
+                    supervisor_action = SupervisorCourseDraftUpdateSubmissionAction(data=response.data)
+                    supervisor_action.create_action()
+                else:
+                    specialist_notification = CourseDraftSubmissionNotification(data=response.data)
+                    specialist_notification.create_notification()
+                    
+                    supervisor_action = SupervisorCourseDraftSubmissionAction(data=response.data)
+                    supervisor_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
 
         return response
 

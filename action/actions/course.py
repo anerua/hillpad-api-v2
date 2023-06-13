@@ -6,7 +6,7 @@ from academics.serializers import DetailCourseSerializer
 from action.models import Action
 
 
-class SupervisorCourseSubmissionAction(GenericAction):
+class SupervisorCourseDraftSubmissionAction(GenericAction):
 
     def compose_action(self):
         
@@ -26,11 +26,11 @@ class SupervisorCourseSubmissionAction(GenericAction):
         }
     
 
-class SupervisorCourseUpdateSubmissionAction(GenericAction):
+class SupervisorCourseDraftUpdateSubmissionAction(GenericAction):
 
     def compose_action(self):
         
-        title = f"Action Required: Course Update Submission - {self.data['name']}"
+        title = f"Action Required: Course Submission (Update) - {self.data['name']}"
         detail = f"An update to a course entry requires your approval or rejection.\n\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
