@@ -12,15 +12,15 @@ from academics.serializers import (CreateSchoolDraftSerializer,
                                    DetailSchoolSerializer, DetailSchoolDraftSerializer,
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    SubmitSchoolDraftSerializer,
-                                   DeleteSchoolSerializer, ApproveSchoolSerializer,
+                                   DeleteSchoolSerializer, ApproveSchoolDraftSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
-from action.actions import SupervisorSchoolDraftSubmissionAction, SupervisorSchoolDraftUpdateSubmissionAction, AdminSchoolPublishAction
+from action.actions import SupervisorSchoolDraftSubmissionAction, SupervisorSchoolDraftUpdateSubmissionAction, AdminSchoolDraftPublishAction
 
 from notification.notifications import (SchoolDraftSubmissionNotification, SchoolDraftUpdateSubmissionNotification,
-                                        SchoolApprovalNotification, SupervisorSchoolApprovalNotification, 
+                                        SchoolDraftApprovalNotification, SupervisorSchoolDraftApprovalNotification, 
                                         SchoolRejectionNotification, SupervisorSchoolRejectionNotification,
                                         SchoolPublishNotification, SupervisorSchoolPublishNotification, AdminSchoolPublishNotification,)
 
@@ -179,26 +179,26 @@ class SubmitSchoolDraftAPIView(UpdateAPIView):
         return response
 
 
-class ApproveSchoolAPIView(UpdateAPIView):
+class ApproveSchoolDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = ApproveSchoolSerializer
-    queryset = School.objects.all()
+    serializer_class = ApproveSchoolDraftSerializer
+    queryset = SchoolDraft.objects.filter(status=SchoolDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
-        response = super(ApproveSchoolAPIView, self).put(request, *args, **kwargs)
+        response = super(ApproveSchoolDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a status update notification for both supervisor and specialist
         # Also create a publish action for admin
         if response.status_code == status.HTTP_200_OK:
             try:
-                specialist_notification = SchoolApprovalNotification(data=response.data)
+                specialist_notification = SchoolDraftApprovalNotification(data=response.data)
                 specialist_notification.create_notification()
 
-                supervisor_notification = SupervisorSchoolApprovalNotification(data=response.data)
+                supervisor_notification = SupervisorSchoolDraftApprovalNotification(data=response.data)
                 supervisor_notification.create_notification()
 
-                admin_action = AdminSchoolPublishAction(data=response.data)
+                admin_action = AdminSchoolDraftPublishAction(data=response.data)
                 admin_action.create_action()
             
             except ValidationError as e:

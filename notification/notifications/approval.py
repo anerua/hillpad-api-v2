@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, CourseDraft, School
-from academics.serializers import DetailCourseDraftSerializer, DetailSchoolSerializer
+from academics.models import CourseDraft, SchoolDraft
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -58,13 +58,13 @@ class SupervisorCourseDraftApprovalNotification(EntryApprovalNotification):
         }
     
 
-class SchoolApprovalNotification(EntryApprovalNotification):
+class SchoolDraftApprovalNotification(EntryApprovalNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Approval: {school.data['name']}"
-        detail = f"Your school {school.data['name']} has been reviewed and approved. Awaiting publishing.\n\nEntry:\n"
+        detail = f"Your school entry: {school.data['name']} has been reviewed and approved. Awaiting publishing.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
             detail += f"{i+1}. {item}: {school.data[item]}\n"
         
@@ -75,11 +75,11 @@ class SchoolApprovalNotification(EntryApprovalNotification):
         }
 
 
-class SupervisorSchoolApprovalNotification(EntryApprovalNotification):
+class SupervisorSchoolDraftApprovalNotification(EntryApprovalNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Approval: {school.data['name']}"
         detail = f"You approved a school entry: {school.data['name']}. Awaiting publishing.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
