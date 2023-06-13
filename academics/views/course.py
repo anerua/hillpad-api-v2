@@ -10,8 +10,8 @@ from academics.paginations import CoursePagination, CourseDraftPagination
 from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSerializer,
                                    ListCourseSerializer, ListCourseDraftSerializer,
                                    DetailCourseSerializer, DetailCourseDraftSerializer,
-                                   UpdateCourseSerializer, UpdateCourseDraftSerializer,
-                                   SubmitCourseDraftSerializer,
+                                   UpdateCourseSerializer,
+                                   UpdateCourseDraftSerializer, SubmitCourseDraftSerializer,
                                    DeleteCourseSerializer, ApproveCourseDraftSerializer,
                                    RejectCourseDraftSerializer, PublishCourseDraftSerializer,)
 
@@ -129,34 +129,6 @@ class DetailCourseDraftAPIView(RetrieveAPIView):
             self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
         
         return super(DetailCourseDraftAPIView, self).get(request, *args, **kwargs)
-
-
-class UpdateCourseAPIView(UpdateAPIView):
-
-    permission_classes = (SpecialistPermission,)
-    serializer_class = UpdateCourseSerializer
-    queryset = Course.objects.all()
-
-    def patch(self, request, *args, **kwargs):
-        response = super(UpdateCourseAPIView, self).patch(request, *args, **kwargs)
-        
-        # Create a submission notification after a course update is submitted
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CourseUpdateSubmissionNotification(data=response.data)
-                specialist_notification.create_notification()
-
-                supervisor_action = SupervisorCourseUpdateSubmissionAction(data=response.data)
-                supervisor_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-
-        return response
 
 
 class UpdateCourseDraftAPIView(UpdateAPIView):

@@ -10,7 +10,7 @@ from academics.paginations import SchoolPagination, SchoolDraftPagination
 from academics.serializers import (CreateSchoolDraftSerializer,
                                    ListSchoolSerializer, ListSchoolDraftSerializer,
                                    DetailSchoolSerializer, DetailSchoolDraftSerializer,
-                                   UpdateSchoolSerializer,
+                                   UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
@@ -127,32 +127,15 @@ class DetailSchoolDraftAPIView(RetrieveAPIView):
         return super(DetailSchoolDraftAPIView, self).get(request, *args, **kwargs)
 
 
-class UpdateSchoolAPIView(UpdateAPIView):
+class UpdateSchoolDraftAPIView(UpdateAPIView):
 
     permission_classes = (SpecialistPermission,)
-    serializer_class = UpdateSchoolSerializer
-    queryset = School.objects.all()
+    serializer_class = UpdateSchoolDraftSerializer
 
     def patch(self, request, *args, **kwargs):
-        response = super(UpdateSchoolAPIView, self).patch(request, *args, **kwargs)
-        
-        # # Create a submission notification after a school update is submitted
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = SchoolUpdateSubmissionNotification(data=response.data)
-                specialist_notification.create_notification()
+        self.queryset = SchoolDraft.objects.filter(author=request.user)
 
-                supervisor_action = SupervisorSchoolUpdateSubmissionAction(data=response.data)
-                supervisor_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-
-        return response
+        return super(UpdateSchoolDraftAPIView, self).patch(request, *args, **kwargs)
 
 
 class ApproveSchoolAPIView(UpdateAPIView):
