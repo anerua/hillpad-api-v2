@@ -96,6 +96,14 @@ class DetailSchoolSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class DetailSchoolDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SchoolDraft
+        fields = '__all__'
+        depth = 2
+
+
 class UpdateSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:

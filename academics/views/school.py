@@ -9,7 +9,7 @@ from academics.models import School, SchoolDraft
 from academics.paginations import SchoolPagination, SchoolDraftPagination
 from academics.serializers import (CreateSchoolDraftSerializer,
                                    ListSchoolSerializer, ListSchoolDraftSerializer,
-                                   DetailSchoolSerializer,
+                                   DetailSchoolSerializer, DetailSchoolDraftSerializer,
                                    UpdateSchoolSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
@@ -110,6 +110,21 @@ class DetailSchoolAPIView(RetrieveAPIView):
             self.queryset = School.objects.filter(published=True)
         
         return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
+
+
+class DetailSchoolDraftAPIView(RetrieveAPIView):
+
+    permission_classes = StaffPermission
+    serializer_class = DetailSchoolDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+
+        if SpecialistPermission.has_permission(request):
+            self.queryset = SchoolDraft.objects.filter(author=request.user)
+        else:
+            self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
+        
+        return super(DetailSchoolDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateSchoolAPIView(UpdateAPIView):
