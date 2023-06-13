@@ -1,7 +1,7 @@
 from .generic import GenericAction
 
-from academics.models import Course
-from academics.serializers import DetailCourseSerializer
+from academics.models import CourseDraft
+from academics.serializers import DetailCourseDraftSerializer
 
 from action.models import Action
 
@@ -46,11 +46,11 @@ class SupervisorCourseDraftUpdateSubmissionAction(GenericAction):
         }
     
 
-class AdminCoursePublishAction(GenericAction):
+class AdminCourseDraftPublishAction(GenericAction):
 
     def compose_action(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Action Required: Course Publish - {course.data['name']}"
         detail = f"A new course entry has been approved and needs to be published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):

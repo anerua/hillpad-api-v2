@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer
+from academics.models import CourseDraft, School
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -24,11 +24,11 @@ class EntryRejectionNotification():
     def compose_notification(self): ...
 
 
-class CourseRejectionNotification(EntryRejectionNotification):
+class CourseDraftRejectionNotification(EntryRejectionNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Rejection: {course.data['name']}"
         detail = f"Your course entry: {course.data['name']} was rejected due to the following reasons:\n\n{course.data['reject_reason']}\n\nOriginal Entry:\n"
         for item, i in zip(course.data, range(len(course.data))):
@@ -43,11 +43,11 @@ class CourseRejectionNotification(EntryRejectionNotification):
         }
     
 
-class SupervisorCourseRejectionNotification(EntryRejectionNotification):
+class SupervisorCourseDraftRejectionNotification(EntryRejectionNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Rejection: {course.data['name']}"
         detail = f"You rejected a course entry: {course.data['name']} due to the following reasons:\n\n{course.data['reject_reason']}\n\nOriginal Entry:\n"
         for item, i in zip(course.data, range(len(course.data))):

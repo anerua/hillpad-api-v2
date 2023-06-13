@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer
+from academics.models import Course, CourseDraft, School
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -24,11 +24,11 @@ class EntryApprovalNotification():
     def compose_notification(self): ...
 
 
-class CourseApprovalNotification(EntryApprovalNotification):
+class CourseDraftApprovalNotification(EntryApprovalNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Approval: {course.data['name']}"
         detail = f"Your course entry: {course.data['name']} has been reviewed and approved. Awaiting publishing.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
@@ -41,11 +41,11 @@ class CourseApprovalNotification(EntryApprovalNotification):
         }
 
 
-class SupervisorCourseApprovalNotification(EntryApprovalNotification):
+class SupervisorCourseDraftApprovalNotification(EntryApprovalNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Approval: {course.data['name']}"
         detail = f"You approved a course entry: {course.data['name']}. Awaiting publishing.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):

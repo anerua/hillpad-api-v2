@@ -24,7 +24,7 @@ class EntryPublishNotification():
     def compose_notification(self): ...
 
 
-class CoursePublishNotification(EntryPublishNotification):
+class CourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         course_object = Course.objects.get(pk=self.data["id"])
@@ -41,7 +41,7 @@ class CoursePublishNotification(EntryPublishNotification):
         }
     
 
-class SupervisorCoursePublishNotification(EntryPublishNotification):
+class SupervisorCourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         course_object = Course.objects.get(pk=self.data["id"])
@@ -58,7 +58,7 @@ class SupervisorCoursePublishNotification(EntryPublishNotification):
         }
     
 
-class AdminCoursePublishNotification(EntryPublishNotification):
+class AdminCourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         course_object = Course.objects.get(pk=self.data["id"])
