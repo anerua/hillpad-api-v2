@@ -72,11 +72,18 @@ class CreateSchoolDraftSerializer(serializers.ModelSerializer):
             return super(CreateSchoolDraftSerializer, self).create(validated_data)
 
 
-
 class ListSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
+        fields = '__all__'
+        depth = 2
+
+
+class ListSchoolDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SchoolDraft
         fields = '__all__'
         depth = 2
 

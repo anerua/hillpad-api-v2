@@ -4,11 +4,14 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import SchoolFilter
+from academics.filters import SchoolFilter, SchoolDraftFilter
 from academics.models import School, SchoolDraft
-from academics.paginations import SchoolPagination
-from academics.serializers import (CreateSchoolDraftSerializer, ListSchoolSerializer, DetailSchoolSerializer,
-                                   UpdateSchoolSerializer, DeleteSchoolSerializer, ApproveSchoolSerializer,
+from academics.paginations import SchoolPagination, SchoolDraftPagination
+from academics.serializers import (CreateSchoolDraftSerializer,
+                                   ListSchoolSerializer, ListSchoolDraftSerializer,
+                                   DetailSchoolSerializer,
+                                   UpdateSchoolSerializer,
+                                   DeleteSchoolSerializer, ApproveSchoolSerializer,
                                    RejectSchoolSerializer, PublishSchoolSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
@@ -47,7 +50,7 @@ from notification.notifications import (SchoolSubmissionNotification, SchoolUpda
 #                 return response
 #         return response
 
-class CreateCourseDraftAPIView(CreateAPIView):
+class CreateSchoolDraftAPIView(CreateAPIView):
 
     permission_classes = (SpecialistPermission,)
     serializer_class = CreateSchoolDraftSerializer
@@ -69,6 +72,30 @@ class ListSchoolAPIView(ListAPIView):
             self.queryset = School.objects.filter(published=True)
             
         return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
+
+
+class ListSchoolDraftAPIView(ListAPIView):
+    
+    permission_classes = StaffPermission
+    serializer_class = ListSchoolDraftSerializer
+    pagination_class = SchoolDraftPagination
+    filterset_class = SchoolDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CourseDraft
+            Client:     No CourseDraft
+            Specialist: All CourseDrafts authored by user
+            Supervisor: All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
+            Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
+        """
+        if SpecialistPermission.has_permission(request):
+            self.queryset = SchoolDraft.objects.filter(author=request.user)
+        else:
+            self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
+        
+        return super(ListSchoolDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailSchoolAPIView(RetrieveAPIView):

@@ -3,15 +3,20 @@ from rest_framework.pagination import PageNumberPagination
 
 class CoursePagination(PageNumberPagination):
 
-    page_size = 9
+    page_size = 20
 
 
 class CourseDraftPagination(PageNumberPagination):
 
-    page_size = 9
+    page_size = 20
 
 
 class SchoolPagination(PageNumberPagination):
+
+    page_size = 20
+
+
+class SchoolDraftPagination(PageNumberPagination):
 
     page_size = 20
 

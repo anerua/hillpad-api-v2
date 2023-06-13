@@ -48,6 +48,21 @@ class SchoolFilter(FilterSet):
         fields = ("id", "name", "country", "institution_type", "year_established")
 
 
+class SchoolDraftFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr='exact')
+    name = CharFilter(field_name='name', lookup_expr='icontains')
+    country = CharFilter(field_name='country__short_code', lookup_expr='iexact')
+    institution_type = CharFilter(field_name="institution_type", lookup_expr='iexact')
+    year_established = CharFilter(field_name="year_established", lookup_expr='exact')
+    author = NumberFilter(field_name="author", lookup_expr='exact')
+    status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = School
+        fields = ("id", "name", "country", "institution_type", "year_established", "author", "status")
+
+
 class CountryFilter(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
