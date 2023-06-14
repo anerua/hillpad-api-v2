@@ -10,14 +10,15 @@ from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,
                                    DetailCountrySerializer, DetailCountryDraftSerializer,
-                                   UpdateCountryDraftSerializer, DeleteCountrySerializer, PublishCountrySerializer)
+                                   UpdateCountryDraftSerializer, SubmitCountryDraftSerializer,
+                                   DeleteCountrySerializer, PublishCountrySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
-from action.actions import AdminCountryPublishAction
+from action.actions import AdminCountryDraftPublishAction, AdminCountryDraftUpdatePublishAction
 
-from notification.notifications import (SupervisorCountrySubmissionNotification, CountryPublishNotification,
-                                        SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
+from notification.notifications import (SupervisorCountryDraftSubmissionNotification, SupervisorCountryDraftUpdateSubmissionNotification,
+                                        CountryPublishNotification, SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
 
 
 class CreateCountryDraftAPIView(CreateAPIView):
@@ -139,13 +140,13 @@ class SubmitCountryDraftAPIView(UpdateAPIView):
                     supervisor_notification = SupervisorCountryDraftUpdateSubmissionNotification(data=response.data)
                     supervisor_notification.create_notification()
 
-                    admin_action = AdminCountryDraftUpdateSubmissionAction(data=response.data)
+                    admin_action = AdminCountryDraftUpdatePublishAction(data=response.data)
                     admin_action.create_action()
                 else:
                     supervisor_notification = SupervisorCountryDraftSubmissionNotification(data=response.data)
                     supervisor_notification.create_notification()
                     
-                    admin_action = AdminCountryDraftSubmissionAction(data=response.data)
+                    admin_action = AdminCountryDraftPublishAction(data=response.data)
                     admin_action.create_action()
 
             except ValidationError as e:

@@ -152,6 +152,42 @@ class UpdateCountryDraftSerializer(serializers.ModelSerializer):
         return super(UpdateCountryDraftSerializer, self).validate(data)
 
 
+class SubmitCountryDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CountryDraft
+        fields = (
+            "id",
+            "name",
+            "short_code",
+            "caption",
+            "continent",
+            "capital",
+            "population",
+            "students",
+            "international_students",
+            "currency",
+            "about",
+            "about_wiki_link",
+            "trivia_facts",
+            "living_costs",
+            "banner",
+            "author",
+            "status",
+        )
+
+        def update(self, validated_data):
+            validated_data["status"] = CountryDraft.REVIEW
+            return super(SubmitCountryDraftSerializer, self).update(validated_data)
+
+        def validate(self, data):
+            status = self.instance.status
+            if status not in (CountryDraft.SAVED, CountryDraft.PUBLISHED):
+                raise serializers.ValidationError("This country entry cannot be edited because it is currently in the review process.")
+            
+            return super(SubmitCountryDraftSerializer, self).validate(data)
+
+
 class PublishCountrySerializer(serializers.ModelSerializer):
 
     published = serializers.BooleanField(required=True)

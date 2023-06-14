@@ -81,11 +81,26 @@ class SchoolDraftUpdateSubmissionNotification(EntrySubmissionNotification):
         }
 
 
-class SupervisorCountrySubmissionNotification(EntrySubmissionNotification):
+class SupervisorCountryDraftSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
         title = f"Supervisor Country Submission: {self.data['name']}"
         detail = f"Your country entry: {self.data['name']} has been submitted successfully and is awaiting publishing.\n\nEntry:\n"
+        for item, i in zip(self.data, range(len(self.data))):
+            detail += f"{i+1}. {item}: {self.data[item]}\n"
+        
+        return {
+            "type": Notification.SUBMISSION,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorCountryDraftUpdateSubmissionNotification(EntrySubmissionNotification):
+
+    def compose_notification(self):
+        title = f"Supervisor Country Submission (Update): {self.data['name']}"
+        detail = f"An update to your country entry: {self.data['name']} has been submitted successfully and is awaiting publishing.\n\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
         
