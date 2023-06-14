@@ -114,7 +114,46 @@ class UpdateCountryDraftAPIView(UpdateAPIView):
         self.queryset = CountryDraft.objects.filter(author=request.user)
 
         return super(UpdateCountryDraftAPIView, self).patch(request, *args, **kwargs)
+    
 
+class SubmitCountryDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SupervisorPermission,)
+    serializer_class = SubmitCountryDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = CountryDraft.objects.filter(author=request.user)
+
+        response = super(SubmitCountryDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            country_draft = CountryDraft.objects.get(id=draft_id)
+            country = country_draft.related_country
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if country:
+                    supervisor_notification = SupervisorCountryDraftUpdateSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+
+                    admin_action = AdminCountryDraftUpdateSubmissionAction(data=response.data)
+                    admin_action.create_action()
+                else:
+                    supervisor_notification = SupervisorCountryDraftSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+                    
+                    admin_action = AdminCountryDraftSubmissionAction(data=response.data)
+                    admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
 
 
 class PublishCountryAPIView(UpdateAPIView):
