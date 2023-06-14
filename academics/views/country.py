@@ -5,9 +5,11 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import CountryFilter
-from academics.models import Country, User
+from academics.models import Country, CountryDraft, User
 from academics.paginations import CountryPagination
-from academics.serializers import (CreateCountrySerializer, ListCountrySerializer, DetailCountrySerializer, UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
+from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
+                                   ListCountrySerializer, DetailCountrySerializer,
+                                   UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -17,32 +19,11 @@ from notification.notifications import (SupervisorCountrySubmissionNotification,
                                         SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
 
 
-class CreateCountryAPIView(CreateAPIView):
+class CreateCountryDraftAPIView(CreateAPIView):
     
     permission_classes = (SupervisorPermission,)
-    serializer_class = CreateCountrySerializer
-    queryset = Country.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        response = super(CreateCountryAPIView, self).post(request, *args, **kwargs)
-        
-        # Create a supervisor submission notification after a new country is created by supervisor
-        # Create a publish action for admin
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                supervisor_notification = SupervisorCountrySubmissionNotification(data=response.data)
-                supervisor_notification.create_notification()
-                
-                admin_action = AdminCountryPublishAction(data=response.data)
-                admin_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+    serializer_class = CreateCountryDraftSerializer
+    queryset = CountryDraft.objects.all()
 
 
 class ListCountryAPIView(ListAPIView):
