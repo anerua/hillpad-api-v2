@@ -75,7 +75,7 @@ class AdminCourseDraftPublishNotification(EntryPublishNotification):
         }
 
 
-class SchoolPublishNotification(EntryPublishNotification):
+class SchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         school_object = School.objects.get(pk=self.data["id"])
@@ -92,7 +92,7 @@ class SchoolPublishNotification(EntryPublishNotification):
         }
     
 
-class SupervisorSchoolPublishNotification(EntryPublishNotification):
+class SupervisorSchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         school_object = School.objects.get(pk=self.data["id"])
@@ -109,7 +109,7 @@ class SupervisorSchoolPublishNotification(EntryPublishNotification):
         }
     
 
-class AdminSchoolPublishNotification(EntryPublishNotification):
+class AdminSchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
         school_object = School.objects.get(pk=self.data["id"])

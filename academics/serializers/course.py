@@ -415,7 +415,7 @@ class PublishCourseDraftSerializer(serializers.ModelSerializer):
         model = CourseDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
     
     def update(self, validated_data):

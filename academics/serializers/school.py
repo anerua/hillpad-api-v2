@@ -225,7 +225,7 @@ class RejectSchoolDraftSerializer(serializers.ModelSerializer):
     reject_reason = serializers.CharField(required=True)
 
     class Meta:
-        model = School
+        model = SchoolDraft
         fields = (
             "id",
             "status",
@@ -244,16 +244,25 @@ class RejectSchoolDraftSerializer(serializers.ModelSerializer):
         return super(ApproveSchoolDraftSerializer, self).validate(data)
 
 
-class PublishSchoolSerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishSchoolDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = School
+        model = SchoolDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = SchoolDraft.PUBLISHED
+        return super(PublishSchoolDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != SchoolDraft.APPROVED:
+            raise serializers.ValidationError("This school has not been approved by the supervisor and hence cannot be published.")
+        
+        return super(PublishSchoolDraftSerializer, self).validate(data)
 
 
 class DeleteSchoolSerializer(serializers.ModelSerializer):

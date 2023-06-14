@@ -7,13 +7,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from academics.filters import SchoolFilter, SchoolDraftFilter
 from academics.models import School, SchoolDraft
 from academics.paginations import SchoolPagination, SchoolDraftPagination
-from academics.serializers import (CreateSchoolDraftSerializer,
+from academics.serializers import (CreateSchoolSerializer, CreateSchoolDraftSerializer,
                                    ListSchoolSerializer, ListSchoolDraftSerializer,
                                    DetailSchoolSerializer, DetailSchoolDraftSerializer,
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    SubmitSchoolDraftSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolDraftSerializer,
-                                   RejectSchoolDraftSerializer, PublishSchoolSerializer,)
+                                   RejectSchoolDraftSerializer, PublishSchoolDraftSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
@@ -22,7 +22,7 @@ from action.actions import SupervisorSchoolDraftSubmissionAction, SupervisorScho
 from notification.notifications import (SchoolDraftSubmissionNotification, SchoolDraftUpdateSubmissionNotification,
                                         SchoolDraftApprovalNotification, SupervisorSchoolDraftApprovalNotification, 
                                         SchoolDraftRejectionNotification, SupervisorSchoolDraftRejectionNotification,
-                                        SchoolPublishNotification, SupervisorSchoolPublishNotification, AdminSchoolPublishNotification,)
+                                        SchoolDraftPublishNotification, SupervisorSchoolDraftPublishNotification, AdminSchoolDraftPublishNotification,)
 
 
 # class CreateSchoolAPIView(CreateAPIView):
@@ -239,33 +239,82 @@ class RejectSchoolDraftAPIView(UpdateAPIView):
         return response
 
 
-class PublishSchoolAPIView(UpdateAPIView):
+class PublishSchoolDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = PublishSchoolSerializer
-    queryset = School.objects.all()
+    serializer_class = PublishSchoolDraftSerializer
+    queryset = School.objects.filter(status=SchoolDraft.APPROVED)
 
     def put(self, request, *args, **kwargs):
-        response = super(PublishSchoolAPIView, self).put(request, *args, **kwargs)
+        response = super(PublishSchoolDraftAPIView, self).put(request, *args, **kwargs)
 
-        # Create a published notification for specialist, supervisor and admin
         if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = SchoolPublishNotification(data=response.data)
-                specialist_notification.create_notification()
+            draft_id = response.data["id"]
+            school_draft = SchoolDraft.objects.get(id=draft_id)
+            school = school_draft.related_school
+            
+            school_data = {
+                "name": school_draft.name,
+                "about": school_draft.about,
+                "address": school_draft.address,
+                "city": school_draft.city,
+                "country": school_draft.country,
+                "institution_type": school_draft.institution_type,
+                "ranking": school_draft.ranking,
+                "year_established": school_draft.year_established,
+                "academic_staff": school_draft.academic_staff,
+                "students": school_draft.students,
+                "banner": school_draft.banner,
+                "logo": school_draft.logo,
+                "author": school_draft.author,
+                "school_draft": school_draft.id,
+                "published": True,
+            }
 
-                supervisor_notification = SupervisorSchoolPublishNotification(data=response.data)
-                supervisor_notification.create_notification()
+            if school:
+                # Update school with draft details
+                update_serializer = UpdateSchoolSerializer(school, data=school_data)
+                if update_serializer.is_valid():
+                    update_serializer.save()
 
-                admin_notification = AdminSchoolPublishNotification(data=response.data)
-                admin_notification.create_notification()
+                    try:
+                        specialist_notification = SchoolDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
+                        supervisor_notification = SupervisorSchoolDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminSchoolDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = update_serializer.errors
+            else:
+                # Create new course with draft details
+                create_serializer = CreateSchoolSerializer(data=school_data)
+                if create_serializer.is_valid():
+                    create_serializer.save()
+
+                    try:
+                        specialist_notification = SchoolDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
+
+                        supervisor_notification = SupervisorSchoolDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminSchoolDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = create_serializer.errors
         
         return response
 
