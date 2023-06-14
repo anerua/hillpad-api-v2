@@ -10,7 +10,7 @@ from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,
                                    DetailCountrySerializer, DetailCountryDraftSerializer,
-                                   UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
+                                   UpdateCountryDraftSerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
