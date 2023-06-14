@@ -188,16 +188,25 @@ class SubmitCountryDraftSerializer(serializers.ModelSerializer):
             return super(SubmitCountryDraftSerializer, self).validate(data)
 
 
-class PublishCountrySerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishCountryDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Country
+        model = CountryDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = CountryDraft.PUBLISHED
+        return super(PublishCountryDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != CountryDraft.REVIEW:
+            raise serializers.ValidationError("This country has not been submitted by the supervisor and hence cannot be published.")
+        
+        return super(PublishCountryDraftSerializer, self).validate(data)
 
 
 class DeleteCountrySerializer(serializers.ModelSerializer):

@@ -10,8 +10,9 @@ from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,
                                    DetailCountrySerializer, DetailCountryDraftSerializer,
+                                   UpdateCountrySerializer,
                                    UpdateCountryDraftSerializer, SubmitCountryDraftSerializer,
-                                   DeleteCountrySerializer, PublishCountrySerializer)
+                                   DeleteCountrySerializer, PublishCountryDraftSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -157,14 +158,86 @@ class SubmitCountryDraftAPIView(UpdateAPIView):
         return response
 
 
-class PublishCountryAPIView(UpdateAPIView):
+class PublishCountryDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = PublishCountrySerializer
-    queryset = Country.objects.all()
+    serializer_class = PublishCountryDraftSerializer
+    queryset = CountryDraft.objects.filter(status=CountryDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
-        response = super(PublishCountryAPIView, self).put(request, *args, **kwargs)
+        response = super(PublishCountryDraftAPIView, self).put(request, *args, **kwargs)
+
+        # If Country is already attached to draft, update country with draft otherwise create country with draft details
+        if response.status_code == status.HTTP_200_OK:
+            draft_id = response.data["id"]
+            country_draft = CountryDraft.objects.get(id=draft_id)
+            country = country_draft.related_country
+            
+            country_data = {
+                "name": country_draft.name,
+                "short_code": country_draft.short_code,
+                "caption": country_draft.caption,
+                "continent": country_draft.continent,
+                "capital": country_draft.capital,
+                "population": country_draft.population,
+                "students": country_draft.students,
+                "international_students": country_draft.international_students,
+                "currency": country_draft.currency,
+                "about": country_draft.about,
+                "about_wiki_link": country_draft.about_wiki_link,
+                "trivia_facts": country_draft.trivia_facts,
+                "living_costs": country_draft.living_costs,
+                "banner": country_draft.banner,
+                "author": country_draft.author,
+                "country_draft": country_draft.id,
+                "published": True,
+            }
+
+            if country:
+                # Update country with draft details
+                update_serializer = UpdateCountrySerializer(country, data=country_data)
+                if update_serializer.is_valid():
+                    update_serializer.save()
+
+                    try:
+                        specialist_notification = CountryDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
+
+                        supervisor_notification = SupervisorCountryDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminCountryDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = update_serializer.errors
+            else:
+                # Create new country with draft details
+                create_serializer = CreateCountrySerializer(data=country_data)
+                if create_serializer.is_valid():
+                    create_serializer.save()
+
+                    try:
+                        specialist_notification = CountryDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
+
+                        supervisor_notification = SupervisorCountryDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminCountryDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = create_serializer.errors
+
 
         # Create a published notification for specialist, supervisor and admin
         if response.status_code == status.HTTP_200_OK:
