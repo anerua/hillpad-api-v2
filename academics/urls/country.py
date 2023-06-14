@@ -9,7 +9,7 @@ urlpatterns = [
     path("list_draft", views.ListCountryDraftAPIView.as_view(), name="list_country_draft"),
     path("detail/<int:pk>", views.DetailCountryAPIView.as_view(), name="detail_country"),
     path("detail_draft/<int:pk>", views.DetailCountryDraftAPIView.as_view(), name="detail_country_draft"),
-    path("update/<int:pk>", views.UpdateCountryAPIView.as_view(), name="update_country"),
+    path("update_draft/<int:pk>", views.UpdateCountryDraftAPIView.as_view(), name="update_country_draft"),
     path("delete/<int:pk>", views.DeleteCountryAPIView.as_view(), name="delete_country"),
     path("publish/<int:pk>", views.PublishCountryAPIView.as_view(), name="publish_country"),
 ]

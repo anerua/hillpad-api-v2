@@ -85,6 +85,14 @@ class DetailCountrySerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class DetailCountryDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CountryDraft
+        fields = '__all__'
+        depth = 2
+
+
 class UpdateCountrySerializer(serializers.ModelSerializer):
 
     class Meta:

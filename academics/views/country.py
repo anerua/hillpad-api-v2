@@ -105,11 +105,16 @@ class DetailCountryDraftAPIView(ListAPIView):
         return super(ListCountryDraftAPIView, self).get(request, *args, **kwargs)
 
 
-class UpdateCountryAPIView(UpdateAPIView):
+class UpdateCountryDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = UpdateCountrySerializer
-    queryset = Country.objects.all()
+    serializer_class = UpdateCountryDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = CountryDraft.objects.filter(author=request.user)
+
+        return super(UpdateCountryDraftAPIView, self).patch(request, *args, **kwargs)
+
 
 
 class PublishCountryAPIView(UpdateAPIView):
