@@ -220,9 +220,8 @@ class ApproveSchoolDraftSerializer(serializers.ModelSerializer):
         return super(ApproveSchoolDraftSerializer, self).validate(data)
 
 
-class RejectSchoolSerializer(serializers.ModelSerializer):
+class RejectSchoolDraftSerializer(serializers.ModelSerializer):
 
-    status = serializers.ChoiceField(choices=(School.REJECTED,))
     reject_reason = serializers.CharField(required=True)
 
     class Meta:
@@ -232,6 +231,17 @@ class RejectSchoolSerializer(serializers.ModelSerializer):
             "status",
             "reject_reason",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = SchoolDraft.REJECTED
+        return super(RejectSchoolDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != SchoolDraft.REVIEW:
+            raise serializers.ValidationError("This school in not under review by the supervisor and hence cannot be rejected.")
+        
+        return super(ApproveSchoolDraftSerializer, self).validate(data)
 
 
 class PublishSchoolSerializer(serializers.ModelSerializer):

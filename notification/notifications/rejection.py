@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import CourseDraft, School
-from academics.serializers import DetailCourseDraftSerializer, DetailSchoolSerializer
+from academics.models import CourseDraft, SchoolDraft
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -62,11 +62,11 @@ class SupervisorCourseDraftRejectionNotification(EntryRejectionNotification):
         }
 
 
-class SchoolRejectionNotification(EntryRejectionNotification):
+class SchoolDraftRejectionNotification(EntryRejectionNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Rejection: {school.data['name']}"
         detail = f"Your school entry: {school.data['name']} was rejected due to the following reasons:\n\n{school.data['reject_reason']}\n\nOriginal Entry:\n"
         for item, i in zip(school.data, range(len(school.data))):
@@ -81,11 +81,11 @@ class SchoolRejectionNotification(EntryRejectionNotification):
         }
     
 
-class SupervisorSchoolRejectionNotification(EntryRejectionNotification):
+class SupervisorSchoolDraftRejectionNotification(EntryRejectionNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Rejection: {school.data['name']}"
         detail = f"You rejected a school entry: {school.data['name']} due to the following reasons:\n\n{school.data['reject_reason']}\n\nOriginal Entry:\n"
         for item, i in zip(school.data, range(len(school.data))):

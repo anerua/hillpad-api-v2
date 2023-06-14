@@ -13,7 +13,7 @@ from academics.serializers import (CreateSchoolDraftSerializer,
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    SubmitSchoolDraftSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolDraftSerializer,
-                                   RejectSchoolSerializer, PublishSchoolSerializer,)
+                                   RejectSchoolDraftSerializer, PublishSchoolSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
@@ -21,7 +21,7 @@ from action.actions import SupervisorSchoolDraftSubmissionAction, SupervisorScho
 
 from notification.notifications import (SchoolDraftSubmissionNotification, SchoolDraftUpdateSubmissionNotification,
                                         SchoolDraftApprovalNotification, SupervisorSchoolDraftApprovalNotification, 
-                                        SchoolRejectionNotification, SupervisorSchoolRejectionNotification,
+                                        SchoolDraftRejectionNotification, SupervisorSchoolDraftRejectionNotification,
                                         SchoolPublishNotification, SupervisorSchoolPublishNotification, AdminSchoolPublishNotification,)
 
 
@@ -211,22 +211,22 @@ class ApproveSchoolDraftAPIView(UpdateAPIView):
         return response
     
 
-class RejectSchoolAPIView(UpdateAPIView):
+class RejectSchoolDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = RejectSchoolSerializer
-    queryset = School.objects.all()
+    serializer_class = RejectSchoolDraftSerializer
+    queryset = SchoolDraft.objects.filter(status=SchoolDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
-        response = super(RejectSchoolAPIView, self).put(request, *args, **kwargs)
+        response = super(RejectSchoolDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a status update notification for both supervisor and specialist
         if response.status_code == status.HTTP_200_OK:
             try:
-                specialist_notification = SchoolRejectionNotification(data=response.data)
+                specialist_notification = SchoolDraftRejectionNotification(data=response.data)
                 specialist_notification.create_notification()
 
-                supervisor_notification = SupervisorSchoolRejectionNotification(data=response.data)
+                supervisor_notification = SupervisorSchoolDraftRejectionNotification(data=response.data)
                 supervisor_notification.create_notification()
             
             except ValidationError as e:
