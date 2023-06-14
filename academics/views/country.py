@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CountryFilter
+from academics.filters import CountryFilter, CountryDraftFilter
 from academics.models import Country, CountryDraft, User
-from academics.paginations import CountryPagination
+from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
-                                   ListCountrySerializer, DetailCountrySerializer,
+                                   ListCountrySerializer, ListCountryDraftSerializer,
+                                   DetailCountrySerializer,
                                    UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -42,6 +43,30 @@ class ListCountryAPIView(ListAPIView):
             self.queryset = Country.objects.filter(published=True)
         
         return super(ListCountryAPIView, self).get(request, *args, **kwargs)
+    
+
+class ListCountryDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = ListCountryDraftSerializer
+    pagination_class = CountryDraftPagination
+    filterset_class = CountryDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CountryDraft
+            Client:     No CountryDraft
+            Specialist: No CountryDraft
+            Supervisor: All CountryDrafts authored by user
+            Admin:      All CountryDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = CountryDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = CountryDraft.objects.exclude(status=CountryDraft.SAVED)
+        
+        return super(ListCountryDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCountryAPIView(RetrieveAPIView):

@@ -26,6 +26,11 @@ class CountryPagination(PageNumberPagination):
     page_size = 20
 
 
+class CountryDraftPagination(PageNumberPagination):
+
+    page_size = 20
+
+
 class CurrencyPagination(PageNumberPagination):
 
     page_size = 20

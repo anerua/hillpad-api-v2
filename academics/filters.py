@@ -1,6 +1,6 @@
 from django_filters import FilterSet, NumberFilter, CharFilter
 
-from academics.models import Course, CourseDraft, School
+from academics.models import Course, CourseDraft, School, SchoolDraft, Country, CountryDraft
 
 
 class CourseFilter(FilterSet):
@@ -59,7 +59,7 @@ class SchoolDraftFilter(FilterSet):
     status = CharFilter(field_name='status', lookup_expr='iexact')
 
     class Meta:
-        model = School
+        model = SchoolDraft
         fields = ("id", "name", "country", "institution_type", "year_established", "author", "status")
 
 
@@ -73,6 +73,28 @@ class CountryFilter(FilterSet):
     students = NumberFilter(field_name="students", lookup_expr='exact')
     international_students = NumberFilter(field_name="international_students", lookup_expr='exact')
     currency = CharFilter(field_name="currency__short_code", lookup_expr='iexact')
+
+    class Meta:
+        model = Country
+        fields = ("id", "name", "continent", "capital", "population", "students", "international_students", "currency")
+
+
+class CountryDraftFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr='exact')
+    name = CharFilter(field_name='name', lookup_expr='icontains')
+    continent = CharFilter(field_name='continent', lookup_expr='iexact')
+    capital = CharFilter(field_name="capital", lookup_expr='iexact')
+    population = NumberFilter(field_name="population", lookup_expr='exact')
+    students = NumberFilter(field_name="students", lookup_expr='exact')
+    international_students = NumberFilter(field_name="international_students", lookup_expr='exact')
+    currency = CharFilter(field_name="currency__short_code", lookup_expr='iexact')
+    author = NumberFilter(field_name="author", lookup_expr='exact')
+    status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = CountryDraft
+        fields = ("id", "name", "continent", "capital", "population", "students", "international_students", "currency", "author", "status")
 
 
 class CurrencyFilter(FilterSet):
