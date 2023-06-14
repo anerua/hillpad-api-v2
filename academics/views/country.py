@@ -9,7 +9,7 @@ from academics.models import Country, CountryDraft, User
 from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,
-                                   DetailCountrySerializer,
+                                   DetailCountrySerializer, DetailCountryDraftSerializer,
                                    UpdateCountrySerializer, DeleteCountrySerializer, PublishCountrySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -72,7 +72,6 @@ class ListCountryDraftAPIView(ListAPIView):
 class DetailCountryAPIView(RetrieveAPIView):
 
     serializer_class = DetailCountrySerializer
-    queryset = Country.objects.all()
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view details of any countries.
@@ -82,7 +81,28 @@ class DetailCountryAPIView(RetrieveAPIView):
         else:
             self.queryset = Country.objects.filter(published=True)
         
-        return super(ListCountryAPIView, self).get(request, *args, **kwargs)
+        return super(DetailCountryAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailCountryDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = DetailCountryDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CountryDraft
+            Client:     No CountryDraft
+            Specialist: No CountryDraft
+            Supervisor: All CountryDrafts authored by user
+            Admin:      All CountryDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = CountryDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = CountryDraft.objects.exclude(status=CountryDraft.SAVED)
+        
+        return super(ListCountryDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCountryAPIView(UpdateAPIView):
