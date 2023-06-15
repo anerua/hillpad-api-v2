@@ -19,7 +19,7 @@ from account.permissions import AdminPermission, SupervisorPermission, AdminAndS
 from action.actions import AdminCountryDraftPublishAction, AdminCountryDraftUpdatePublishAction
 
 from notification.notifications import (SupervisorCountryDraftSubmissionNotification, SupervisorCountryDraftUpdateSubmissionNotification,
-                                        CountryPublishNotification, SupervisorCountryPublishNotification, AdminCountryPublishNotification,)
+                                        CountryDraftPublishNotification, SupervisorCountryDraftPublishNotification, AdminCountryDraftPublishNotification,)
 
 
 class CreateCountryDraftAPIView(CreateAPIView):
@@ -193,6 +193,7 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                 "published": True,
             }
 
+            # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if country:
                 # Update country with draft details
                 update_serializer = UpdateCountrySerializer(country, data=country_data)
@@ -200,9 +201,6 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                     update_serializer.save()
 
                     try:
-                        specialist_notification = CountryDraftPublishNotification(data=response.data)
-                        specialist_notification.create_notification()
-
                         supervisor_notification = SupervisorCountryDraftPublishNotification(data=response.data)
                         supervisor_notification.create_notification()
 
@@ -238,26 +236,6 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                 else:
                     response.data["serializer_errors"] = create_serializer.errors
 
-
-        # Create a published notification for specialist, supervisor and admin
-        if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CountryPublishNotification(data=response.data)
-                specialist_notification.create_notification()
-
-                supervisor_notification = SupervisorCountryPublishNotification(data=response.data)
-                supervisor_notification.create_notification()
-
-                admin_notification = AdminCountryPublishNotification(data=response.data)
-                admin_notification.create_notification()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        
         return response
 
 

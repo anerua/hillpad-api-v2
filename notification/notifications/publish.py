@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import Course, School, Country, Currency, DegreeType, Discipline, Language
-from academics.serializers import DetailCourseSerializer, DetailSchoolSerializer, DetailCountrySerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer, DetailDisciplineSerializer, DetailLanguageSerializer
+from academics.models import CourseDraft, SchoolDraft, CountryDraft, Currency, DegreeType, Discipline, Language
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer, DetailCountryDraftSerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer, DetailDisciplineSerializer, DetailLanguageSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -27,8 +27,8 @@ class EntryPublishNotification():
 class CourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Published: {course.data['name']}"
         detail = f"Your course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
@@ -44,8 +44,8 @@ class CourseDraftPublishNotification(EntryPublishNotification):
 class SupervisorCourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Published: {course.data['name']}"
         detail = f"The course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
@@ -61,8 +61,8 @@ class SupervisorCourseDraftPublishNotification(EntryPublishNotification):
 class AdminCourseDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        course_object = Course.objects.get(pk=self.data["id"])
-        course = DetailCourseSerializer(course_object)
+        course_object = CourseDraft.objects.get(pk=self.data["id"])
+        course = DetailCourseDraftSerializer(course_object)
         title = f"Published: {course.data['name']}"
         detail = f"The course entry: {course.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(course.data, range(len(course.data))):
@@ -78,8 +78,8 @@ class AdminCourseDraftPublishNotification(EntryPublishNotification):
 class SchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Published: {school.data['name']}"
         detail = f"Your school entry: {school.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
@@ -95,8 +95,8 @@ class SchoolDraftPublishNotification(EntryPublishNotification):
 class SupervisorSchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Published: {school.data['name']}"
         detail = f"The school entry: {school.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
@@ -112,8 +112,8 @@ class SupervisorSchoolDraftPublishNotification(EntryPublishNotification):
 class AdminSchoolDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        school_object = School.objects.get(pk=self.data["id"])
-        school = DetailSchoolSerializer(school_object)
+        school_object = SchoolDraft.objects.get(pk=self.data["id"])
+        school = DetailSchoolDraftSerializer(school_object)
         title = f"Published: {school.data['name']}"
         detail = f"The school entry: {school.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(school.data, range(len(school.data))):
@@ -126,14 +126,14 @@ class AdminSchoolDraftPublishNotification(EntryPublishNotification):
         }
 
 
-class CountryPublishNotification(EntryPublishNotification):
+class CountryDraftPublishNotification(EntryPublishNotification):
     """
         TODO: Just create a single notification that should be broadcast to all staff users
     """
 
     def compose_notification(self):
-        country_object = Country.objects.get(pk=self.data["id"])
-        country = DetailCountrySerializer(country_object)
+        country_object = CountryDraft.objects.get(pk=self.data["id"])
+        country = DetailCountryDraftSerializer(country_object)
         title = f"Published: {country.data['name']}"
         detail = f"Your country entry: {country.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
@@ -146,11 +146,11 @@ class CountryPublishNotification(EntryPublishNotification):
         }
     
 
-class SupervisorCountryPublishNotification(EntryPublishNotification):
+class SupervisorCountryDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        country_object = Country.objects.get(pk=self.data["id"])
-        country = DetailCountrySerializer(country_object)
+        country_object = CountryDraft.objects.get(pk=self.data["id"])
+        country = DetailCountryDraftSerializer(country_object)
         title = f"Published: {country.data['name']}"
         detail = f"The country entry: {country.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
@@ -163,11 +163,11 @@ class SupervisorCountryPublishNotification(EntryPublishNotification):
         }
     
 
-class AdminCountryPublishNotification(EntryPublishNotification):
+class AdminCountryDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        country_object = Country.objects.get(pk=self.data["id"])
-        country = DetailCountrySerializer(country_object)
+        country_object = CountryDraft.objects.get(pk=self.data["id"])
+        country = DetailCountryDraftSerializer(country_object)
         title = f"Published: {country.data['name']}"
         detail = f"The country entry: {country.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
