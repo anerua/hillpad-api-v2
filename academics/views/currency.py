@@ -10,14 +10,16 @@ from academics.paginations import CurrencyPagination, CurrencyDraftPagination
 from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
                                    ListCurrencySerializer, ListCurrencyDraftSerializer,
                                    DetailCurrencySerializer, DetailCurrencyDraftSerializer,
-                                   UpdateCurrencySerializer, UpdateCurrencyDraftSerializer,
+                                   UpdateCurrencySerializer, 
+                                   UpdateCurrencyDraftSerializer, SubmitCurrencyDraftSerializer,
                                    DeleteCurrencySerializer, PublishCurrencySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
-from action.actions import AdminCurrencyPublishAction
+from action.actions import AdminCurrencyDraftPublishAction, AdminCurrencyDraftUpdatePublishAction 
 
-from notification.notifications import SupervisorCurrencySubmissionNotification, CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification
+from notification.notifications import (SupervisorCurrencyDraftSubmissionNotification, SupervisorCurrencyDraftUpdateSubmissionNotification,
+                                        CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification)
 
 
 class CreateCurrencyDraftAPIView(CreateAPIView):
@@ -115,6 +117,46 @@ class UpdateCurrencyDraftAPIView(UpdateAPIView):
 
         return super(UpdateCurrencyDraftAPIView, self).patch(request, *args, **kwargs)
     
+
+class SubmitCurrencyDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SupervisorPermission,)
+    serializer_class = SubmitCurrencyDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = CurrencyDraft.objects.filter(author=request.user)
+
+        response = super(SubmitCurrencyDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a currency draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            currency_draft = CurrencyDraft.objects.get(id=draft_id)
+            currency = currency_draft.related_country
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if currency:
+                    supervisor_notification = SupervisorCurrencyDraftUpdateSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+
+                    admin_action = AdminCurrencyDraftUpdatePublishAction(data=response.data)
+                    admin_action.create_action()
+                else:
+                    supervisor_notification = SupervisorCurrencyDraftSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+                    
+                    admin_action = AdminCurrencyDraftPublishAction(data=response.data)
+                    admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
+
 
 class PublishCurrencyAPIView(UpdateAPIView):
 
