@@ -9,7 +9,7 @@ from academics.models import Discipline, DisciplineDraft
 from academics.paginations import DisciplinePagination, DisciplineDraftPagination
 from academics.serializers import (CreateDisciplineSerializer, CreateDisciplineDraftSerializer,
                                    ListDisciplineSerializer, ListDisciplineDraftSerializer,
-                                   DetailDisciplineSerializer,
+                                   DetailDisciplineSerializer, DetailDisciplineDraftSerializer,
                                    UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -54,11 +54,11 @@ class ListDisciplineDraftAPIView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         """
-            Anonymous:  No CountryDraft
-            Client:     No CountryDraft
-            Specialist: No CountryDraft
-            Supervisor: All CountryDrafts authored by user
-            Admin:      All CountryDrafts with status != SAVED
+            Anonymous:  No DisciplineDraft
+            Client:     No DisciplineDraft
+            Specialist: No DisciplineDraft
+            Supervisor: All DisciplineDrafts authored by user
+            Admin:      All DisciplineDrafts with status != SAVED
         """
         if SupervisorPermission.has_permission(request):
             self.queryset = DisciplineDraft.objects.filter(author=request.user)
@@ -81,6 +81,27 @@ class DetailDisciplineAPIView(RetrieveAPIView):
             self.queryset = Discipline.objects.filter(published=True)
         
         return super(ListDisciplineAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailDisciplineDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = DetailDisciplineDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No DisciplineDraft
+            Client:     No DisciplineDraft
+            Specialist: No DisciplineDraft
+            Supervisor: All DisciplineDrafts authored by user
+            Admin:      All DisciplineDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = DisciplineDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
+        
+        return super(DetailDisciplineDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateDisciplineAPIView(UpdateAPIView):
