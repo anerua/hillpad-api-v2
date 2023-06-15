@@ -104,6 +104,31 @@ class UpdateCurrencyDraftSerializer(serializers.ModelSerializer):
         return super(UpdateCurrencyDraftSerializer, self).validate(data)
 
 
+class SubmitCurrencyDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CurrencyDraft
+        fields = (
+            "id",
+            "name",
+            "short_code",
+            "usd_exchange_rate",
+            "author",
+            "status",
+        )
+
+    def update(self, validated_data):
+        validated_data["status"] = CurrencyDraft.REVIEW
+        return super(SubmitCurrencyDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (CurrencyDraft.SAVED, CurrencyDraft.PUBLISHED):
+            raise serializers.ValidationError("This currency entry cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitCurrencyDraftSerializer, self).validate(data)
+
+
 class PublishCurrencySerializer(serializers.ModelSerializer):
 
     published = serializers.BooleanField(required=True)
