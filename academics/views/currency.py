@@ -10,7 +10,8 @@ from academics.paginations import CurrencyPagination, CurrencyDraftPagination
 from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
                                    ListCurrencySerializer, ListCurrencyDraftSerializer,
                                    DetailCurrencySerializer, DetailCurrencyDraftSerializer,
-                                   UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer)
+                                   UpdateCurrencySerializer, UpdateCurrencyDraftSerializer,
+                                   DeleteCurrencySerializer, PublishCurrencySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -104,12 +105,16 @@ class DetailCurrencyDraftAPIView(ListAPIView):
         return super(DetailCurrencyDraftAPIView, self).get(request, *args, **kwargs)
     
 
-class UpdateCurrencyAPIView(UpdateAPIView):
+class UpdateCurrencyDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = UpdateCurrencySerializer
-    queryset = Currency.objects.all()
+    serializer_class = UpdateCurrencyDraftSerializer
 
+    def patch(self, request, *args, **kwargs):
+        self.queryset = CurrencyDraft.objects.filter(author=request.user)
+
+        return super(UpdateCurrencyDraftAPIView, self).patch(request, *args, **kwargs)
+    
 
 class PublishCurrencyAPIView(UpdateAPIView):
 
