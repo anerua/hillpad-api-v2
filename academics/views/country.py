@@ -5,7 +5,7 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import CountryFilter, CountryDraftFilter
-from academics.models import Country, CountryDraft, User
+from academics.models import Country, CountryDraft
 from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,

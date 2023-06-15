@@ -5,9 +5,11 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import CurrencyFilter
-from academics.models import Currency
+from academics.models import Currency, CurrencyDraft
 from academics.paginations import CurrencyPagination
-from academics.serializers import CreateCurrencySerializer, ListCurrencySerializer, DetailCurrencySerializer, UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer
+from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
+                                   ListCurrencySerializer, DetailCurrencySerializer,
+                                   UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -16,32 +18,11 @@ from action.actions import AdminCurrencyPublishAction
 from notification.notifications import SupervisorCurrencySubmissionNotification, CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification
 
 
-class CreateCurrencyAPIView(CreateAPIView):
+class CreateCurrencyDraftAPIView(CreateAPIView):
     
     permission_classes = (SupervisorPermission,)
-    serializer_class = CreateCurrencySerializer
-    queryset = Currency.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        response = super(CreateCurrencyAPIView, self).post(request, *args, **kwargs)
-        
-        # Create a supervisor submission notification after a new country is created by supervisor
-        # Create a publish action for admin
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                supervisor_notification = SupervisorCurrencySubmissionNotification(data=response.data)
-                supervisor_notification.create_notification()
-                
-                admin_action = AdminCurrencyPublishAction(data=response.data)
-                admin_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+    serializer_class = CreateCurrencyDraftSerializer
+    queryset = CurrencyDraft.objects.all()
 
 
 class ListCurrencyAPIView(ListAPIView):
