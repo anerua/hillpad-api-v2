@@ -10,6 +10,7 @@ urlpatterns = [
     path("detail/<int:pk>", views.DetailLanguageAPIView.as_view(), name="detail_language"),
     path("detail_draft/<int:pk>", views.DetailLanguageDraftAPIView.as_view(), name="detail_language_draft"),
     path("update_draft/<int:pk>", views.UpdateLanguageDraftAPIView.as_view(), name="update_language_draft"),
+    path("submit_draft/<int:pk>", views.SubmitLanguageDraftAPIView.as_view(), name="submit_language_draft"),
     path("delete/<int:pk>", views.DeleteLanguageAPIView.as_view(), name="delete_language"),
     path("publish/<int:pk>", views.PublishLanguageAPIView.as_view(), name="publish_language"),
 ]
