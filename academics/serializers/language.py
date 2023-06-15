@@ -76,6 +76,30 @@ class UpdateLanguageSerializer(serializers.ModelSerializer):
         )
 
 
+class UpdateLanguageDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = LanguageDraft
+        fields = (
+            "id",
+            "name",
+            "iso_639_code",
+            "author",
+            "status",
+        )
+
+    def update(self, validated_data):
+        validated_data["status"] = LanguageDraft.SAVED
+        return super(UpdateLanguageDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (LanguageDraft.SAVED, LanguageDraft.PUBLISHED):
+            raise serializers.ValidationError("This language entry cannot be edited because it is currently in the review process.")
+        
+        return super(UpdateLanguageDraftSerializer, self).validate(data)
+
+
 class PublishLanguageSerializer(serializers.ModelSerializer):
 
     published = serializers.BooleanField(required=True)
