@@ -44,6 +44,13 @@ class ListLanguageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListLanguageDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = LanguageDraft
+        fields = '__all__'
+
+
 class DetailLanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
