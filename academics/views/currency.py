@@ -12,7 +12,7 @@ from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraft
                                    DetailCurrencySerializer, DetailCurrencyDraftSerializer,
                                    UpdateCurrencySerializer, 
                                    UpdateCurrencyDraftSerializer, SubmitCurrencyDraftSerializer,
-                                   DeleteCurrencySerializer, PublishCurrencySerializer)
+                                   DeleteCurrencySerializer, PublishCurrencyDraftSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 

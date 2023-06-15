@@ -129,16 +129,25 @@ class SubmitCurrencyDraftSerializer(serializers.ModelSerializer):
         return super(SubmitCurrencyDraftSerializer, self).validate(data)
 
 
-class PublishCurrencySerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishCurrencyDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Currency
+        model = CurrencyDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = CurrencyDraft.PUBLISHED
+        return super(PublishCurrencyDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != CurrencyDraft.REVIEW:
+            raise serializers.ValidationError("This currency has not been submitted by the supervisor and hence cannot be published.")
+        
+        return super(PublishCurrencyDraftSerializer, self).validate(data)
 
 
 class DeleteCurrencySerializer(serializers.ModelSerializer):
