@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import DisciplineFilter
+from academics.filters import DisciplineFilter, DisciplineDraftFilter
 from academics.models import Discipline, DisciplineDraft
-from academics.paginations import DisciplinePagination
+from academics.paginations import DisciplinePagination, DisciplineDraftPagination
 from academics.serializers import (CreateDisciplineSerializer, CreateDisciplineDraftSerializer,
-                                   ListDisciplineSerializer, DetailDisciplineSerializer,
+                                   ListDisciplineSerializer, ListDisciplineDraftSerializer,
+                                   DetailDisciplineSerializer,
                                    UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -41,6 +42,30 @@ class ListDisciplineAPIView(ListAPIView):
             self.queryset = Discipline.objects.filter(published=True)
         
         return super(ListDisciplineAPIView, self).get(request, *args, **kwargs)
+
+
+class ListDisciplineDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = ListDisciplineDraftSerializer
+    pagination_class = DisciplineDraftPagination
+    filterset_class = DisciplineDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CountryDraft
+            Client:     No CountryDraft
+            Specialist: No CountryDraft
+            Supervisor: All CountryDrafts authored by user
+            Admin:      All CountryDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = DisciplineDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
+        
+        return super(ListDisciplineDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailDisciplineAPIView(RetrieveAPIView):

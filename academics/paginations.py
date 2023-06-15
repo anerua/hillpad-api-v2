@@ -46,6 +46,11 @@ class DisciplinePagination(PageNumberPagination):
     page_size = 20
 
 
+class DisciplineDraftPagination(PageNumberPagination):
+
+    page_size = 20
+
+
 class DegreeTypePagination(PageNumberPagination):
 
     page_size = 20
