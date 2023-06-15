@@ -243,7 +243,7 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
     serializer_class = PublishSchoolDraftSerializer
-    queryset = School.objects.filter(status=SchoolDraft.APPROVED)
+    queryset = SchoolDraft.objects.filter(status=SchoolDraft.APPROVED)
 
     def put(self, request, *args, **kwargs):
         response = super(PublishSchoolDraftAPIView, self).put(request, *args, **kwargs)
