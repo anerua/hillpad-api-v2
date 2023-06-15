@@ -9,7 +9,7 @@ from academics.models import Currency, CurrencyDraft
 from academics.paginations import CurrencyPagination, CurrencyDraftPagination
 from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
                                    ListCurrencySerializer, ListCurrencyDraftSerializer,
-                                   DetailCurrencySerializer,
+                                   DetailCurrencySerializer, DetailCurrencyDraftSerializer,
                                    UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
