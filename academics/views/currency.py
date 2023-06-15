@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CurrencyFilter
+from academics.filters import CurrencyFilter, CurrencyDraftFilter
 from academics.models import Currency, CurrencyDraft
-from academics.paginations import CurrencyPagination
+from academics.paginations import CurrencyPagination, CurrencyDraftPagination
 from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
-                                   ListCurrencySerializer, DetailCurrencySerializer,
+                                   ListCurrencySerializer, ListCurrencyDraftSerializer,
+                                   DetailCurrencySerializer,
                                    UpdateCurrencySerializer, DeleteCurrencySerializer, PublishCurrencySerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -41,6 +42,30 @@ class ListCurrencyAPIView(ListAPIView):
             self.queryset = Currency.objects.filter(published=True)
         
         return super(ListCurrencyAPIView, self).get(request, *args, **kwargs)
+
+
+class ListCurrencyDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = ListCurrencyDraftSerializer
+    pagination_class = CurrencyDraftPagination
+    filterset_class = CurrencyDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CurrencyDraft
+            Client:     No CurrencyDraft
+            Specialist: No CurrencyDraft
+            Supervisor: All CurrencyDrafts authored by user
+            Admin:      All CurrencyDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = CurrencyDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = CurrencyDraft.objects.exclude(status=CurrencyDraft.SAVED)
+        
+        return super(ListCurrencyDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailCurrencyAPIView(RetrieveAPIView):

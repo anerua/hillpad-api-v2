@@ -36,6 +36,11 @@ class CurrencyPagination(PageNumberPagination):
     page_size = 20
 
 
+class CurrencyDraftPagination(PageNumberPagination):
+
+    page_size = 20
+
+
 class DisciplinePagination(PageNumberPagination):
 
     page_size = 20
