@@ -11,13 +11,16 @@ from academics.serializers import (CreateDisciplineSerializer, CreateDisciplineD
                                    ListDisciplineSerializer, ListDisciplineDraftSerializer,
                                    DetailDisciplineSerializer, DetailDisciplineDraftSerializer,
                                    UpdateDisciplineSerializer, UpdateDisciplineDraftSerializer,
+                                   SubmitDisciplineDraftSerializer,
                                    DeleteDisciplineSerializer, PublishDisciplineSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
-from action.actions import AdminDisciplinePublishAction
+from action.actions import AdminDisciplineDraftPublishAction, AdminDisciplineDraftUpdatePublishAction
 
-from notification.notifications import SupervisorDisciplineSubmissionNotification, DisciplinePublishNotification, SupervisorDisciplinePublishNotification, AdminDisciplinePublishNotification
+from notification.notifications import (SupervisorDisciplineDraftSubmissionNotification, SupervisorDisciplineDraftUpdateSubmissionNotification,
+                                        DisciplinePublishNotification, SupervisorDisciplinePublishNotification,
+                                        AdminDisciplinePublishNotification)
 
 
 class CreateDisciplineDraftAPIView(CreateAPIView):
@@ -114,6 +117,46 @@ class UpdateDisciplineDraftAPIView(UpdateAPIView):
         self.queryset = DisciplineDraft.objects.filter(author=request.user)
 
         return super(UpdateDisciplineDraftAPIView, self).patch(request, *args, **kwargs)
+
+
+class SubmitDisciplineDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SupervisorPermission,)
+    serializer_class = SubmitDisciplineDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = DisciplineDraft.objects.filter(author=request.user)
+
+        response = super(SubmitDisciplineDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            discipline_draft = DisciplineDraft.objects.get(id=draft_id)
+            discipline = discipline_draft.related_discipline
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if discipline:
+                    supervisor_notification = SupervisorDisciplineDraftUpdateSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+
+                    admin_action = AdminDisciplineDraftUpdatePublishAction(data=response.data)
+                    admin_action.create_action()
+                else:
+                    supervisor_notification = SupervisorDisciplineDraftSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+                    
+                    admin_action = AdminDisciplineDraftPublishAction(data=response.data)
+                    admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
 
 
 class PublishDisciplineAPIView(UpdateAPIView):
