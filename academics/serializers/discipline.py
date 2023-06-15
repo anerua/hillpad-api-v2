@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import Discipline
+from academics.models import Discipline, DisciplineDraft
 
 
 class CreateDisciplineSerializer(serializers.ModelSerializer):
@@ -13,7 +13,32 @@ class CreateDisciplineSerializer(serializers.ModelSerializer):
             "about",
             "icon",
             "icon_color",
+            "author",
+            "discipline_draft",
+            "published",
         )
+
+
+class CreateDisciplineDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DisciplineDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "icon",
+            "icon_color",
+            "author",
+        )
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user.id
+        
+        return super(CreateDisciplineDraftSerializer, self).create(validated_data)
 
 
 class ListDisciplineSerializer(serializers.ModelSerializer):
