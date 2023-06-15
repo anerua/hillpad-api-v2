@@ -1,6 +1,11 @@
 from django_filters import FilterSet, NumberFilter, CharFilter
 
-from academics.models import Course, CourseDraft, School, SchoolDraft, Country, CountryDraft, Currency, CurrencyDraft, Discipline, DisciplineDraft
+from academics.models import (Course, CourseDraft,
+                              School, SchoolDraft,
+                              Country, CountryDraft, 
+                              Currency, CurrencyDraft, 
+                              Discipline, DisciplineDraft,
+                              Language, LanguageDraft)
 
 
 class CourseFilter(FilterSet):
@@ -161,3 +166,20 @@ class LanguageFilter(FilterSet):
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
     iso_639_code = CharFilter(field_name="iso_639_code", lookup_expr="iexact")
+    
+    class Meta:
+        model = Language
+        fields = ("id", "name", "iso_639_code")
+
+
+class LanguageDraftFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
+    iso_639_code = CharFilter(field_name="iso_639_code", lookup_expr="iexact")
+    author = NumberFilter(field_name="author", lookup_expr='exact')
+    status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = LanguageDraft
+        fields = ("id", "name", "iso_639_code", "author", "status")

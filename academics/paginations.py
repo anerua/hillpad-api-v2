@@ -64,3 +64,8 @@ class ProgrammeTypePagination(PageNumberPagination):
 class LanguagePagination(PageNumberPagination):
 
     page_size = 20
+
+
+class LanguageDraftPagination(PageNumberPagination):
+
+    page_size = 20

@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import LanguageFilter
+from academics.filters import LanguageFilter, LanguageDraftFilter
 from academics.models import Language, LanguageDraft
-from academics.paginations import LanguagePagination
+from academics.paginations import LanguagePagination, LanguageDraftPagination
 from academics.serializers import (CreateLanguageSerializer, CreateLanguageDraftSerializer,
-                                   ListLanguageSerializer, DetailLanguageSerializer,
+                                   ListLanguageSerializer, ListLanguageDraftSerializer,
+                                   DetailLanguageSerializer,
                                    UpdateLanguageSerializer, DeleteLanguageSerializer, PublishLanguageSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -41,6 +42,30 @@ class ListLanguageAPIView(ListAPIView):
             self.queryset = Language.objects.filter(published=True)
         
         return super(ListLanguageAPIView, self).get(request, *args, **kwargs)
+    
+
+class ListLanguageDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = ListLanguageDraftSerializer
+    pagination_class = LanguageDraftPagination
+    filterset_class = LanguageDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No LanguageDraft
+            Client:     No LanguageDraft
+            Specialist: No LanguageDraft
+            Supervisor: All LanguageDrafts authored by user
+            Admin:      All LanguageDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = LanguageDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = LanguageDraft.objects.exclude(status=LanguageDraft.SAVED)
+        
+        return super(ListLanguageDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailLanguageAPIView(RetrieveAPIView):
