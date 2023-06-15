@@ -134,16 +134,25 @@ class SubmitDisciplineDraftSerializer(serializers.ModelSerializer):
         return super(SubmitDisciplineDraftSerializer, self).validate(data)
 
 
-class PublishDisciplineSerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishDisciplineDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Discipline
+        model = DisciplineDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = DisciplineDraft.PUBLISHED
+        return super(PublishDisciplineDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != DisciplineDraft.REVIEW:
+            raise serializers.ValidationError("This discipline has not been submitted by the supervisor and hence cannot be published.")
+        
+        return super(PublishDisciplineDraftSerializer, self).validate(data)
 
 
 class DeleteDisciplineSerializer(serializers.ModelSerializer):
