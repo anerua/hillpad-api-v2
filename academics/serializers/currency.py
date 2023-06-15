@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import Currency
+from academics.models import Currency, CurrencyDraft
 
 
 class CreateCurrencySerializer(serializers.ModelSerializer):
@@ -12,7 +12,31 @@ class CreateCurrencySerializer(serializers.ModelSerializer):
             "name",
             "short_code",
             "usd_exchange_rate",
+            "author",
+            "currency_draft",
+            "published",
         )
+
+
+class CreateCurrencyDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CurrencyDraft
+        fields = (
+            "id",
+            "name",
+            "short_code",
+            "usd_exchange_rate",
+            "author",
+        )
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user.id
+        
+        return super(CreateCurrencyDraftSerializer, self).create(validated_data)
 
 
 class ListCurrencySerializer(serializers.ModelSerializer):
