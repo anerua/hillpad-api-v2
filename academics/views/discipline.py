@@ -10,7 +10,8 @@ from academics.paginations import DisciplinePagination, DisciplineDraftPaginatio
 from academics.serializers import (CreateDisciplineSerializer, CreateDisciplineDraftSerializer,
                                    ListDisciplineSerializer, ListDisciplineDraftSerializer,
                                    DetailDisciplineSerializer, DetailDisciplineDraftSerializer,
-                                   UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer)
+                                   UpdateDisciplineSerializer, UpdateDisciplineDraftSerializer,
+                                   DeleteDisciplineSerializer, PublishDisciplineSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -104,11 +105,15 @@ class DetailDisciplineDraftAPIView(ListAPIView):
         return super(DetailDisciplineDraftAPIView, self).get(request, *args, **kwargs)
 
 
-class UpdateDisciplineAPIView(UpdateAPIView):
+class UpdateDisciplineDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = UpdateDisciplineSerializer
-    queryset = Discipline.objects.all()
+    serializer_class = UpdateDisciplineDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = DisciplineDraft.objects.filter(author=request.user)
+
+        return super(UpdateDisciplineDraftAPIView, self).patch(request, *args, **kwargs)
 
 
 class PublishDisciplineAPIView(UpdateAPIView):
