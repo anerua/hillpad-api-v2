@@ -4,7 +4,7 @@ from academics import views
 
 
 urlpatterns = [
-    path("create", views.CreateCurrencyAPIView.as_view(), name="create_currency"),
+    path("create_draft", views.CreateCurrencyDraftAPIView.as_view(), name="create_currency_draft"),
     path("list", views.ListCurrencyAPIView.as_view(), name="list_currency"),
     path("detail/<int:pk>", views.DetailCurrencyAPIView.as_view(), name="detail_currency"),
     path("update/<int:pk>", views.UpdateCurrencyAPIView.as_view(), name="update_currency"),
