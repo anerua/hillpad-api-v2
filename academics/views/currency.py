@@ -158,14 +158,14 @@ class SubmitCurrencyDraftAPIView(UpdateAPIView):
         return response
 
 
-class PublishCurrencyAPIView(UpdateAPIView):
+class PublishCurrencyDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
     serializer_class = PublishCurrencySerializer
     queryset = Currency.objects.all()
 
     def put(self, request, *args, **kwargs):
-        response = super(PublishCurrencyAPIView, self).put(request, *args, **kwargs)
+        response = super(PublishCurrencyDraftAPIView, self).put(request, *args, **kwargs)
 
         # Create a published notification for specialist, supervisor and admin
         if response.status_code == status.HTTP_200_OK:
