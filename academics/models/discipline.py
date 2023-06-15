@@ -26,6 +26,7 @@ class Discipline(TrackingModel):
     icon = models.CharField(_("Font Awesome 4.7 icon class name without the fa- part"), max_length=64, blank=True)
     icon_color = models.CharField(_("Icon color"), max_length=64, choices=DISCIPLINE_ICON_COLOR_CHOICES, blank=True)
 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_disciplines", blank=True, null=True)
     discipline_draft = models.ForeignKey('DisciplineDraft', on_delete=models.CASCADE, related_name="related_discipline")
     
     published = models.BooleanField(_("Published status of discipline"), default=False)
@@ -53,5 +54,5 @@ class DisciplineDraft(TrackingModel):
     icon = models.CharField(_("Font Awesome 4.7 icon class name without the fa- part"), max_length=64, blank=True)
     icon_color = models.CharField(_("Icon color"), max_length=64, choices=Discipline.DISCIPLINE_ICON_COLOR_CHOICES, blank=True)
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_draft_discipline", blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_draft_disciplines", blank=True, null=True)
     status = models.CharField(_("Discipline status"), max_length=16, choices=DISCIPLINE_DRAFT_STATUS_CHOICES, default=SAVED)
