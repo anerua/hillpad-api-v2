@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import Language
+from academics.models import Language, LanguageDraft
 
 
 class CreateLanguageSerializer(serializers.ModelSerializer):
@@ -11,7 +11,30 @@ class CreateLanguageSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "iso_639_code",
+            "author",
+            "language_draft",
+            "published",
         )
+
+
+class CreateLanguageDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = LanguageDraft
+        fields = (
+            "id",
+            "name",
+            "iso_639_code",
+            "author",
+        )
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user.id
+        
+        return super(CreateLanguageDraftSerializer, self).create(validated_data)
 
 
 class ListLanguageSerializer(serializers.ModelSerializer):
