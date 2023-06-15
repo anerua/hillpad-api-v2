@@ -83,6 +83,27 @@ class DetailCurrencyAPIView(RetrieveAPIView):
         return super(ListCurrencyAPIView, self).get(request, *args, **kwargs)
     
 
+class DetailCurrencyDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = DetailCurrencyDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No CurrencyDraft
+            Client:     No CurrencyDraft
+            Specialist: No CurrencyDraft
+            Supervisor: All CurrencyDrafts authored by user
+            Admin:      All CurrencyDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = CurrencyDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = CurrencyDraft.objects.exclude(status=CurrencyDraft.SAVED)
+        
+        return super(DetailCurrencyDraftAPIView, self).get(request, *args, **kwargs)
+    
+
 class UpdateCurrencyAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)

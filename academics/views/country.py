@@ -104,7 +104,7 @@ class DetailCountryDraftAPIView(ListAPIView):
         elif AdminPermission.has_permission(request):
             self.queryset = CountryDraft.objects.exclude(status=CountryDraft.SAVED)
         
-        return super(ListCountryDraftAPIView, self).get(request, *args, **kwargs)
+        return super(DetailCountryDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateCountryDraftAPIView(UpdateAPIView):
