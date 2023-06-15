@@ -5,9 +5,11 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import DisciplineFilter
-from academics.models import Discipline
+from academics.models import Discipline, DisciplineDraft
 from academics.paginations import DisciplinePagination
-from academics.serializers import CreateDisciplineSerializer, ListDisciplineSerializer, DetailDisciplineSerializer, UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer
+from academics.serializers import (CreateDisciplineSerializer, CreateDisciplineDraftSerializer,
+                                   ListDisciplineSerializer, DetailDisciplineSerializer,
+                                   UpdateDisciplineSerializer, DeleteDisciplineSerializer, PublishDisciplineSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -16,32 +18,11 @@ from action.actions import AdminDisciplinePublishAction
 from notification.notifications import SupervisorDisciplineSubmissionNotification, DisciplinePublishNotification, SupervisorDisciplinePublishNotification, AdminDisciplinePublishNotification
 
 
-class CreateDisciplineAPIView(CreateAPIView):
+class CreateDisciplineDraftAPIView(CreateAPIView):
     
     permission_classes = (SupervisorPermission,)
-    serializer_class = CreateDisciplineSerializer
-    queryset = Discipline.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        response = super(CreateDisciplineAPIView, self).post(request, *args, **kwargs)
-        
-        # Create a supervisor submission notification after a new Discipline is created by supervisor
-        # Create a publish action for admin
-        if response.status_code == status.HTTP_201_CREATED:
-            try:
-                supervisor_notification = SupervisorDisciplineSubmissionNotification(data=response.data)
-                supervisor_notification.create_notification()
-                
-                admin_action = AdminDisciplinePublishAction(data=response.data)
-                admin_action.create_action()
-
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        return response
+    serializer_class = CreateDisciplineDraftSerializer
+    queryset = DisciplineDraft.objects.all()
 
 
 class ListDisciplineAPIView(ListAPIView):
