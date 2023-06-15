@@ -1,7 +1,7 @@
 from .generic import GenericAction
 
-from academics.models import Country
-from academics.serializers import DetailCountrySerializer
+from academics.models import CountryDraft
+from academics.serializers import DetailCountryDraftSerializer
 
 from action.models import Action
 
@@ -9,8 +9,8 @@ from action.models import Action
 class AdminCountryDraftPublishAction(GenericAction):
 
     def compose_action(self):
-        country_object = Country.objects.get(pk=self.data["id"])
-        country = DetailCountrySerializer(country_object)
+        country_object = CountryDraft.objects.get(pk=self.data["id"])
+        country = DetailCountryDraftSerializer(country_object)
         title = f"Action Required: Publish Country - {country.data['name']}"
         detail = f"A new country entry has been submitted by the supervisor and needs to be published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
@@ -30,8 +30,8 @@ class AdminCountryDraftPublishAction(GenericAction):
 class AdminCountryDraftUpdatePublishAction(GenericAction):
 
     def compose_action(self):
-        country_object = Country.objects.get(pk=self.data["id"])
-        country = DetailCountrySerializer(country_object)
+        country_object = CountryDraft.objects.get(pk=self.data["id"])
+        country = DetailCountryDraftSerializer(country_object)
         title = f"Action Required: Publish Country (Update) - {country.data['name']}"
         detail = f"An update to a country entry has been submitted by the supervisor and needs to be published.\n\nEntry:\n"
         for item, i in zip(country.data, range(len(country.data))):
