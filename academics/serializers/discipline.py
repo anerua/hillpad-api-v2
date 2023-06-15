@@ -82,6 +82,21 @@ class UpdateDisciplineSerializer(serializers.ModelSerializer):
         )
 
 
+class UpdateDisciplineDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DisciplineDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "icon",
+            "icon_color",
+            "author",
+            "status",
+        )
+
+
 class PublishDisciplineSerializer(serializers.ModelSerializer):
 
     published = serializers.BooleanField(required=True)
