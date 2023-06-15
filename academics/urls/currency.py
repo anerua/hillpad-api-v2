@@ -8,6 +8,7 @@ urlpatterns = [
     path("list", views.ListCurrencyAPIView.as_view(), name="list_currency"),
     path("list_draft", views.ListCurrencyDraftAPIView.as_view(), name="list_currency_draft"),
     path("detail/<int:pk>", views.DetailCurrencyAPIView.as_view(), name="detail_currency"),
+    path("detail_draft/<int:pk>", views.DetailCurrencyDraftAPIView.as_view(), name="detail_currency_draft"),
     path("update/<int:pk>", views.UpdateCurrencyAPIView.as_view(), name="update_currency"),
     path("delete/<int:pk>", views.DeleteCurrencyAPIView.as_view(), name="delete_currency"),
     path("publish/<int:pk>", views.PublishCurrencyAPIView.as_view(), name="publish_currency"),
