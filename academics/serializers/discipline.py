@@ -48,6 +48,13 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListDisciplineDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DisciplineDraft
+        fields = '__all__'
+
+
 class DetailDisciplineSerializer(serializers.ModelSerializer):
 
     class Meta:
