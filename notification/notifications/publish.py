@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import CourseDraft, SchoolDraft, CountryDraft, Currency, DegreeType, Discipline, Language
-from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer, DetailCountryDraftSerializer, DetailCurrencySerializer, DetailDegreeTypeSerializer, DetailDisciplineSerializer, DetailLanguageSerializer
+from academics.models import CourseDraft, SchoolDraft, CountryDraft, CurrencyDraft, DegreeType, Discipline, Language
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer, DetailCountryDraftSerializer, DetailCurrencyDraftSerializer, DetailDegreeTypeSerializer, DetailDisciplineSerializer, DetailLanguageSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -180,14 +180,14 @@ class AdminCountryDraftPublishNotification(EntryPublishNotification):
         }
     
 
-class CurrencyPublishNotification(EntryPublishNotification):
+class CurrencyDraftPublishNotification(EntryPublishNotification):
     """
         TODO: Just create a single notification that should be broadcast to all staff users
     """
     
     def compose_notification(self):
-        currency_object = Currency.objects.get(pk=self.data["id"])
-        currency = DetailCurrencySerializer(currency_object)
+        currency_object = CurrencyDraft.objects.get(pk=self.data["id"])
+        currency = DetailCurrencyDraftSerializer(currency_object)
         title = f"Published: {currency.data['name']}"
         detail = f"Your currency entry: {currency.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(currency.data, range(len(currency.data))):
@@ -200,11 +200,11 @@ class CurrencyPublishNotification(EntryPublishNotification):
         }
     
 
-class SupervisorCurrencyPublishNotification(EntryPublishNotification):
+class SupervisorCurrencyDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        currency_object = Currency.objects.get(pk=self.data["id"])
-        currency = DetailCurrencySerializer(currency_object)
+        currency_object = CurrencyDraft.objects.get(pk=self.data["id"])
+        currency = DetailCurrencyDraftSerializer(currency_object)
         title = f"Published: {currency.data['name']}"
         detail = f"The currency entry: {currency.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(currency.data, range(len(currency.data))):
@@ -217,11 +217,11 @@ class SupervisorCurrencyPublishNotification(EntryPublishNotification):
         }
     
 
-class AdminCurrencyPublishNotification(EntryPublishNotification):
+class AdminCurrencyDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        currency_object = Currency.objects.get(pk=self.data["id"])
-        currency = DetailCurrencySerializer(currency_object)
+        currency_object = CurrencyDraft.objects.get(pk=self.data["id"])
+        currency = DetailCurrencyDraftSerializer(currency_object)
         title = f"Published: {currency.data['name']}"
         detail = f"The currency entry: {currency.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(currency.data, range(len(currency.data))):

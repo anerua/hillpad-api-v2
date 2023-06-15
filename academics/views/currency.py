@@ -19,7 +19,7 @@ from account.permissions import AdminPermission, SupervisorPermission, AdminAndS
 from action.actions import AdminCurrencyDraftPublishAction, AdminCurrencyDraftUpdatePublishAction 
 
 from notification.notifications import (SupervisorCurrencyDraftSubmissionNotification, SupervisorCurrencyDraftUpdateSubmissionNotification,
-                                        CurrencyPublishNotification, SupervisorCurrencyPublishNotification, AdminCurrencyPublishNotification)
+                                        CurrencyDraftPublishNotification, SupervisorCurrencyDraftPublishNotification, AdminCurrencyDraftPublishNotification)
 
 
 class CreateCurrencyDraftAPIView(CreateAPIView):
@@ -133,7 +133,7 @@ class SubmitCurrencyDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             currency_draft = CurrencyDraft.objects.get(id=draft_id)
-            currency = currency_draft.related_country
+            currency = currency_draft.related_currency
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -161,31 +161,71 @@ class SubmitCurrencyDraftAPIView(UpdateAPIView):
 class PublishCurrencyDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = PublishCurrencySerializer
-    queryset = Currency.objects.all()
+    serializer_class = PublishCurrencyDraftSerializer
+    queryset = CurrencyDraft.objects.filter(status=CurrencyDraft.REVIEW)
+
 
     def put(self, request, *args, **kwargs):
         response = super(PublishCurrencyDraftAPIView, self).put(request, *args, **kwargs)
 
-        # Create a published notification for specialist, supervisor and admin
+        # If Currency is already attached to draft, update currency with draft otherwise create currency with draft details
         if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = CurrencyPublishNotification(data=response.data)
-                specialist_notification.create_notification()
+            draft_id = response.data["id"]
+            currency_draft = CurrencyDraft.objects.get(id=draft_id)
+            currency = currency_draft.related_currency
+            
+            currency_data = {
+                "name": currency_draft.name,
+                "short_code": currency_draft.short_code,
+                "usd_exchange_rate": currency_draft.usd_exchange_rate,
+                "author": currency_draft.author,
+                "currency_draft": currency_draft.id,
+                "published": True,
+            }
 
-                supervisor_notification = SupervisorCurrencyPublishNotification(data=response.data)
-                supervisor_notification.create_notification()
+            # If updating, don't notify specialist of updates. If new, also send notification to specialist
+            if currency:
+                # Update currency with draft details
+                update_serializer = UpdateCurrencySerializer(currency, data=currency_data)
+                if update_serializer.is_valid():
+                    update_serializer.save()
 
-                admin_notification = AdminCurrencyPublishNotification(data=response.data)
-                admin_notification.create_notification()
+                    try:
+                        supervisor_notification = SupervisorCurrencyDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        
+                        admin_notification = AdminCurrencyDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = update_serializer.errors
+            else:
+                # Create new currency with draft details
+                create_serializer = CreateCurrencySerializer(data=currency_data)
+                if create_serializer.is_valid():
+                    create_serializer.save()
+
+                    try:
+                        specialist_notification = CurrencyDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
+
+                        supervisor_notification = SupervisorCurrencyDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminCurrencyDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = create_serializer.errors
+
         return response
 
 
