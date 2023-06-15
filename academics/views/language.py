@@ -9,7 +9,7 @@ from academics.models import Language, LanguageDraft
 from academics.paginations import LanguagePagination, LanguageDraftPagination
 from academics.serializers import (CreateLanguageSerializer, CreateLanguageDraftSerializer,
                                    ListLanguageSerializer, ListLanguageDraftSerializer,
-                                   DetailLanguageSerializer,
+                                   DetailLanguageSerializer, DetailLanguageDraftSerializer,
                                    UpdateLanguageSerializer, DeleteLanguageSerializer, PublishLanguageSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
@@ -81,6 +81,27 @@ class DetailLanguageAPIView(RetrieveAPIView):
             self.queryset = Language.objects.filter(published=True)
         
         return super(ListLanguageAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailLanguageDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = DetailLanguageDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No LanguageDraft
+            Client:     No LanguageDraft
+            Specialist: No LanguageDraft
+            Supervisor: All LanguageDrafts authored by user
+            Admin:      All LanguageDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = LanguageDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = LanguageDraft.objects.exclude(status=LanguageDraft.SAVED)
+        
+        return super(DetailLanguageDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateLanguageAPIView(UpdateAPIView):
