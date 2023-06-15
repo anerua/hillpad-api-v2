@@ -103,9 +103,35 @@ class UpdateDisciplineDraftSerializer(serializers.ModelSerializer):
     def validate(self, data):
         status = self.instance.status
         if status not in (DisciplineDraft.SAVED, DisciplineDraft.PUBLISHED):
-            raise serializers.ValidationError("This country entry cannot be edited because it is currently in the review process.")
+            raise serializers.ValidationError("This discipline entry cannot be edited because it is currently in the review process.")
         
         return super(UpdateDisciplineDraftSerializer, self).validate(data)
+    
+
+class SubmitDisciplineDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DisciplineDraft
+        fields = (
+            "id",
+            "name",
+            "about",
+            "icon",
+            "icon_color",
+            "author",
+            "status",
+        )
+
+    def update(self, validated_data):
+        validated_data["status"] = DisciplineDraft.REVIEW
+        return super(SubmitDisciplineDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (DisciplineDraft.SAVED, DisciplineDraft.PUBLISHED):
+            raise serializers.ValidationError("This discipline entry cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitDisciplineDraftSerializer, self).validate(data)
 
 
 class PublishDisciplineSerializer(serializers.ModelSerializer):
