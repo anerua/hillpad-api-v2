@@ -11,6 +11,7 @@ class Language(TrackingModel):
     name = models.CharField(_("Name of language"), max_length=255)
     iso_639_code = models.CharField(_("ISO 639 two-letter abbreviation"), max_length=2)
 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_languages", blank=True, null=True)
     language_draft = models.ForeignKey('LanguageDraft', on_delete=models.CASCADE, related_name="related_language")
     
     published = models.BooleanField(_("Published status of language"), default=False)
