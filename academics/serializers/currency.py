@@ -46,6 +46,13 @@ class ListCurrencySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListCurrencyDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CurrencyDraft
+        fields = '__all__'
+
+
 class DetailCurrencySerializer(serializers.ModelSerializer):
 
     class Meta:
