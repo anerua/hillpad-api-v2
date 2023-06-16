@@ -124,16 +124,25 @@ class SubmitLanguageDraftSerializer(serializers.ModelSerializer):
         return super(SubmitLanguageDraftSerializer, self).validate(data)
 
 
-class PublishLanguageSerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishLanguageDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Language
+        model = LanguageDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = LanguageDraft.PUBLISHED
+        return super(PublishLanguageDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != LanguageDraft.REVIEW:
+            raise serializers.ValidationError("This language has not been submitted by the supervisor and hence cannot be published.")
+        
+        return super(PublishLanguageDraftSerializer, self).validate(data)
 
 
 class DeleteLanguageSerializer(serializers.ModelSerializer):
