@@ -11,13 +11,16 @@ from academics.serializers import (CreateLanguageSerializer, CreateLanguageDraft
                                    ListLanguageSerializer, ListLanguageDraftSerializer,
                                    DetailLanguageSerializer, DetailLanguageDraftSerializer,
                                    UpdateLanguageSerializer, UpdateLanguageDraftSerializer,
+                                   SubmitLanguageDraftSerializer,
                                    DeleteLanguageSerializer, PublishLanguageSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
-from action.actions import AdminLanguagePublishAction
+from action.actions import AdminLanguageDraftPublishAction, AdminLanguageDraftUpdatePublishAction
 
-from notification.notifications import SupervisorLanguageSubmissionNotification, LanguagePublishNotification, SupervisorLanguagePublishNotification, AdminLanguagePublishNotification
+from notification.notifications import (SupervisorLanguageDraftSubmissionNotification, SupervisorLanguageDraftUpdateSubmissionNotification,
+                                        LanguagePublishNotification, SupervisorLanguagePublishNotification,
+                                        AdminLanguagePublishNotification)
 
 
 class CreateLanguageDraftAPIView(CreateAPIView):
@@ -114,6 +117,46 @@ class UpdateLanguageDraftAPIView(UpdateAPIView):
         self.queryset = LanguageDraft.objects.filter(author=request.user)
 
         return super(UpdateLanguageDraftAPIView, self).patch(request, *args, **kwargs)
+
+
+class SubmitLanguageDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SupervisorPermission,)
+    serializer_class = SubmitLanguageDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = LanguageDraft.objects.filter(author=request.user)
+
+        response = super(SubmitLanguageDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            language_draft = LanguageDraft.objects.get(id=draft_id)
+            language = language_draft.related_language
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if language:
+                    supervisor_notification = SupervisorLanguageDraftUpdateSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+
+                    admin_action = AdminLanguageDraftUpdatePublishAction(data=response.data)
+                    admin_action.create_action()
+                else:
+                    supervisor_notification = SupervisorLanguageDraftSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+                    
+                    admin_action = AdminLanguageDraftPublishAction(data=response.data)
+                    admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
 
 
 class PublishLanguageAPIView(UpdateAPIView):
