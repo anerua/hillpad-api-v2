@@ -141,11 +141,26 @@ class SupervisorCurrencyDraftUpdateSubmissionNotification(EntrySubmissionNotific
         }
 
 
-class SupervisorDegreeTypeSubmissionNotification(EntrySubmissionNotification):
+class SupervisorDegreeTypeDraftSubmissionNotification(EntrySubmissionNotification):
 
     def compose_notification(self):
         title = f"Supervisor DegreeType Submission: {self.data['name']}"
         detail = f"Your degree type entry: {self.data['name']} has been submitted successfully and is awaiting publishing.\n\nEntry:\n"
+        for item, i in zip(self.data, range(len(self.data))):
+            detail += f"{i+1}. {item}: {self.data[item]}\n"
+        
+        return {
+            "type": Notification.SUBMISSION,
+            "title": title,
+            "detail": detail
+        }
+    
+
+class SupervisorDegreeTypeDraftUpdateSubmissionNotification(EntrySubmissionNotification):
+
+    def compose_notification(self):
+        title = f"Supervisor DegreeType Submission (Update): {self.data['name']}"
+        detail = f"An update to your degree type entry: {self.data['name']} has been submitted successfully and is awaiting publishing.\n\nEntry:\n"
         for item, i in zip(self.data, range(len(self.data))):
             detail += f"{i+1}. {item}: {self.data[item]}\n"
         

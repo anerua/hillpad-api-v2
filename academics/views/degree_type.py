@@ -11,13 +11,16 @@ from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeD
                                    ListDegreeTypeSerializer, ListDegreeTypeDraftSerializer,
                                    DetailDegreeTypeSerializer, DetailDegreeTypeDraftSerializer,
                                    UpdateDegreeTypeSerializer, UpdateDegreeTypeDraftSerializer,
+                                   SubmitDegreeTypeDraftSerializer,
                                    DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
-from action.actions import AdminDegreeTypePublishAction
+from action.actions import AdminDegreeTypeDraftPublishAction, AdminDegreeTypeDraftUpdatePublishAction
 
-from notification.notifications import SupervisorDegreeTypeSubmissionNotification, DegreeTypePublishNotification, SupervisorDegreeTypePublishNotification, AdminDegreeTypePublishNotification
+from notification.notifications import (SupervisorDegreeTypeDraftSubmissionNotification, SupervisorDegreeTypeDraftUpdateSubmissionNotification,
+                                        DegreeTypePublishNotification, SupervisorDegreeTypePublishNotification,
+                                        AdminDegreeTypePublishNotification)
 
 
 class CreateDegreeTypeDraftAPIView(CreateAPIView):
@@ -114,6 +117,47 @@ class UpdateDegreeTypeDraftAPIView(UpdateAPIView):
         self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
 
         return super(UpdateDegreeTypeDraftAPIView, self).patch(request, *args, **kwargs)
+
+
+class SubmitDegreeTypeDraftAPIView(UpdateAPIView):
+
+    permission_classes = (SupervisorPermission,)
+    serializer_class = SubmitDegreeTypeDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
+
+        response = super(SubmitDegreeTypeDraftAPIView, self).patch(request, *args, **kwargs)
+        
+        # Create a submission notification after a course draft update is submitted
+        if response.status_code == status.HTTP_200_OK:
+
+            draft_id = response.data["id"]
+            degree_type_draft = DegreeTypeDraft.objects.get(id=draft_id)
+            degree_type = degree_type_draft.related_degree_type
+            try:
+                # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
+                # else issue CourseDraftSubmissionNotification
+                if degree_type:
+                    supervisor_notification = SupervisorDegreeTypeDraftUpdateSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+
+                    admin_action = AdminDegreeTypeDraftUpdatePublishAction(data=response.data)
+                    admin_action.create_action()
+                else:
+                    supervisor_notification = SupervisorDegreeTypeDraftSubmissionNotification(data=response.data)
+                    supervisor_notification.create_notification()
+                    
+                    admin_action = AdminDegreeTypeDraftPublishAction(data=response.data)
+                    admin_action.create_action()
+
+            except ValidationError as e:
+                print(repr(e))
+            except Exception as e:
+                print(repr(e))
+
+        return response
+
 
 
 class PublishDegreeTypeAPIView(UpdateAPIView):
