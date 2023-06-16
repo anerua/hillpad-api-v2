@@ -103,9 +103,35 @@ class UpdateDegreeTypeDraftSerializer(serializers.ModelSerializer):
     def validate(self, data):
         status = self.instance.status
         if status not in (DegreeTypeDraft.SAVED, DegreeTypeDraft.PUBLISHED):
-            raise serializers.ValidationError("This country entry cannot be edited because it is currently in the review process.")
+            raise serializers.ValidationError("This degree type entry cannot be edited because it is currently in the review process.")
         
         return super(UpdateDegreeTypeDraftSerializer, self).validate(data)
+    
+
+class SubmitDegreeTypeDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DegreeTypeDraft
+        fields = (
+            "id",
+            "name",
+            "short_name",
+            "programme_type",
+            "author",
+            "status",
+        )
+
+    def update(self, validated_data):
+        validated_data["status"] = DegreeTypeDraft.REVIEW
+        return super(SubmitDegreeTypeDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (DegreeTypeDraft.SAVED, DegreeTypeDraft.PUBLISHED):
+            raise serializers.ValidationError("This degree type entry cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitDegreeTypeDraftSerializer, self).validate(data)
+
 
 
 class PublishDegreeTypeSerializer(serializers.ModelSerializer):
