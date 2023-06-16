@@ -63,6 +63,14 @@ class DetailDegreeTypeSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class DetailDegreeTypeDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DegreeTypeDraft
+        fields = '__all__'
+        depth = 2
+
+
 class UpdateDegreeTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
