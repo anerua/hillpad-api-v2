@@ -9,7 +9,7 @@ from academics.models import DegreeType, DegreeTypeDraft
 from academics.paginations import DegreeTypePagination, DegreeTypeDraftPagination
 from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeDraftSerializer,
                                    ListDegreeTypeSerializer, ListDegreeTypeDraftSerializer,
-                                   DetailDegreeTypeSerializer,
+                                   DetailDegreeTypeSerializer, DetailDegreeTypeDraftSerializer,
                                    UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, 
                                    PublishDegreeTypeSerializer)
 
@@ -82,6 +82,27 @@ class DetailDegreeTypeAPIView(RetrieveAPIView):
             self.queryset = DegreeType.objects.filter(published=True)
         
         return super(ListDegreeTypeAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailDegreeTypeDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = DetailDegreeTypeDraftSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No DegreeTypeDraft
+            Client:     No DegreeTypeDraft
+            Specialist: No DegreeTypeDraft
+            Supervisor: All DegreeTypeDrafts authored by user
+            Admin:      All DegreeTypeDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = DegreeTypeDraft.objects.exclude(status=DegreeTypeDraft.SAVED)
+        
+        return super(DetailDegreeTypeDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class UpdateDegreeTypeAPIView(UpdateAPIView):
