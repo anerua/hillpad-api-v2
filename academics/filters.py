@@ -3,7 +3,8 @@ from django_filters import FilterSet, NumberFilter, CharFilter
 from academics.models import (Course, CourseDraft,
                               School, SchoolDraft,
                               Country, CountryDraft, 
-                              Currency, CurrencyDraft, 
+                              Currency, CurrencyDraft,
+                              DegreeType, DegreeTypeDraft,
                               Discipline, DisciplineDraft,
                               Language, LanguageDraft)
 
@@ -153,6 +154,23 @@ class DegreeTypeFilter(FilterSet):
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
     programme_type = CharFilter(field_name="programme_type__name", lookup_expr="iexact")
+
+    class Meta:
+        model = DegreeType
+        fields = ("id", "name", "programme_type")
+
+
+class DegreeTypeDraftFilter(FilterSet):
+
+    id = NumberFilter(field_name="id", lookup_expr="exact")
+    name = CharFilter(field_name="name", lookup_expr="icontains")
+    programme_type = CharFilter(field_name="programme_type__name", lookup_expr="iexact")
+    author = NumberFilter(field_name="author", lookup_expr='exact')
+    status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = DegreeTypeDraft
+        fields = ("id", "name", "programme_type", "author", "status")
 
 
 class ProgrammeTypeFilter(FilterSet):

@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import DegreeTypeFilter
+from academics.filters import DegreeTypeFilter, DegreeTypeDraftFilter
 from academics.models import DegreeType, DegreeTypeDraft
-from academics.paginations import DegreeTypePagination
+from academics.paginations import DegreeTypePagination, DegreeTypeDraftPagination
 from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeDraftSerializer,
-                                   ListDegreeTypeSerializer, DetailDegreeTypeSerializer,
+                                   ListDegreeTypeSerializer, ListDegreeTypeDraftSerializer,
+                                   DetailDegreeTypeSerializer,
                                    UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, 
                                    PublishDegreeTypeSerializer)
 
@@ -42,6 +43,30 @@ class ListDegreeTypeAPIView(ListAPIView):
             self.queryset = DegreeType.objects.filter(published=True)
         
         return super(ListDegreeTypeAPIView, self).get(request, *args, **kwargs)
+    
+
+class ListDegreeTypeDraftAPIView(ListAPIView):
+    
+    permission_classes = AdminAndSupervisorPermission
+    serializer_class = ListDegreeTypeDraftSerializer
+    pagination_class = DegreeTypeDraftPagination
+    filterset_class = DegreeTypeDraftFilter
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Anonymous:  No DegreeTypeDraft
+            Client:     No DegreeTypeDraft
+            Specialist: No DegreeTypeDraft
+            Supervisor: All DegreeTypeDrafts authored by user
+            Admin:      All DegreeTypeDrafts with status != SAVED
+        """
+        if SupervisorPermission.has_permission(request):
+            self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
+        elif AdminPermission.has_permission(request):
+            self.queryset = DegreeTypeDraft.objects.exclude(status=DegreeTypeDraft.SAVED)
+        
+        return super(ListDegreeTypeDraftAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailDegreeTypeAPIView(RetrieveAPIView):

@@ -56,6 +56,11 @@ class DegreeTypePagination(PageNumberPagination):
     page_size = 20
 
 
+class DegreeTypeDraftPagination(PageNumberPagination):
+
+    page_size = 20
+
+
 class ProgrammeTypePagination(PageNumberPagination):
 
     page_size = 20
