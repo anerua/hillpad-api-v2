@@ -1,7 +1,7 @@
 from rest_framework.serializers import ValidationError
 
-from academics.models import CourseDraft, SchoolDraft, CountryDraft, CurrencyDraft, DegreeType, DisciplineDraft, Language
-from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer, DetailCountryDraftSerializer, DetailCurrencyDraftSerializer, DetailDegreeTypeSerializer, DetailDisciplineDraftSerializer, DetailLanguageSerializer
+from academics.models import CourseDraft, SchoolDraft, CountryDraft, CurrencyDraft, DegreeType, DisciplineDraft, LanguageDraft
+from academics.serializers import DetailCourseDraftSerializer, DetailSchoolDraftSerializer, DetailCountryDraftSerializer, DetailCurrencyDraftSerializer, DetailDegreeTypeSerializer, DetailDisciplineDraftSerializer, DetailLanguageDraftSerializer
 
 from notification.models import Notification
 from notification.serializers import CreateNotificationSerializer
@@ -342,14 +342,14 @@ class AdminDisciplineDraftPublishNotification(EntryPublishNotification):
         }
 
 
-class LanguagePublishNotification(EntryPublishNotification):
+class LanguageDraftPublishNotification(EntryPublishNotification):
     """
         TODO: Just create a single notification that should be broadcast to all staff users
     """
     
     def compose_notification(self):
-        language_object = Language.objects.get(pk=self.data["id"])
-        language = DetailLanguageSerializer(language_object)
+        language_object = LanguageDraft.objects.get(pk=self.data["id"])
+        language = DetailLanguageDraftSerializer(language_object)
         title = f"Published: {language.data['name']}"
         detail = f"Your language entry: {language.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(language.data, range(len(language.data))):
@@ -362,11 +362,11 @@ class LanguagePublishNotification(EntryPublishNotification):
         }
     
 
-class SupervisorLanguagePublishNotification(EntryPublishNotification):
+class SupervisorLanguageDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        language_object = Language.objects.get(pk=self.data["id"])
-        language = DetailLanguageSerializer(language_object)
+        language_object = LanguageDraft.objects.get(pk=self.data["id"])
+        language = DetailLanguageDraftSerializer(language_object)
         title = f"Published: {language.data['name']}"
         detail = f"The language entry: {language.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(language.data, range(len(language.data))):
@@ -379,11 +379,11 @@ class SupervisorLanguagePublishNotification(EntryPublishNotification):
         }
     
 
-class AdminLanguagePublishNotification(EntryPublishNotification):
+class AdminLanguageDraftPublishNotification(EntryPublishNotification):
 
     def compose_notification(self):
-        language_object = Language.objects.get(pk=self.data["id"])
-        language = DetailLanguageSerializer(language_object)
+        language_object = LanguageDraft.objects.get(pk=self.data["id"])
+        language = DetailLanguageDraftSerializer(language_object)
         title = f"Published: {language.data['name']}"
         detail = f"The language entry: {language.data['name']} has been published.\n\nEntry:\n"
         for item, i in zip(language.data, range(len(language.data))):
