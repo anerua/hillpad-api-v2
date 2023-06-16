@@ -12,6 +12,7 @@ class DegreeType(TrackingModel):
     short_name = models.CharField(_("Short name of degree type, e.g. B.Sc."), max_length=255)
     programme_type = models.ForeignKey('ProgrammeType', on_delete=models.CASCADE, related_name="programme_type_degree_types")
 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author_degree_types", blank=True, null=True)
     degree_type_draft = models.ForeignKey('DegreeTypeDraft', on_delete=models.CASCADE, related_name="related_degree_type")
     
     published = models.BooleanField(_("Published status of degree type"), default=False)
