@@ -10,8 +10,8 @@ from academics.paginations import DegreeTypePagination, DegreeTypeDraftPaginatio
 from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeDraftSerializer,
                                    ListDegreeTypeSerializer, ListDegreeTypeDraftSerializer,
                                    DetailDegreeTypeSerializer, DetailDegreeTypeDraftSerializer,
-                                   UpdateDegreeTypeSerializer, DeleteDegreeTypeSerializer, 
-                                   PublishDegreeTypeSerializer)
+                                   UpdateDegreeTypeSerializer, UpdateDegreeTypeDraftSerializer,
+                                   DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
@@ -105,11 +105,15 @@ class DetailDegreeTypeDraftAPIView(ListAPIView):
         return super(DetailDegreeTypeDraftAPIView, self).get(request, *args, **kwargs)
 
 
-class UpdateDegreeTypeAPIView(UpdateAPIView):
+class UpdateDegreeTypeDraftAPIView(UpdateAPIView):
 
     permission_classes = (SupervisorPermission,)
-    serializer_class = UpdateDegreeTypeSerializer
-    queryset = DegreeType.objects.all()
+    serializer_class = UpdateDegreeTypeDraftSerializer
+
+    def patch(self, request, *args, **kwargs):
+        self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
+
+        return super(UpdateDegreeTypeDraftAPIView, self).patch(request, *args, **kwargs)
 
 
 class PublishDegreeTypeAPIView(UpdateAPIView):
