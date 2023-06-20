@@ -133,17 +133,25 @@ class SubmitDegreeTypeDraftSerializer(serializers.ModelSerializer):
         return super(SubmitDegreeTypeDraftSerializer, self).validate(data)
 
 
-
-class PublishDegreeTypeSerializer(serializers.ModelSerializer):
-
-    published = serializers.BooleanField(required=True)
+class PublishDegreeTypeDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = DegreeType
+        model = DegreeTypeDraft
         fields = (
             "id",
-            "published",
+            "status",
         )
+
+    def update(self, validated_data):
+        validated_data["status"] = DegreeTypeDraft.PUBLISHED
+        return super(PublishDegreeTypeDraftSerializer, self).update(validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != DegreeTypeDraft.REVIEW:
+            raise serializers.ValidationError("This country has not been submitted by the supervisor and hence cannot be published.")
+        
+        return super(PublishDegreeTypeDraftSerializer, self).validate(data)
 
 
 class DeleteDegreeTypeSerializer(serializers.ModelSerializer):
