@@ -28,7 +28,8 @@ class ListProgrammeTypeAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all programmetype.
         # Specialists, Clients and Anonymous users can only view published programmetype
-        if AdminPermission.has_permission(request):
+        permission = AdminPermission()
+        if permission.has_permission(request):
             self.queryset = ProgrammeType.objects.all()
         else:
             self.queryset = ProgrammeType.objects.filter(published=True)
@@ -43,12 +44,13 @@ class DetailProgrammeTypeAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all programmetype.
         # Specialists, Clients and Anonymous users can only view published programmetype
-        if AdminPermission.has_permission(request):
+        permission = AdminPermission()
+        if permission.has_permission(request):
             self.queryset = ProgrammeType.objects.all()
         else:
             self.queryset = ProgrammeType.objects.filter(published=True)
         
-        return super(ListProgrammeTypeAPIView, self).get(request, *args, **kwargs)
+        return super(DetailProgrammeTypeAPIView, self).get(request, *args, **kwargs)
 
 
 
