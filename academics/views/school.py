@@ -40,8 +40,8 @@ class ListSchoolAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        if hasattr(user, "is_staff") and (user.is_staff):
+        permission = StaffPermission()
+        if permission.has_permission(request):
             self.queryset = School.objects.all()
         else:
             self.queryset = School.objects.filter(published=True)
@@ -51,7 +51,7 @@ class ListSchoolAPIView(ListAPIView):
 
 class ListSchoolDraftAPIView(ListAPIView):
     
-    permission_classes = StaffPermission
+    permission_classes = (StaffPermission,)
     serializer_class = ListSchoolDraftSerializer
     pagination_class = SchoolDraftPagination
     filterset_class = SchoolDraftFilter
@@ -65,7 +65,8 @@ class ListSchoolDraftAPIView(ListAPIView):
             Supervisor: All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
             Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
         """
-        if SpecialistPermission.has_permission(request):
+        permission = SpecialistPermission()
+        if permission.has_permission(request):
             self.queryset = SchoolDraft.objects.filter(author=request.user)
         else:
             self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
@@ -79,22 +80,24 @@ class DetailSchoolAPIView(RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
 
-        if StaffPermission.has_permission(request):
+        permission = StaffPermission()
+        if permission.has_permission(request):
             self.queryset = School.objects.all()
         else:
             self.queryset = School.objects.filter(published=True)
         
-        return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
+        return super(DetailSchoolAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailSchoolDraftAPIView(RetrieveAPIView):
 
-    permission_classes = StaffPermission
+    permission_classes = (StaffPermission,)
     serializer_class = DetailSchoolDraftSerializer
 
     def get(self, request, *args, **kwargs):
 
-        if SpecialistPermission.has_permission(request):
+        permission = SpecialistPermission()
+        if permission.has_permission(request):
             self.queryset = SchoolDraft.objects.filter(author=request.user)
         else:
             self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
@@ -128,7 +131,7 @@ class SubmitSchoolDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             school_draft = SchoolDraft.objects.get(id=draft_id)
-            school = school_draft.related_course
+            school = school_draft.related_school.all()
             try:
                 # if school is attached to draft, then issue SchoolDraftUpdateSubmissionNotification
                 # else issue SchoolDraftSubmissionNotification
@@ -225,22 +228,22 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             school_draft = SchoolDraft.objects.get(id=draft_id)
-            school = school_draft.related_school
+            school = school_draft.related_school.all()
             
             school_data = {
                 "name": school_draft.name,
                 "about": school_draft.about,
                 "address": school_draft.address,
                 "city": school_draft.city,
-                "country": school_draft.country,
+                "country": school_draft.country.id,
                 "institution_type": school_draft.institution_type,
                 "ranking": school_draft.ranking,
                 "year_established": school_draft.year_established,
                 "academic_staff": school_draft.academic_staff,
                 "students": school_draft.students,
-                "banner": school_draft.banner,
-                "logo": school_draft.logo,
-                "author": school_draft.author,
+                # "banner": school_draft.banner,
+                # "logo": school_draft.logo,
+                "author": school_draft.author.id,
                 "school_draft": school_draft.id,
                 "published": True,
             }

@@ -62,14 +62,14 @@ class CreateSchoolDraftSerializer(serializers.ModelSerializer):
             "logo": {"required": False},
         }
 
-        def create(self, validated_data):
+    def create(self, validated_data):
 
-            request = self.context.get("request")
-            if request and hasattr(request, "user"):
-                user = request.user
-                validated_data["author"] = user.id
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            validated_data["author"] = user
 
-            return super(CreateSchoolDraftSerializer, self).create(validated_data)
+        return super(CreateSchoolDraftSerializer, self).create(validated_data)
 
 
 class ListSchoolSerializer(serializers.ModelSerializer):
@@ -150,11 +150,11 @@ class UpdateSchoolDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
 
         validated_data["status"] = SchoolDraft.SAVED
 
-        return super(UpdateSchoolDraftSerializer, self).update(validated_data)
+        return super(UpdateSchoolDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -186,10 +186,10 @@ class SubmitSchoolDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = SchoolDraft.REVIEW
         validated_data["reject_reason"] = ""
-        return super(SubmitSchoolDraftSerializer, self).update(validated_data)
+        return super(SubmitSchoolDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -208,9 +208,9 @@ class ApproveSchoolDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = SchoolDraft.APPROVED
-        return super(ApproveSchoolDraftSerializer, self).update(validated_data)
+        return super(ApproveSchoolDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -232,16 +232,16 @@ class RejectSchoolDraftSerializer(serializers.ModelSerializer):
             "reject_reason",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = SchoolDraft.REJECTED
-        return super(RejectSchoolDraftSerializer, self).update(validated_data)
+        return super(RejectSchoolDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
         if status != SchoolDraft.REVIEW:
             raise serializers.ValidationError("This school in not under review by the supervisor and hence cannot be rejected.")
         
-        return super(ApproveSchoolDraftSerializer, self).validate(data)
+        return super(RejectSchoolDraftSerializer, self).validate(data)
 
 
 class PublishSchoolDraftSerializer(serializers.ModelSerializer):
@@ -253,9 +253,9 @@ class PublishSchoolDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = SchoolDraft.PUBLISHED
-        return super(PublishSchoolDraftSerializer, self).update(validated_data)
+        return super(PublishSchoolDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
