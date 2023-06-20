@@ -53,11 +53,6 @@ class CreateCourseSerializer(serializers.ModelSerializer):
         del validated_data["deadline_month"]
         del validated_data["deadline_year"]
 
-        # request = self.context.get("request")
-        # if request and hasattr(request, "user"):
-        #     user = request.user
-        #     validated_data["author"] = user.id
-
         return super(CreateCourseSerializer, self).create(validated_data)
     
 
@@ -227,8 +222,7 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
         del validated_data["start_year"]
         del validated_data["deadline_month"]
         del validated_data["deadline_year"]
-        # user = self.context["request"].user
-        # validated_data["author"] = user.id
+        
         return super(UpdateCourseSerializer, self).update(instance, validated_data)
     
 

@@ -25,35 +25,6 @@ from notification.notifications import (CourseDraftSubmissionNotification, Cours
                                         CourseDraftPublishNotification, SupervisorCourseDraftPublishNotification, AdminCourseDraftPublishNotification,)
 
 
-# DEPRECATED: Don't Create Courses directly. Create Course Drafts first then courses after approval.
-#             No API route to create courses directly. Courses are only created by admin during PUBLISH
-# class CreateCourseAPIView(CreateAPIView):
-
-#     permission_classes = (SpecialistPermission,)
-#     serializer_class = CreateCourseSerializer
-#     queryset = Course.objects.all()
-
-#     def post(self, request, *args, **kwargs):
-#         response = super(CreateCourseAPIView, self).post(request, *args, **kwargs)
-        
-#         # Create a submission notification after a new course is submitted
-#         if response.status_code == status.HTTP_201_CREATED:
-#             try:
-#                 specialist_notification = CourseSubmissionNotification(data=response.data)
-#                 specialist_notification.create_notification()
-                
-#                 supervisor_action = SupervisorCourseSubmissionAction(data=response.data)
-#                 supervisor_action.create_action()
-
-#             except ValidationError as e:
-#                 print(repr(e))
-#             except Exception as e:
-#                 print(repr(e))
-#             finally:
-#                 return response
-#         return response
-
-
 class CreateCourseDraftAPIView(CreateAPIView):
 
     permission_classes = (SpecialistPermission,)
@@ -140,15 +111,6 @@ class UpdateCourseDraftAPIView(UpdateAPIView):
         self.queryset = CourseDraft.objects.filter(author=request.user)
 
         return super(UpdateCourseDraftAPIView, self).patch(request, *args, **kwargs)
-
-
-# SubmitCourseDraftAPIView: Ensure all required course fields are not blank. Status = REVIEW
-# ApproveCourseDraftAPIView: Ensure all required course fields are not blank. Status = APPROVED
-# RejectCourseDraftAPIView: Ensure all required course fields are not blank. Status = REJECTED
-# PublishCourseDraftAPIView: Ensure all required course fields are not blank. Status = PUBLISHED.
-#       Create new course and link to CourseDraft/Update values of Course with CourseDraft values.
-# DeleteCourseDraftAPView: Only delete CourseDraft objects that have no associated Course and whose status = SAVED.
-# ResetCourseDraftAPIView: Revert CourseDraft values to PUBLISHED course values. Only when Status != REVIEW, APPROVED or REJECTED
 
 
 class SubmitCourseDraftAPIView(UpdateAPIView):
