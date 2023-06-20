@@ -11,6 +11,6 @@ urlpatterns = [
     path("detail_draft/<int:pk>", views.DetailDegreeTypeDraftAPIView.as_view(), name="detail_degree_type_draft"),
     path("update_draft/<int:pk>", views.UpdateDegreeTypeDraftAPIView.as_view(), name="update_degree_type_draft"),
     path("submit_draft/<int:pk>", views.SubmitDegreeTypeDraftAPIView.as_view(), name="submit_degree_type_draft"),
+    path("publish_draft/<int:pk>", views.PublishDegreeTypeDraftAPIView.as_view(), name="publish_degree_type_draft"),
     path("delete/<int:pk>", views.DeleteDegreeTypeAPIView.as_view(), name="delete_degree_type"),
-    path("publish/<int:pk>", views.PublishDegreeTypeAPIView.as_view(), name="publish_degree_type"),
 ]
