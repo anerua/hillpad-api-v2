@@ -39,7 +39,8 @@ class ListCountryAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all countries.
         # Specialists, Clients and Anonymous users can only view published countries
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Country.objects.all()
         else:
             self.queryset = Country.objects.filter(published=True)
@@ -49,7 +50,7 @@ class ListCountryAPIView(ListAPIView):
 
 class ListCountryDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListCountryDraftSerializer
     pagination_class = CountryDraftPagination
     filterset_class = CountryDraftFilter
@@ -63,9 +64,11 @@ class ListCountryDraftAPIView(ListAPIView):
             Supervisor: All CountryDrafts authored by user
             Admin:      All CountryDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = CountryDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = CountryDraft.objects.exclude(status=CountryDraft.SAVED)
         
         return super(ListCountryDraftAPIView, self).get(request, *args, **kwargs)
@@ -78,7 +81,8 @@ class DetailCountryAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view details of any countries.
         # Specialists, Clients and Anonymous users can only view details of published countries
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Country.objects.all()
         else:
             self.queryset = Country.objects.filter(published=True)
@@ -88,7 +92,7 @@ class DetailCountryAPIView(RetrieveAPIView):
 
 class DetailCountryDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailCountryDraftSerializer
 
     def get(self, request, *args, **kwargs):
@@ -99,9 +103,11 @@ class DetailCountryDraftAPIView(ListAPIView):
             Supervisor: All CountryDrafts authored by user
             Admin:      All CountryDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = CountryDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = CountryDraft.objects.exclude(status=CountryDraft.SAVED)
         
         return super(DetailCountryDraftAPIView, self).get(request, *args, **kwargs)
@@ -133,7 +139,7 @@ class SubmitCountryDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             country_draft = CountryDraft.objects.get(id=draft_id)
-            country = country_draft.related_country
+            country = country_draft.related_country.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -171,7 +177,7 @@ class PublishCountryDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             country_draft = CountryDraft.objects.get(id=draft_id)
-            country = country_draft.related_country
+            country = country_draft.related_country.all()
             
             country_data = {
                 "name": country_draft.name,
@@ -182,13 +188,13 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                 "population": country_draft.population,
                 "students": country_draft.students,
                 "international_students": country_draft.international_students,
-                "currency": country_draft.currency,
+                "currency": country_draft.currency.id,
                 "about": country_draft.about,
                 "about_wiki_link": country_draft.about_wiki_link,
                 "trivia_facts": country_draft.trivia_facts,
                 "living_costs": country_draft.living_costs,
-                "banner": country_draft.banner,
-                "author": country_draft.author,
+                # "banner": country_draft.banner,
+                "author": country_draft.author.id,
                 "country_draft": country_draft.id,
                 "published": True,
             }

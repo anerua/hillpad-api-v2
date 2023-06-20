@@ -56,7 +56,7 @@ class CreateCountryDraftSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            validated_data["author"] = user.id
+            validated_data["author"] = user
         
         return super(CreateCountryDraftSerializer, self).create(validated_data)
 
@@ -140,9 +140,9 @@ class UpdateCountryDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CountryDraft.SAVED
-        return super(UpdateCountryDraftSerializer, self).update(validated_data)
+        return super(UpdateCountryDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -176,16 +176,16 @@ class SubmitCountryDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-        def update(self, validated_data):
-            validated_data["status"] = CountryDraft.REVIEW
-            return super(SubmitCountryDraftSerializer, self).update(validated_data)
+    def update(self, instance, validated_data):
+        validated_data["status"] = CountryDraft.REVIEW
+        return super(SubmitCountryDraftSerializer, self).update(instance, validated_data)
 
-        def validate(self, data):
-            status = self.instance.status
-            if status not in (CountryDraft.SAVED, CountryDraft.PUBLISHED):
-                raise serializers.ValidationError("This country entry cannot be edited because it is currently in the review process.")
-            
-            return super(SubmitCountryDraftSerializer, self).validate(data)
+    def validate(self, data):
+        status = self.instance.status
+        if status not in (CountryDraft.SAVED, CountryDraft.PUBLISHED):
+            raise serializers.ValidationError("This country entry cannot be edited because it is currently in the review process.")
+        
+        return super(SubmitCountryDraftSerializer, self).validate(data)
 
 
 class PublishCountryDraftSerializer(serializers.ModelSerializer):
@@ -197,9 +197,9 @@ class PublishCountryDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CountryDraft.PUBLISHED
-        return super(PublishCountryDraftSerializer, self).update(validated_data)
+        return super(PublishCountryDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
