@@ -39,7 +39,8 @@ class ListCurrencyAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all currencies.
         # Specialists, Clients and Anonymous users can only view published currencies
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Currency.objects.all()
         else:
             self.queryset = Currency.objects.filter(published=True)
@@ -49,7 +50,7 @@ class ListCurrencyAPIView(ListAPIView):
 
 class ListCurrencyDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListCurrencyDraftSerializer
     pagination_class = CurrencyDraftPagination
     filterset_class = CurrencyDraftFilter
@@ -63,9 +64,11 @@ class ListCurrencyDraftAPIView(ListAPIView):
             Supervisor: All CurrencyDrafts authored by user
             Admin:      All CurrencyDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = CurrencyDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = CurrencyDraft.objects.exclude(status=CurrencyDraft.SAVED)
         
         return super(ListCurrencyDraftAPIView, self).get(request, *args, **kwargs)
@@ -78,7 +81,8 @@ class DetailCurrencyAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view details of any currency.
         # Specialists, Clients and Anonymous users can only view details of published currency
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Currency.objects.all()
         else:
             self.queryset = Currency.objects.filter(published=True)
@@ -88,7 +92,7 @@ class DetailCurrencyAPIView(RetrieveAPIView):
 
 class DetailCurrencyDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailCurrencyDraftSerializer
 
     def get(self, request, *args, **kwargs):
@@ -99,9 +103,11 @@ class DetailCurrencyDraftAPIView(ListAPIView):
             Supervisor: All CurrencyDrafts authored by user
             Admin:      All CurrencyDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = CurrencyDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permission.has_permission(request):
             self.queryset = CurrencyDraft.objects.exclude(status=CurrencyDraft.SAVED)
         
         return super(DetailCurrencyDraftAPIView, self).get(request, *args, **kwargs)
@@ -133,7 +139,7 @@ class SubmitCurrencyDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             currency_draft = CurrencyDraft.objects.get(id=draft_id)
-            currency = currency_draft.related_currency
+            currency = currency_draft.related_currency.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -172,13 +178,14 @@ class PublishCurrencyDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             currency_draft = CurrencyDraft.objects.get(id=draft_id)
-            currency = currency_draft.related_currency
+            currency = currency_draft.related_currency.all()
+            print("Currency is this:", currency)
             
             currency_data = {
                 "name": currency_draft.name,
                 "short_code": currency_draft.short_code,
                 "usd_exchange_rate": currency_draft.usd_exchange_rate,
-                "author": currency_draft.author,
+                "author": currency_draft.author.id,
                 "currency_draft": currency_draft.id,
                 "published": True,
             }

@@ -34,7 +34,7 @@ class CreateCurrencyDraftSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            validated_data["author"] = user.id
+            validated_data["author"] = user
         
         return super(CreateCurrencyDraftSerializer, self).create(validated_data)
 
@@ -92,9 +92,9 @@ class UpdateCurrencyDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CurrencyDraft.SAVED
-        return super(UpdateCurrencyDraftSerializer, self).update(validated_data)
+        return super(UpdateCurrencyDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -117,9 +117,9 @@ class SubmitCurrencyDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CurrencyDraft.REVIEW
-        return super(SubmitCurrencyDraftSerializer, self).update(validated_data)
+        return super(SubmitCurrencyDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -138,9 +138,9 @@ class PublishCurrencyDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CurrencyDraft.PUBLISHED
-        return super(PublishCurrencyDraftSerializer, self).update(validated_data)
+        return super(PublishCurrencyDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
