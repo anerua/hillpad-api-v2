@@ -34,7 +34,7 @@ class CreateDegreeTypeDraftSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            validated_data["author"] = user.id
+            validated_data["author"] = user
         
         return super(CreateDegreeTypeDraftSerializer, self).create(validated_data)
 
@@ -96,9 +96,9 @@ class UpdateDegreeTypeDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DegreeTypeDraft.SAVED
-        return super(UpdateDegreeTypeDraftSerializer, self).update(validated_data)
+        return super(UpdateDegreeTypeDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -121,9 +121,9 @@ class SubmitDegreeTypeDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DegreeTypeDraft.REVIEW
-        return super(SubmitDegreeTypeDraftSerializer, self).update(validated_data)
+        return super(SubmitDegreeTypeDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -142,9 +142,9 @@ class PublishDegreeTypeDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DegreeTypeDraft.PUBLISHED
-        return super(PublishDegreeTypeDraftSerializer, self).update(validated_data)
+        return super(PublishDegreeTypeDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status

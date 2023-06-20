@@ -40,7 +40,8 @@ class ListDegreeTypeAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all degree types.
         # Specialists, Clients and Anonymous users can only view published degree types
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = DegreeType.objects.all()
         else:
             self.queryset = DegreeType.objects.filter(published=True)
@@ -50,7 +51,7 @@ class ListDegreeTypeAPIView(ListAPIView):
 
 class ListDegreeTypeDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListDegreeTypeDraftSerializer
     pagination_class = DegreeTypeDraftPagination
     filterset_class = DegreeTypeDraftFilter
@@ -64,9 +65,11 @@ class ListDegreeTypeDraftAPIView(ListAPIView):
             Supervisor: All DegreeTypeDrafts authored by user
             Admin:      All DegreeTypeDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = DegreeTypeDraft.objects.exclude(status=DegreeTypeDraft.SAVED)
         
         return super(ListDegreeTypeDraftAPIView, self).get(request, *args, **kwargs)
@@ -79,17 +82,18 @@ class DetailDegreeTypeAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view details of any degree type.
         # Specialists, Clients and Anonymous users can only view details of published degree types
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = DegreeType.objects.all()
         else:
             self.queryset = DegreeType.objects.filter(published=True)
         
-        return super(ListDegreeTypeAPIView, self).get(request, *args, **kwargs)
+        return super(DetailDegreeTypeAPIView, self).get(request, *args, **kwargs)
     
 
 class DetailDegreeTypeDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailDegreeTypeDraftSerializer
 
     def get(self, request, *args, **kwargs):
@@ -100,9 +104,11 @@ class DetailDegreeTypeDraftAPIView(ListAPIView):
             Supervisor: All DegreeTypeDrafts authored by user
             Admin:      All DegreeTypeDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = DegreeTypeDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = DegreeTypeDraft.objects.exclude(status=DegreeTypeDraft.SAVED)
         
         return super(DetailDegreeTypeDraftAPIView, self).get(request, *args, **kwargs)
@@ -134,7 +140,7 @@ class SubmitDegreeTypeDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             degree_type_draft = DegreeTypeDraft.objects.get(id=draft_id)
-            degree_type = degree_type_draft.related_degree_type
+            degree_type = degree_type_draft.related_degree_type.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -173,13 +179,13 @@ class PublishDegreeTypeDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             degree_type_draft = DegreeTypeDraft.objects.get(id=draft_id)
-            degree_type = degree_type_draft.related_degree_type
+            degree_type = degree_type_draft.related_degree_type.all()
             
             degree_type_data = {
                 "name": degree_type_draft.name,
                 "short_name": degree_type_draft.short_name,
-                "programme_type": degree_type_draft.programme_type,
-                "author": degree_type_draft.author,
+                "programme_type": degree_type_draft.programme_type.id,
+                "author": degree_type_draft.author.id,
                 "degree_type_draft": degree_type_draft.id,
                 "published": True,
             }

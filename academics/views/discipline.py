@@ -40,7 +40,8 @@ class ListDisciplineAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all disciplines.
         # Specialists, Clients and Anonymous users can only view published disciplines
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Discipline.objects.all()
         else:
             self.queryset = Discipline.objects.filter(published=True)
@@ -50,7 +51,7 @@ class ListDisciplineAPIView(ListAPIView):
 
 class ListDisciplineDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListDisciplineDraftSerializer
     pagination_class = DisciplineDraftPagination
     filterset_class = DisciplineDraftFilter
@@ -64,9 +65,11 @@ class ListDisciplineDraftAPIView(ListAPIView):
             Supervisor: All DisciplineDrafts authored by user
             Admin:      All DisciplineDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = DisciplineDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
         
         return super(ListDisciplineDraftAPIView, self).get(request, *args, **kwargs)
@@ -79,17 +82,18 @@ class DetailDisciplineAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all disciplines.
         # Specialists, Clients and Anonymous users can only view published disciplines
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Discipline.objects.all()
         else:
             self.queryset = Discipline.objects.filter(published=True)
         
-        return super(ListDisciplineAPIView, self).get(request, *args, **kwargs)
+        return super(DetailDisciplineAPIView, self).get(request, *args, **kwargs)
     
 
 class DetailDisciplineDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailDisciplineDraftSerializer
 
     def get(self, request, *args, **kwargs):
@@ -100,9 +104,11 @@ class DetailDisciplineDraftAPIView(ListAPIView):
             Supervisor: All DisciplineDrafts authored by user
             Admin:      All DisciplineDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = DisciplineDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permsission.has_permission(request):
             self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
         
         return super(DetailDisciplineDraftAPIView, self).get(request, *args, **kwargs)
@@ -134,7 +140,7 @@ class SubmitDisciplineDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             discipline_draft = DisciplineDraft.objects.get(id=draft_id)
-            discipline = discipline_draft.related_discipline
+            discipline = discipline_draft.related_discipline.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -172,14 +178,14 @@ class PublishDisciplineDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             discipline_draft = DisciplineDraft.objects.get(id=draft_id)
-            discipline = discipline_draft.related_discipline
+            discipline = discipline_draft.related_discipline.all()
             
             discipline_data = {
                 "name": discipline_draft.name,
                 "about": discipline_draft.about,
                 "icon": discipline_draft.icon,
                 "icon_color": discipline_draft.icon_color,
-                "author": discipline_draft.author,
+                "author": discipline_draft.author.id,
                 "discipline_draft": discipline_draft.id,
                 "published": True,
             }

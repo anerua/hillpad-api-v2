@@ -36,7 +36,7 @@ class CreateDisciplineDraftSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            validated_data["author"] = user.id
+            validated_data["author"] = user
         
         return super(CreateDisciplineDraftSerializer, self).create(validated_data)
 
@@ -96,9 +96,9 @@ class UpdateDisciplineDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DisciplineDraft.SAVED
-        return super(UpdateDisciplineDraftSerializer, self).update(validated_data)
+        return super(UpdateDisciplineDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -122,9 +122,9 @@ class SubmitDisciplineDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DisciplineDraft.REVIEW
-        return super(SubmitDisciplineDraftSerializer, self).update(validated_data)
+        return super(SubmitDisciplineDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -143,9 +143,9 @@ class PublishDisciplineDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = DisciplineDraft.PUBLISHED
-        return super(PublishDisciplineDraftSerializer, self).update(validated_data)
+        return super(PublishDisciplineDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
