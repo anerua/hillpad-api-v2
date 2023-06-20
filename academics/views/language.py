@@ -40,7 +40,8 @@ class ListLanguageAPIView(ListAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all languages.
         # Specialists, Clients and Anonymous users can only view published languages
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Language.objects.all()
         else:
             self.queryset = Language.objects.filter(published=True)
@@ -50,7 +51,7 @@ class ListLanguageAPIView(ListAPIView):
 
 class ListLanguageDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListLanguageDraftSerializer
     pagination_class = LanguageDraftPagination
     filterset_class = LanguageDraftFilter
@@ -64,9 +65,11 @@ class ListLanguageDraftAPIView(ListAPIView):
             Supervisor: All LanguageDrafts authored by user
             Admin:      All LanguageDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = LanguageDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permission.has_permission(request):
             self.queryset = LanguageDraft.objects.exclude(status=LanguageDraft.SAVED)
         
         return super(ListLanguageDraftAPIView, self).get(request, *args, **kwargs)
@@ -79,17 +82,18 @@ class DetailLanguageAPIView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all languages.
         # Specialists, Clients and Anonymous users can only view published languages
-        if AdminAndSupervisorPermission.has_permission(request):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
             self.queryset = Language.objects.all()
         else:
             self.queryset = Language.objects.filter(published=True)
         
-        return super(ListLanguageAPIView, self).get(request, *args, **kwargs)
+        return super(DetailLanguageAPIView, self).get(request, *args, **kwargs)
     
 
 class DetailLanguageDraftAPIView(ListAPIView):
     
-    permission_classes = AdminAndSupervisorPermission
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailLanguageDraftSerializer
 
     def get(self, request, *args, **kwargs):
@@ -100,9 +104,11 @@ class DetailLanguageDraftAPIView(ListAPIView):
             Supervisor: All LanguageDrafts authored by user
             Admin:      All LanguageDrafts with status != SAVED
         """
-        if SupervisorPermission.has_permission(request):
+        supervisor_permission = SupervisorPermission()
+        admin_permission = AdminPermission()
+        if supervisor_permission.has_permission(request):
             self.queryset = LanguageDraft.objects.filter(author=request.user)
-        elif AdminPermission.has_permission(request):
+        elif admin_permission.has_permission(request):
             self.queryset = LanguageDraft.objects.exclude(status=LanguageDraft.SAVED)
         
         return super(DetailLanguageDraftAPIView, self).get(request, *args, **kwargs)
@@ -134,7 +140,7 @@ class SubmitLanguageDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             language_draft = LanguageDraft.objects.get(id=draft_id)
-            language = language_draft.related_language
+            language = language_draft.related_language.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -172,12 +178,12 @@ class PublishLanguageDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             language_draft = LanguageDraft.objects.get(id=draft_id)
-            language = language_draft.related_language
+            language = language_draft.related_language.all()
             
             language_data = {
                 "name": language_draft.name,
                 "iso_639_code": language_draft.iso_639_code,
-                "author": language_draft.author,
+                "author": language_draft.author.id,
                 "language_draft": language_draft.id,
                 "published": True,
             }

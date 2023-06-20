@@ -87,7 +87,7 @@ class DetailCurrencyAPIView(RetrieveAPIView):
         else:
             self.queryset = Currency.objects.filter(published=True)
         
-        return super(ListCurrencyAPIView, self).get(request, *args, **kwargs)
+        return super(DetailCurrencyAPIView, self).get(request, *args, **kwargs)
     
 
 class DetailCurrencyDraftAPIView(ListAPIView):

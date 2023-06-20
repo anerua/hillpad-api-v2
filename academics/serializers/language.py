@@ -32,7 +32,7 @@ class CreateLanguageDraftSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            validated_data["author"] = user.id
+            validated_data["author"] = user
         
         return super(CreateLanguageDraftSerializer, self).create(validated_data)
 
@@ -88,9 +88,9 @@ class UpdateLanguageDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = LanguageDraft.SAVED
-        return super(UpdateLanguageDraftSerializer, self).update(validated_data)
+        return super(UpdateLanguageDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -112,9 +112,9 @@ class SubmitLanguageDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = LanguageDraft.REVIEW
-        return super(SubmitLanguageDraftSerializer, self).update(validated_data)
+        return super(SubmitLanguageDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
@@ -133,9 +133,9 @@ class PublishLanguageDraftSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = LanguageDraft.PUBLISHED
-        return super(PublishLanguageDraftSerializer, self).update(validated_data)
+        return super(PublishLanguageDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
