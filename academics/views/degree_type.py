@@ -12,15 +12,15 @@ from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeD
                                    DetailDegreeTypeSerializer, DetailDegreeTypeDraftSerializer,
                                    UpdateDegreeTypeSerializer, UpdateDegreeTypeDraftSerializer,
                                    SubmitDegreeTypeDraftSerializer,
-                                   DeleteDegreeTypeSerializer, PublishDegreeTypeSerializer)
+                                   DeleteDegreeTypeSerializer, PublishDegreeTypeDraftSerializer)
 
 from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 
 from action.actions import AdminDegreeTypeDraftPublishAction, AdminDegreeTypeDraftUpdatePublishAction
 
 from notification.notifications import (SupervisorDegreeTypeDraftSubmissionNotification, SupervisorDegreeTypeDraftUpdateSubmissionNotification,
-                                        DegreeTypePublishNotification, SupervisorDegreeTypePublishNotification,
-                                        AdminDegreeTypePublishNotification)
+                                        DegreeTypeDraftPublishNotification, SupervisorDegreeTypeDraftPublishNotification,
+                                        AdminDegreeTypeDraftPublishNotification)
 
 
 class CreateDegreeTypeDraftAPIView(CreateAPIView):
@@ -160,34 +160,73 @@ class SubmitDegreeTypeDraftAPIView(UpdateAPIView):
 
 
 
-class PublishDegreeTypeAPIView(UpdateAPIView):
+class PublishDegreeTypeDraftAPIView(UpdateAPIView):
 
     permission_classes = (AdminPermission,)
-    serializer_class = PublishDegreeTypeSerializer
-    queryset = DegreeType.objects.all()
+    serializer_class = PublishDegreeTypeDraftSerializer
+    queryset = DegreeTypeDraft.objects.filter(status=DegreeTypeDraft.REVIEW)
 
     def put(self, request, *args, **kwargs):
-        response = super(PublishDegreeTypeAPIView, self).put(request, *args, **kwargs)
+        response = super(PublishDegreeTypeDraftAPIView, self).put(request, *args, **kwargs)
 
-        # Create a published notification for specialist, supervisor and admin
+        # If DegreeType is already attached to draft, update degree_type with draft otherwise create degree_type with draft details
         if response.status_code == status.HTTP_200_OK:
-            try:
-                specialist_notification = DegreeTypePublishNotification(data=response.data)
-                specialist_notification.create_notification()
+            draft_id = response.data["id"]
+            degree_type_draft = DegreeTypeDraft.objects.get(id=draft_id)
+            degree_type = degree_type_draft.related_degree_type
+            
+            degree_type_data = {
+                "name": degree_type_draft.name,
+                "short_name": degree_type_draft.short_name,
+                "programme_type": degree_type_draft.programme_type,
+                "author": degree_type_draft.author,
+                "degree_type_draft": degree_type_draft.id,
+                "published": True,
+            }
 
-                supervisor_notification = SupervisorDegreeTypePublishNotification(data=response.data)
-                supervisor_notification.create_notification()
+            # If updating, don't notify specialist of updates. If new, also send notification to specialist
+            if degree_type:
+                # Update degree_type with draft details
+                update_serializer = UpdateDegreeTypeSerializer(degree_type, data=degree_type_data)
+                if update_serializer.is_valid():
+                    update_serializer.save()
 
-                admin_notification = AdminDegreeTypePublishNotification(data=response.data)
-                admin_notification.create_notification()
+                    try:
+                        supervisor_notification = SupervisorDegreeTypeDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
 
-            except ValidationError as e:
-                print(repr(e))
-            except Exception as e:
-                print(repr(e))
-            finally:
-                return response
-        
+                        admin_notification = AdminDegreeTypeDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = update_serializer.errors
+            else:
+                # Create new degree_type with draft details
+                create_serializer = CreateDegreeTypeSerializer(data=degree_type_data)
+                if create_serializer.is_valid():
+                    create_serializer.save()
+
+                    try:
+                        specialist_notification = DegreeTypeDraftPublishNotification(data=response.data)
+                        specialist_notification.create_notification()
+
+                        supervisor_notification = SupervisorDegreeTypeDraftPublishNotification(data=response.data)
+                        supervisor_notification.create_notification()
+
+                        admin_notification = AdminDegreeTypeDraftPublishNotification(data=response.data)
+                        admin_notification.create_notification()
+
+                    except ValidationError as e:
+                        print(repr(e))
+                    except Exception as e:
+                        print(repr(e))
+                else:
+                    response.data["serializer_errors"] = create_serializer.errors
+
         return response
 
 
