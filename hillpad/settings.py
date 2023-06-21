@@ -155,6 +155,14 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / config("STATIC_FOLDER")
 
+
+# Media files (user uploaded files)
+# Note that MEDIA_ROOT and STATIC_ROOT must be different
+
+MEDIA_URL = "media/"
+
+MEDIA_ROOT = BASE_DIR / config("MEDIA_FOLDER")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
