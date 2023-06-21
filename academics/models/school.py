@@ -61,7 +61,7 @@ class SchoolDraft(TrackingModel):
     # Location
     address = models.CharField(_("Address of school, excluding its city and country"), max_length=255, blank=True)
     city = models.CharField(_("City school is located"), max_length=255, blank=True)
-    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_draft_schools", blank=True)
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_draft_schools", blank=True, null=True)
 
     # School information
     institution_type = models.CharField(_("Institution type"), max_length=32, blank=True)
