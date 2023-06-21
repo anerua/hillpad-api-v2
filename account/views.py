@@ -26,8 +26,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         
         # When testing with Postman, remove samesite and secure flags:
         # samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE")
-        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
-        response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True)
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
+        response.set_cookie("hillpad_refresh_cookie", refresh_token, max_age=refresh_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
         return response
 
 
@@ -55,7 +55,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
         # When testing with Postman, remove samesite and secure flags and ensure to add flags back after Postman testing:
         # samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE")
-        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True)
+        response.set_cookie("hillpad_access_cookie", access_token, max_age=access_cookie_max_age, httponly=True, samesite=config("COOKIE_SAMESITE"), secure=config("COOKIE_SECURE"))
         return response
     
 
