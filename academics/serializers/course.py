@@ -393,9 +393,9 @@ class RejectCourseDraftSerializer(serializers.ModelSerializer):
             "reject_reason",
         )
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         validated_data["status"] = CourseDraft.REJECTED
-        return super(RejectCourseDraftSerializer, self).update(validated_data)
+        return super(RejectCourseDraftSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
         status = self.instance.status
