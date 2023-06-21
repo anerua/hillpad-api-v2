@@ -41,7 +41,8 @@ class ListCourseAPIView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
 
-        if StaffPermission.has_permission(request):
+        permission = StaffPermission()
+        if permission.has_permission(request):
             self.queryset = Course.objects.all()
         else:
             self.queryset = Course.objects.filter(published=True)
@@ -51,7 +52,7 @@ class ListCourseAPIView(ListAPIView):
 
 class ListCourseDraftAPIView(ListAPIView):
     
-    permission_classes = StaffPermission
+    permission_classes = (StaffPermission,)
     serializer_class = ListCourseDraftSerializer
     pagination_class = CourseDraftPagination
     filterset_class = CourseDraftFilter
@@ -65,7 +66,8 @@ class ListCourseDraftAPIView(ListAPIView):
             Supervisor: All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
             Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
         """
-        if SpecialistPermission.has_permission(request):
+        permission = SpecialistPermission()
+        if permission.has_permission(request):
             self.queryset = CourseDraft.objects.filter(author=request.user)
         else:
             self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
@@ -79,7 +81,8 @@ class DetailCourseAPIView(RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
 
-        if StaffPermission.has_permission(request):
+        permission = StaffPermission()
+        if permission.has_permission(request):
             self.queryset = Course.objects.all()
         else:
             self.queryset = Course.objects.filter(published=True)
@@ -89,12 +92,13 @@ class DetailCourseAPIView(RetrieveAPIView):
 
 class DetailCourseDraftAPIView(RetrieveAPIView):
 
-    permission_classes = StaffPermission
+    permission_classes = (StaffPermission,)
     serializer_class = DetailCourseDraftSerializer
 
     def get(self, request, *args, **kwargs):
 
-        if SpecialistPermission.has_permission(request):
+        permission = SpecialistPermission()
+        if permission.has_permission(request):
             self.queryset = CourseDraft.objects.filter(author=request.user)
         else:
             self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
@@ -128,7 +132,7 @@ class SubmitCourseDraftAPIView(UpdateAPIView):
 
             draft_id = response.data["id"]
             course_draft = CourseDraft.objects.get(id=draft_id)
-            course = course_draft.related_course
+            course = course_draft.related_course.all()
             try:
                 # if course is attached to draft, then issue CourseDraftUpdateSubmissionNotification
                 # else issue CourseDraftSubmissionNotification
@@ -222,7 +226,7 @@ class PublishCourseDraftAPIView(UpdateAPIView):
         if response.status_code == status.HTTP_200_OK:
             draft_id = response.data["id"]
             course_draft = CourseDraft.objects.get(id=draft_id)
-            course = course_draft.related_course
+            course = course_draft.related_course.all()
             
             course_data = {
                 "name": course_draft.name,
@@ -233,20 +237,20 @@ class PublishCourseDraftAPIView(UpdateAPIView):
                 "start_year": course_draft.course_dates["start_year"],
                 "deadline_month": course_draft.course_dates["deadline_month"],
                 "deadline_year": course_draft.course_dates["deadline_year"],
-                "school": course_draft.school,
-                "disciplines": course_draft.disciplines,
+                "school": course_draft.school.id,
+                "disciplines": course_draft.disciplines.values_list("id", flat=True),
                 "tuition_fee": course_draft.tuition_fee,
                 "tuition_fee_base": course_draft.tuition_fee_base,
-                "tuition_currency": course_draft.tuition_currency,
+                "tuition_currency": course_draft.tuition_currency.id,
                 "course_format": course_draft.course_format,
                 "attendance": course_draft.attendance,
-                "programme_type": course_draft.programme_type,
-                "degree_type": course_draft.degree_type,
-                "language": course_draft.language,
+                "programme_type": course_draft.programme_type.id,
+                "degree_type": course_draft.degree_type.id,
+                "language": course_draft.language.id,
                 "programme_structure": course_draft.programme_structure,
                 "admission_requirements": course_draft.admission_requirements,
                 "official_programme_website": course_draft.official_programme_website,
-                "author": course_draft.author,
+                "author": course_draft.author.id,
                 "course_draft": course_draft.id,
                 "published": True,
             }
