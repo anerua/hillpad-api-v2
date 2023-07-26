@@ -28,6 +28,17 @@ class Course(TrackingModel):
         (BLENDED, _("BLENDED")),
     )
 
+    YEAR = "YEAR"
+    MONTH = "MONTH"
+    SEMESTER = "SEMESTER"
+    SESSION = "SESSION"
+    COURSE_DURATION_BASE_CHOICES = (
+        (YEAR, _("YEAR"))
+        (MONTH, _("MONTH"))
+        (SESSION, _("SESSION"))
+        (SEMESTER, _("SEMESTER"))
+    )
+
     PUBLISHED = "PUBLISHED"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
@@ -39,6 +50,7 @@ class Course(TrackingModel):
     overview = models.TextField(_("Overview"), blank=True)
 
     duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
+    duration_base = models.CharField(_("Course duration base (e.g. per year, month or semester)"), max_length=16, choices=COURSE_DURATION_BASE_CHOICES, blank=True)
     course_dates = models.JSONField(blank=True, null=True)
 
     school = models.ForeignKey('School', on_delete=models.CASCADE, related_name="school_courses")
@@ -98,7 +110,8 @@ class CourseDraft(TrackingModel):
     about = models.CharField(_("About"), max_length=1024, blank=True)
     overview = models.TextField(_("Overview"), blank=True)
 
-    duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
+    duration = models.IntegerField(_("Duration of course"), blank=True)
+    duration_base = models.CharField(_("Course duration base (e.g. per year, month or semester)"), max_length=16, choices=Course.COURSE_DURATION_BASE_CHOICES, blank=True)
     course_dates = models.JSONField(blank=True, null=True)
 
     school = models.ForeignKey('School', on_delete=models.CASCADE, related_name="school_draft_courses", blank=True, null=True)
