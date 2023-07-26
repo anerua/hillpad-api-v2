@@ -33,10 +33,10 @@ class Course(TrackingModel):
     SEMESTER = "SEMESTER"
     SESSION = "SESSION"
     COURSE_DURATION_BASE_CHOICES = (
-        (YEAR, _("YEAR"))
-        (MONTH, _("MONTH"))
-        (SESSION, _("SESSION"))
-        (SEMESTER, _("SEMESTER"))
+        (YEAR, _("YEAR")),
+        (MONTH, _("MONTH")),
+        (SESSION, _("SESSION")),
+        (SEMESTER, _("SEMESTER")),
     )
 
     PUBLISHED = "PUBLISHED"
