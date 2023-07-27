@@ -39,6 +39,15 @@ class Course(TrackingModel):
         (SEMESTER, _("SEMESTER")),
     )
 
+    FULL_PROGRAMME = "PROGRAMME"
+    CREDIT = "CREDIT"
+    COURSE_TUITION_BASE_CHOICES = (
+        (CREDIT, _("CREDIT")),
+        (SEMESTER, _("SEMESTER")),
+        (YEAR, _("YEAR")),
+        (FULL_PROGRAMME, _("FULL PROGRAMME")),
+    )
+
     PUBLISHED = "PUBLISHED"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
@@ -57,7 +66,7 @@ class Course(TrackingModel):
     disciplines = models.ManyToManyField('Discipline', related_name="discipline_courses")
 
     tuition_fee = models.IntegerField(_("Tuition fee"), blank=True, null=True)
-    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), max_length=16, blank=True)
+    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), choices=COURSE_TUITION_BASE_CHOICES, max_length=16, blank=True)
     tuition_currency = models.ForeignKey('Currency', on_delete=models.CASCADE, related_name="currency_courses", blank=True, null=True)
 
     course_format = models.CharField(_("Course format"), max_length=4, choices=COURSE_FORMAT_CHOICES, blank=True)
@@ -118,7 +127,7 @@ class CourseDraft(TrackingModel):
     disciplines = models.ManyToManyField('Discipline', related_name="discipline_draft_courses", blank=True)
 
     tuition_fee = models.IntegerField(_("Tuition fee"), blank=True, null=True)
-    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), max_length=16, blank=True)
+    tuition_fee_base = models.CharField(_("Tuition fee base e.g. year, semester, full"), choices=Course.COURSE_TUITION_BASE_CHOICES, max_length=16, blank=True)
     tuition_currency = models.ForeignKey('Currency', on_delete=models.CASCADE, related_name="currency_draft_courses", blank=True, null=True)
 
     course_format = models.CharField(_("Course format"), max_length=4, choices=Course.COURSE_FORMAT_CHOICES, blank=True)

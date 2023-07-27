@@ -5,9 +5,9 @@ from academics.models import Course, CourseDraft
 
 class CreateCourseSerializer(serializers.ModelSerializer):
 
-    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    start_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     start_year = serializers.IntegerField(write_only=True)
-    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    deadline_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     deadline_year = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -18,6 +18,7 @@ class CreateCourseSerializer(serializers.ModelSerializer):
             "about",
             "overview",
             "duration",
+            "duration_base",
             "start_month",
             "start_year",
             "deadline_month",
@@ -63,9 +64,9 @@ class CreateCourseDraftSerializer(serializers.ModelSerializer):
           No deadline_month without deadline year and vice versa.
     """
 
-    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True, required=False)
+    start_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True, required=False)
     start_year = serializers.IntegerField(write_only=True, required=False)
-    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True, required=False)
+    deadline_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True, required=False)
     deadline_year = serializers.IntegerField(write_only=True, required=False)
 
     class Meta:
@@ -76,6 +77,7 @@ class CreateCourseDraftSerializer(serializers.ModelSerializer):
             "about",
             "overview",
             "duration",
+            "duration_base",
             "start_month",
             "start_year",
             "deadline_month",
@@ -100,6 +102,7 @@ class CreateCourseDraftSerializer(serializers.ModelSerializer):
             "about": {"required": False},
             "overview": {"required": False},
             "duration": {"required": False},
+            "duration_base": {"required": False},
             "start_month": {"required": False},
             "start_year": {"required": False},
             "deadline_month": {"required": False},
@@ -121,19 +124,29 @@ class CreateCourseDraftSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        if validated_data.get("start_month") and validated_data.get("start_year"):
-            validated_data["course_dates"] = {}
-            validated_data["course_dates"]["start_month"] = validated_data.get("start_month")
-            validated_data["course_dates"]["start_year"] = validated_data.get("start_year")
-            del validated_data["start_month"]
-            del validated_data["start_year"]
-        if validated_data.get("deadline_month") and validated_data.get("deadline_year"):
-            if "course_dates" not in validated_data:
-                validated_data["course_dates"] = {}
-            validated_data["course_dates"]["deadline_month"] = validated_data.get("deadline_month")
-            validated_data["course_dates"]["deadline_year"] = validated_data.get("deadline_year")
-            del validated_data["deadline_month"]
-            del validated_data["deadline_year"]
+        # if validated_data.get("start_month") and validated_data.get("start_year"):
+        #     validated_data["course_dates"] = {}
+        #     validated_data["course_dates"]["start_month"] = validated_data.get("start_month")
+        #     validated_data["course_dates"]["start_year"] = validated_data.get("start_year")
+        #     del validated_data["start_month"]
+        #     del validated_data["start_year"]
+        # if validated_data.get("deadline_month") and validated_data.get("deadline_year"):
+        #     if "course_dates" not in validated_data:
+        #         validated_data["course_dates"] = {}
+        #     validated_data["course_dates"]["deadline_month"] = validated_data.get("deadline_month")
+        #     validated_data["course_dates"]["deadline_year"] = validated_data.get("deadline_year")
+        #     del validated_data["deadline_month"]
+        #     del validated_data["deadline_year"]
+
+        validated_data["course_dates"] = {}
+        validated_data["course_dates"]["start_month"] = validated_data.get("start_month")
+        validated_data["course_dates"]["start_year"] = validated_data.get("start_year")
+        validated_data["course_dates"]["deadline_month"] = validated_data.get("deadline_month")
+        validated_data["course_dates"]["deadline_year"] = validated_data.get("deadline_year")
+        del validated_data["start_month"]
+        del validated_data["start_year"]
+        del validated_data["deadline_month"]
+        del validated_data["deadline_year"]
             
         request = self.context.get("request")
         if request and hasattr(request, "user"):
@@ -177,9 +190,9 @@ class DetailCourseDraftSerializer(serializers.ModelSerializer):
 
 class UpdateCourseSerializer(serializers.ModelSerializer):
 
-    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    start_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     start_year = serializers.IntegerField(write_only=True)
-    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    deadline_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     deadline_year = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -190,6 +203,7 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
             "about",
             "overview",
             "duration",
+            "duration_base",
             "start_month",
             "start_year",
             "deadline_month",
@@ -230,9 +244,9 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
 
 class UpdateCourseDraftSerializer(serializers.ModelSerializer):
 
-    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    start_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     start_year = serializers.IntegerField(write_only=True)
-    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    deadline_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     deadline_year = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -243,6 +257,7 @@ class UpdateCourseDraftSerializer(serializers.ModelSerializer):
             "about",
             "overview",
             "duration",
+            "duration_base",
             "start_month",
             "start_year",
             "deadline_month",
@@ -295,9 +310,9 @@ class UpdateCourseDraftSerializer(serializers.ModelSerializer):
 
 class SubmitCourseDraftSerializer(serializers.ModelSerializer):
 
-    start_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    start_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     start_year = serializers.IntegerField(write_only=True)
-    deadline_month = serializers.IntegerField(min_value=1, max_value=12, write_only=True)
+    deadline_month = serializers.IntegerField(min_value=0, max_value=12, write_only=True)
     deadline_year = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -308,6 +323,7 @@ class SubmitCourseDraftSerializer(serializers.ModelSerializer):
             "about",
             "overview",
             "duration",
+            "duration_base",
             "start_month",
             "start_year",
             "deadline_month",
