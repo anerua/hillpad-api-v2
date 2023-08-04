@@ -1,4 +1,4 @@
-from django_filters import FilterSet, NumberFilter, CharFilter
+from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter
 
 from academics.models import (Course, CourseDraft,
                               School, SchoolDraft,
@@ -35,10 +35,11 @@ class CourseDraftFilter(FilterSet):
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
     author = NumberFilter(field_name="author", lookup_expr='exact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
+    created_date = DateFilter(field_name="created_at__date", lookup_expr='exact')
 
     class Meta:
         model = CourseDraft
-        fields = ("id", "name", "school", "programme_type", "language", "author", "status")
+        fields = ("id", "name", "school", "programme_type", "language", "author", "status", "created_at")
 
 
 class SchoolFilter(FilterSet):
@@ -63,10 +64,11 @@ class SchoolDraftFilter(FilterSet):
     year_established = CharFilter(field_name="year_established", lookup_expr='exact')
     author = NumberFilter(field_name="author", lookup_expr='exact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
+    created_date = DateFilter(field_name="created_at__date", lookup_expr='exact')
 
     class Meta:
         model = SchoolDraft
-        fields = ("id", "name", "country", "institution_type", "year_established", "author", "status")
+        fields = ("id", "name", "country", "institution_type", "year_established", "author", "status", "created_at")
 
 
 class CountryFilter(FilterSet):
