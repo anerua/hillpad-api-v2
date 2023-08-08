@@ -90,7 +90,7 @@ class DetailCountryAPIView(RetrieveAPIView):
         return super(DetailCountryAPIView, self).get(request, *args, **kwargs)
     
 
-class DetailCountryDraftAPIView(ListAPIView):
+class DetailCountryDraftAPIView(RetrieveAPIView):
     
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailCountryDraftSerializer
