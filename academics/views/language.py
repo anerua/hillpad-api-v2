@@ -191,7 +191,7 @@ class PublishLanguageDraftAPIView(UpdateAPIView):
             # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if language:
                 # Update language with draft details
-                update_serializer = UpdateLanguageSerializer(language, data=language_data)
+                update_serializer = UpdateLanguageSerializer(language[0], data=language_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

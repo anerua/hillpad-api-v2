@@ -257,7 +257,7 @@ class PublishCourseDraftAPIView(UpdateAPIView):
 
             if course:
                 # Update course with draft details
-                update_serializer = UpdateCourseSerializer(course, data=course_data)
+                update_serializer = UpdateCourseSerializer(course[0], data=course_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

@@ -250,7 +250,7 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
 
             if school:
                 # Update school with draft details
-                update_serializer = UpdateSchoolSerializer(school, data=school_data)
+                update_serializer = UpdateSchoolSerializer(school[0], data=school_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

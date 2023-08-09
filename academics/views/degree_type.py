@@ -193,7 +193,7 @@ class PublishDegreeTypeDraftAPIView(UpdateAPIView):
             # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if degree_type:
                 # Update degree_type with draft details
-                update_serializer = UpdateDegreeTypeSerializer(degree_type, data=degree_type_data)
+                update_serializer = UpdateDegreeTypeSerializer(degree_type[0], data=degree_type_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

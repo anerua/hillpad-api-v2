@@ -193,7 +193,7 @@ class PublishDisciplineDraftAPIView(UpdateAPIView):
             # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if discipline:
                 # Update discipline with draft details
-                update_serializer = UpdateDisciplineSerializer(discipline, data=discipline_data)
+                update_serializer = UpdateDisciplineSerializer(discipline[0], data=discipline_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

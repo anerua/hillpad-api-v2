@@ -193,7 +193,7 @@ class PublishCurrencyDraftAPIView(UpdateAPIView):
             # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if currency:
                 # Update currency with draft details
-                update_serializer = UpdateCurrencySerializer(currency, data=currency_data)
+                update_serializer = UpdateCurrencySerializer(currency[0], data=currency_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 

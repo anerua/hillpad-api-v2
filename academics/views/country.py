@@ -202,7 +202,7 @@ class PublishCountryDraftAPIView(UpdateAPIView):
             # If updating, don't notify specialist of updates. If new, also send notification to specialist
             if country:
                 # Update country with draft details
-                update_serializer = UpdateCountrySerializer(country, data=country_data)
+                update_serializer = UpdateCountrySerializer(country[0], data=country_data)
                 if update_serializer.is_valid():
                     update_serializer.save()
 
