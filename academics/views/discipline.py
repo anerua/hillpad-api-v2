@@ -91,7 +91,7 @@ class DetailDisciplineAPIView(RetrieveAPIView):
         return super(DetailDisciplineAPIView, self).get(request, *args, **kwargs)
     
 
-class DetailDisciplineDraftAPIView(ListAPIView):
+class DetailDisciplineDraftAPIView(RetrieveAPIView):
     
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailDisciplineDraftSerializer
