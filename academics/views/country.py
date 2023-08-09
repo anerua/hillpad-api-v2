@@ -193,7 +193,7 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                 "about_wiki_link": country_draft.about_wiki_link,
                 "trivia_facts": country_draft.trivia_facts,
                 "living_costs": country_draft.living_costs,
-                # "banner": country_draft.banner,
+                "banner": country_draft.banner,
                 "author": country_draft.author.id,
                 "country_draft": country_draft.id,
                 "published": True,
