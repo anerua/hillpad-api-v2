@@ -179,6 +179,9 @@ class PublishCountryDraftAPIView(UpdateAPIView):
             country_draft = CountryDraft.objects.get(id=draft_id)
             country = country_draft.related_country.all()
             
+            banner = None
+            if country_draft.banner:
+                banner = country_draft.banner
             country_data = {
                 "name": country_draft.name,
                 "short_code": country_draft.short_code,
@@ -193,7 +196,7 @@ class PublishCountryDraftAPIView(UpdateAPIView):
                 "about_wiki_link": country_draft.about_wiki_link,
                 "trivia_facts": country_draft.trivia_facts,
                 "living_costs": country_draft.living_costs,
-                "banner": country_draft.banner,
+                "banner": banner,
                 "author": country_draft.author.id,
                 "country_draft": country_draft.id,
                 "published": True,

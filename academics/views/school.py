@@ -230,6 +230,12 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
             school_draft = SchoolDraft.objects.get(id=draft_id)
             school = school_draft.related_school.all()
             
+            banner = None
+            logo = None
+            if school_draft.banner:
+                banner = school_draft.banner
+            if school_draft.logo:
+                logo = school_draft.logo
             school_data = {
                 "name": school_draft.name,
                 "about": school_draft.about,
@@ -241,8 +247,8 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
                 "year_established": school_draft.year_established,
                 "academic_staff": school_draft.academic_staff,
                 "students": school_draft.students,
-                "banner": school_draft.banner,
-                "logo": school_draft.logo,
+                "banner": banner,
+                "logo": logo,
                 "author": school_draft.author.id,
                 "school_draft": school_draft.id,
                 "published": True,
