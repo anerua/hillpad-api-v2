@@ -370,7 +370,7 @@ class SubmitCourseDraftSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         status = self.instance.status
-        if status not in (CourseDraft.SAVED, CourseDraft.PUBLISHED):
+        if status not in (CourseDraft.SAVED, CourseDraft.REJECTED, CourseDraft.PUBLISHED):
             raise serializers.ValidationError("This course cannot be edited because it is currently in the review process.")
         
         return super(SubmitCourseDraftSerializer, self).validate(data)

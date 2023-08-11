@@ -158,7 +158,7 @@ class UpdateSchoolDraftSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         status = self.instance.status
-        if status not in (SchoolDraft.SAVED, SchoolDraft.PUBLISHED):
+        if status not in (SchoolDraft.SAVED, SchoolDraft.REJECTED, SchoolDraft.PUBLISHED):
             raise serializers.ValidationError("This school cannot be edited because it is currently in the review process.")
         
         return super(UpdateSchoolDraftSerializer, self).validate(data)
