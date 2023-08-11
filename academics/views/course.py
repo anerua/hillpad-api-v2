@@ -227,7 +227,11 @@ class PublishCourseDraftAPIView(UpdateAPIView):
             draft_id = response.data["id"]
             course_draft = CourseDraft.objects.get(id=draft_id)
             course = course_draft.related_course.all()
-            
+
+            tuition_currency = None
+            if hasattr(course_draft.tuition_currency, "id"):
+                tuition_currency = course_draft.tuition_currency.id
+
             course_data = {
                 "name": course_draft.name,
                 "about": course_draft.about,
@@ -241,7 +245,7 @@ class PublishCourseDraftAPIView(UpdateAPIView):
                 "disciplines": course_draft.disciplines.values_list("id", flat=True),
                 "tuition_fee": course_draft.tuition_fee,
                 "tuition_fee_base": course_draft.tuition_fee_base,
-                "tuition_currency": course_draft.tuition_currency.id,
+                "tuition_currency": tuition_currency,
                 "course_format": course_draft.course_format,
                 "attendance": course_draft.attendance,
                 "programme_type": course_draft.programme_type.id,
