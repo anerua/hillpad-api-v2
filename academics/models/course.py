@@ -55,7 +55,7 @@ class Course(TrackingModel):
     SAVED = "SAVED"
 
     name = models.CharField(_("Name of course"), max_length=255)
-    about = models.CharField(_("About"), max_length=1024, blank=True)
+    about = models.CharField(_("About"), max_length=360124, blank=True)
     overview = models.TextField(_("Overview"), blank=True)
 
     duration = models.IntegerField(_("Duration (in months) of course"), blank=True)
@@ -116,7 +116,7 @@ class CourseDraft(TrackingModel):
     )
 
     name = models.CharField(_("Name of course"), max_length=255)
-    about = models.CharField(_("About"), max_length=1024, blank=True)
+    about = models.CharField(_("About"), max_length=360124, blank=True)
     overview = models.TextField(_("Overview"), blank=True)
 
     duration = models.IntegerField(_("Duration of course"), blank=True)
