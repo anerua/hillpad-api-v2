@@ -46,7 +46,7 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discipline
         fields = '__all__'
-        depth=2
+        depth = 2
 
 
 class ListDisciplineDraftSerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class ListDisciplineDraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = DisciplineDraft
         fields = '__all__'
-        depth=2
+        depth = 2
 
 
 class DetailDisciplineSerializer(serializers.ModelSerializer):
@@ -62,7 +62,7 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discipline
         fields = '__all__'
-        depth=2
+        depth = 2
 
 
 class DetailDisciplineDraftSerializer(serializers.ModelSerializer):
@@ -70,7 +70,7 @@ class DetailDisciplineDraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = DisciplineDraft
         fields = '__all__'
-        depth=2
+        depth = 2
 
 
 class UpdateDisciplineSerializer(serializers.ModelSerializer):
