@@ -237,6 +237,7 @@ class PublishCourseDraftAPIView(UpdateAPIView):
                 "about": course_draft.about,
                 "overview": course_draft.overview,
                 "duration": course_draft.duration,
+                "duration_base": course_draft.duration_base,
                 "start_month": course_draft.course_dates["start_month"],
                 "start_year": course_draft.course_dates["start_year"],
                 "deadline_month": course_draft.course_dates["deadline_month"],
