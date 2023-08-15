@@ -90,7 +90,7 @@ class DetailCurrencyAPIView(RetrieveAPIView):
         return super(DetailCurrencyAPIView, self).get(request, *args, **kwargs)
     
 
-class DetailCurrencyDraftAPIView(ListAPIView):
+class DetailCurrencyDraftAPIView(RetrieveAPIView):
     
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailCurrencyDraftSerializer
