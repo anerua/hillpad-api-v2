@@ -91,7 +91,7 @@ class DetailDegreeTypeAPIView(RetrieveAPIView):
         return super(DetailDegreeTypeAPIView, self).get(request, *args, **kwargs)
     
 
-class DetailDegreeTypeDraftAPIView(ListAPIView):
+class DetailDegreeTypeDraftAPIView(RetrieveAPIView):
     
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = DetailDegreeTypeDraftSerializer
