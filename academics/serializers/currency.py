@@ -44,6 +44,7 @@ class ListCurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
         fields = '__all__'
+        depth = 2
 
 
 class ListCurrencyDraftSerializer(serializers.ModelSerializer):
@@ -51,6 +52,7 @@ class ListCurrencyDraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyDraft
         fields = '__all__'
+        depth = 2
 
 
 class DetailCurrencySerializer(serializers.ModelSerializer):
@@ -58,6 +60,7 @@ class DetailCurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
         fields = '__all__'
+        depth = 2
 
     
 class DetailCurrencyDraftSerializer(serializers.ModelSerializer):
@@ -65,6 +68,7 @@ class DetailCurrencyDraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyDraft
         fields = '__all__'
+        depth = 2
 
 
 class UpdateCurrencySerializer(serializers.ModelSerializer):
