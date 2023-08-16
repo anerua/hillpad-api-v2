@@ -18,10 +18,11 @@ class CourseFilter(FilterSet):
     school = CharFilter(field_name='school__name', lookup_expr='iexact')
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
+    slug = CharFilter(field_name="slug", lookup_expr='exact')
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language")
+        fields = ("id", "name", "school", "programme_type", "language", "slug")
 
 
 class CourseDraftFilter(FilterSet):

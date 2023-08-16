@@ -90,6 +90,23 @@ class DetailCourseAPIView(RetrieveAPIView):
         return super(DetailCourseAPIView, self).get(request, *args, **kwargs)
     
 
+class DetailCourseSlugAPIView(RetrieveAPIView):
+
+    serializer_class = DetailCourseSerializer
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
+
+    def get(self, request, *args, **kwargs):
+
+        permission = StaffPermission()
+        if permission.has_permission(request):
+            self.queryset = Course.objects.all()
+        else:
+            self.queryset = Course.objects.filter(published=True)
+        
+        return super(DetailCourseSlugAPIView, self).get(request, *args, **kwargs)
+    
+
 class DetailCourseDraftAPIView(RetrieveAPIView):
 
     permission_classes = (StaffPermission,)
