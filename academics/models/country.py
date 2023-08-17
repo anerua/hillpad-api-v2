@@ -8,6 +8,9 @@ from helpers.models import TrackingModel
 
 class Country(TrackingModel):
 
+    class Meta:
+        ordering = ("name",)
+
     AFRICA = "AF"
     ASIA = "AS"
     EUROPE = "EU"
