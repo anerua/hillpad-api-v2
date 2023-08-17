@@ -1,4 +1,4 @@
-from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter
+from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter, ModelMultipleChoiceFilter
 
 from academics.models import (Course, CourseDraft,
                               School, SchoolDraft,
@@ -19,10 +19,12 @@ class CourseFilter(FilterSet):
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
     slug = CharFilter(field_name="slug", lookup_expr='exact')
+    discipline = NumberFilter(field_name="disciplines__id", lookup_expr='exact')
+    # discipline = ModelMultipleChoiceFilter(field_name="discipline__id")
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines")
 
 
 class CourseDraftFilter(FilterSet):
@@ -33,6 +35,7 @@ class CourseDraftFilter(FilterSet):
     continent = CharFilter(field_name='school__country__continent', lookup_expr='iexact')
     school = CharFilter(field_name='school__name', lookup_expr='iexact')
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
+    discipline = NumberFilter(field_name="disciplines__id", lookup_expr='exact')
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
     author = NumberFilter(field_name="author", lookup_expr='exact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
@@ -40,7 +43,7 @@ class CourseDraftFilter(FilterSet):
 
     class Meta:
         model = CourseDraft
-        fields = ("id", "name", "school", "programme_type", "language", "author", "status", "created_at")
+        fields = ("id", "name", "school", "programme_type", "disciplines", "language", "author", "status", "created_at")
 
 
 class SchoolFilter(FilterSet):
