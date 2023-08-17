@@ -205,8 +205,35 @@ class ApproveSchoolDraftSerializer(serializers.ModelSerializer):
         model = SchoolDraft
         fields = (
             "id",
+            "name",
+            "about",
+            "address",
+            "city",
+            "country",
+            "institution_type",
+            "ranking",
+            "year_established",
+            "academic_staff",
+            "students",
+            "banner",
+            "logo",
             "status",
         )
+        extra_kwargs = {
+            "name": {"required": False},
+            "about": {"required": False},
+            "address": {"required": False},
+            "duration": {"required": False},
+            "city": {"required": False},
+            "country": {"required": False},
+            "institution_type": {"required": False},
+            "ranking": {"required": False},
+            "year_established": {"required": False},
+            "academic_staff": {"required": False},
+            "students": {"required": False},
+            "banner": {"required": False},
+            "logo": {"required": False},
+        }
 
     def update(self, instance, validated_data):
         validated_data["status"] = SchoolDraft.APPROVED
