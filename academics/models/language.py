@@ -8,6 +8,9 @@ from helpers.models import TrackingModel
 
 class Language(TrackingModel):
 
+    class Meta:
+        ordering = ("name",)
+
     name = models.CharField(_("Name of language"), max_length=255)
     iso_639_code = models.CharField(_("ISO 639 two-letter abbreviation"), max_length=2)
 

@@ -8,6 +8,9 @@ from helpers.models import TrackingModel
 
 class Discipline(TrackingModel):
 
+    class Meta:
+        ordering = ("name",)
+
     DEEP_BLUE = "deep_blue"
     GREEN = "green"
     ORANGE = "orange"

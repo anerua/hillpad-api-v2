@@ -8,6 +8,9 @@ from helpers.models import TrackingModel
 
 class DegreeType(TrackingModel):
 
+    class Meta:
+        ordering = ("-programme_type", "name")
+
     name = models.CharField(_("Name of degree type, e.g. Bachelor of Science"), max_length=255)
     short_name = models.CharField(_("Short name of degree type, e.g. B.Sc."), max_length=255)
     programme_type = models.ForeignKey('ProgrammeType', on_delete=models.CASCADE, related_name="programme_type_degree_types")
