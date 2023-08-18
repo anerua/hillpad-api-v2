@@ -43,7 +43,10 @@ class CreateDisciplineDraftSerializer(serializers.ModelSerializer):
 
 class ListDisciplineSerializer(serializers.ModelSerializer):
 
-    courses = serializers.IntegerField(read_only=True)
+    courses_total = serializers.IntegerField(read_only=True)
+    courses_bachelors = serializers.IntegerField(read_only=True)
+    courses_masters = serializers.IntegerField(read_only=True)
+    courses_doctorates = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Discipline
@@ -54,7 +57,10 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
             "about",
             "icon",
             "icon_color",
-            "courses",
+            "courses_total",
+            "courses_bachelors",
+            "courses_masters",
+            "courses_doctorates",
             "author",
             "discipline_draft",
             "published",
@@ -63,7 +69,10 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret["courses"] = Course.objects.filter(disciplines=ret["id"]).count()
+        ret["courses_total"] = Course.objects.filter(disciplines=ret["id"]).count()
+        ret["courses_bachelors"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Bachelors").count()
+        ret["courses_masters"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Masters").count()
+        ret["courses_doctorates"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Doctorates").count()
         return ret
 
 
@@ -77,7 +86,10 @@ class ListDisciplineDraftSerializer(serializers.ModelSerializer):
 
 class DetailDisciplineSerializer(serializers.ModelSerializer):
 
-    courses = serializers.IntegerField(read_only=True)
+    courses_total = serializers.IntegerField(read_only=True)
+    courses_bachelors = serializers.IntegerField(read_only=True)
+    courses_masters = serializers.IntegerField(read_only=True)
+    courses_doctorates = serializers.IntegerField(read_only=True)
     
     class Meta:
         model = Discipline
@@ -87,7 +99,10 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
             "about",
             "icon",
             "icon_color",
-            "courses",
+            "courses_total",
+            "courses_bachelors",
+            "courses_masters",
+            "courses_doctorates",
             "author",
             "discipline_draft",
             "published",
@@ -96,7 +111,10 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret["courses"] = Course.objects.filter(disciplines=ret["id"]).count()
+        ret["courses_total"] = Course.objects.filter(disciplines=ret["id"]).count()
+        ret["courses_bachelors"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Bachelors").count()
+        ret["courses_masters"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Masters").count()
+        ret["courses_doctorates"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Doctorates").count()
         return ret
 
 
