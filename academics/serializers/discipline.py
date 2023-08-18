@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import Discipline, DisciplineDraft
+from academics.models import Discipline, DisciplineDraft, Course
 
 
 class CreateDisciplineSerializer(serializers.ModelSerializer):
@@ -43,10 +43,28 @@ class CreateDisciplineDraftSerializer(serializers.ModelSerializer):
 
 class ListDisciplineSerializer(serializers.ModelSerializer):
 
+    courses = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Discipline
         fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "about",
+            "icon",
+            "icon_color",
+            "courses",
+            "author",
+            "discipline_draft",
+            "published",
+        )
         depth = 2
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret["courses"] = Course.objects.filter(disciplines=ret["id"]).count()
+        return ret
 
 
 class ListDisciplineDraftSerializer(serializers.ModelSerializer):
@@ -59,10 +77,27 @@ class ListDisciplineDraftSerializer(serializers.ModelSerializer):
 
 class DetailDisciplineSerializer(serializers.ModelSerializer):
 
+    courses = serializers.IntegerField(read_only=True)
+    
     class Meta:
         model = Discipline
-        fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "about",
+            "icon",
+            "icon_color",
+            "courses",
+            "author",
+            "discipline_draft",
+            "published",
+        )
         depth = 2
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret["courses"] = Course.objects.filter(disciplines=ret["id"]).count()
+        return ret
 
 
 class DetailDisciplineDraftSerializer(serializers.ModelSerializer):
