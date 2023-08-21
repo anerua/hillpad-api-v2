@@ -13,7 +13,7 @@ class AccountEntriesStats(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         # user = request.user
-        serializer = AccountEntriesStatsSerializer(data=request.data)
+        serializer = AccountEntriesStatsSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             return Response(serializer.data)
         

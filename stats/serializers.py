@@ -84,7 +84,6 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         ret = OrderedDict()
 
         request = self.context.get("request")
-        print(self.context)
         user = None
         if request and hasattr(request, "user"):
             user = request.user
