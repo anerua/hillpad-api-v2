@@ -11,7 +11,7 @@ class AccountEntriesStats(GenericAPIView):
 
     permission_classes = (StaffPermission,)
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request):
         # user = request.user
         serializer = AccountEntriesStatsSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
