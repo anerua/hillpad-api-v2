@@ -17,6 +17,7 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         child = serializers.CharField(),
         write_only = True
     )
+    date = serializers.DateField(write_only=True, required=False)
 
     daily_courses_added = serializers.IntegerField(read_only=True, required=False)
     daily_bachelors_added = serializers.IntegerField(read_only=True, required=False)
@@ -79,7 +80,6 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         
         return super(AccountEntriesStatsSerializer, self).validate(data)
 
-
     def to_representation(self, instance):
         ret = OrderedDict()
 
@@ -89,15 +89,35 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
             user = request.user
 
         metrics = self.initial_data["metrics"]
+        date = self.initial_data["date"]
         for metric in metrics:
-            metric_value = self.get_value(metric, user)
+            metric_value = self.get_value(metric, date, user)
             if metric_value is not None:
-                ret[metric] = self.get_value(metric, user)
+                ret[metric] = metric_value
 
         return ret
     
-    def get_value(self, metric, user):
-        if metric == "total_courses_review":
+    def get_value(self, metric, date, user):
+        if metric == "daily_courses_added":
+            return CourseDraft.objects.filter(author=user, created_at__date=date).count()
+        elif metric == "daily_bachelors_added":
+            return CourseDraft.objects.filter(author=user, created_at__date=date, programme_type__name="Bachelors").count()
+        elif metric == "daily_masters_added":
+            return CourseDraft.objects.filter(author=user, created_at__date=date, programme_type__name="Masters").count()
+        elif metric == "daily_doctorates_added":
+            return CourseDraft.objects.filter(author=user, created_at__date=date, programme_type__name="Doctorates").count()
+        elif metric == "daily_schools_added":
+            return SchoolDraft.objects.filter(author=user, created_at__date=date).count()
+        elif metric == "daily_countries_added":
+            return CountryDraft.objects.filter(author=user, created_at__date=date).count()
+        elif metric == "daily_disciplines_added":
+            return DisciplineDraft.objects.filter(author=user, created_at__date=date).count()
+        elif metric == "daily_degree_types_added":
+            return DegreeTypeDraft.objects.filter(author=user, created_at__date=date).count()
+        elif metric == "daily_currencies_added":
+            return CurrencyDraft.objects.filter(author=user, created_at__date=date).count()
+
+        elif metric == "total_courses_review":
             return CourseDraft.objects.filter(author=user, status=CourseDraft.REVIEW).count()
         elif metric == "total_bachelors_review":
             return CourseDraft.objects.filter(author=user, status=CourseDraft.REVIEW, programme_type__name="Bachelors").count()
