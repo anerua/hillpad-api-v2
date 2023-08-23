@@ -77,6 +77,8 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         for metric in metrics:
             if metric not in fields:
                 raise serializers.ValidationError(f"{metric} is not a valid metric.")
+            if metric[:5] == "daily" and "date" not in self.initial_data:
+                raise serializers.ValidationError(f"You must specify a date to get the {metric} metric")
         
         return super(AccountEntriesStatsSerializer, self).validate(data)
 
@@ -89,7 +91,11 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
             user = request.user
 
         metrics = self.initial_data["metrics"]
-        date = self.initial_data["date"]
+        date = None
+        if "date" in self.initial_data:
+            date = self.initial_data["date"]
+        else:
+            date = None
         for metric in metrics:
             metric_value = self.get_value(metric, date, user)
             if metric_value is not None:
