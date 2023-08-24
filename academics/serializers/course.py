@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from academics.models import Course, CourseDraft
+from account.models import User
+from academics.models import Course, CourseDraft, DegreeType, School, Country
 
 
 class CreateCourseSerializer(serializers.ModelSerializer):
@@ -164,11 +165,55 @@ class ListCourseSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ListCourseDraftAuthorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name")
+
+
+class CourseDegreeTypeSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = DegreeType
+        fields = ("short_name",)
+
+
+class CourseCountrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Country
+        fields = ("name",)
+
+
+class ListCourseDraftSchoolSerializer(serializers.ModelSerializer):
+
+    country = CourseCountrySerializer(read_only=True)
+
+    class Meta:
+        model = School
+        fields = ("name", "country")
+
+
 class ListCourseDraftSerializer(serializers.ModelSerializer):
+
+    school = ListCourseDraftSchoolSerializer(read_only=True)
+    degree_type = CourseDegreeTypeSerializer(read_only=True)
+    author = ListCourseDraftAuthorSerializer(read_only=True)
 
     class Meta:
         model = CourseDraft
-        fields = '__all__'
+        # fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "created_at",
+            "updated_at",
+            "status",
+            "school",
+            "degree_type",
+            "author"
+        )
         depth = 2
 
 
