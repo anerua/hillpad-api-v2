@@ -4,32 +4,54 @@
 from rest_framework import serializers
 
 from account.models import User
-from academics.models import DegreeType, School, Country, Currency
+from academics.models import DegreeType, School, Country, Currency, ProgrammeType, Language, Discipline
 
 
 # General serializers
 
-class CourseCurrencySerializer(serializers.ModelSerializer):
+class CourseLanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Currency
-        fields = ("short_code",)
+        model = Language
+        fields = ("id", "name",)
 
 
-# Model-specific serializers
-
-class CourseCountrySerializer(serializers.ModelSerializer):
+class CourseProgrammeTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Country
-        fields = ("name",)
+        model = ProgrammeType
+        fields = ("id", "name",)
 
 
 class CourseDegreeTypeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = DegreeType
-        fields = ("short_name",)
+        fields = ("id", "name", "short_name",)
+
+
+class CourseCountrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Country
+        fields = ("id", "name",)
+
+
+class CourseCurrencySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Currency
+        fields = ("id", "name", "short_code",)
+
+
+class CourseDisciplinesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Discipline
+        fields = ("id", "name",)
+
+
+# Model-specific serializers
 
 
 # Serializer-specific classes
@@ -47,7 +69,7 @@ class ListCourseSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ("name", "city", "logo", "country")
+        fields = ("id", "name", "city", "logo", "country")
 
 
 class ListCourseDraftSchoolSerializer(serializers.ModelSerializer):
@@ -56,4 +78,16 @@ class ListCourseDraftSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ("name", "country")
+        fields = ("id", "name", "country")
+
+
+class DetailCourseDraftSchoolSerializer(serializers.ModelSerializer):
+
+    country = CourseCountrySerializer(read_only=True)
+
+    class Meta:
+        model = School
+        fields = ("id", "name", "country")
+
+
+

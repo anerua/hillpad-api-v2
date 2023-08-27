@@ -218,9 +218,43 @@ class DetailCourseSerializer(serializers.ModelSerializer):
 
 class DetailCourseDraftSerializer(serializers.ModelSerializer):
 
+    school = inner.DetailCourseDraftSchoolSerializer(read_only=True)
+    disciplines = inner.CourseDisciplinesSerializer(read_only=True, many=True)
+    tuition_currency = inner.CourseCurrencySerializer(read_only=True)
+    programme_type = inner.CourseProgrammeTypeSerializer(read_only=True)
+    degree_type = inner.CourseDegreeTypeSerializer(read_only=True)
+    language = inner.CourseLanguageSerializer(read_only=True)
+    author = inner.ListCourseDraftAuthorSerializer(read_only=True)
+
     class Meta:
         model = CourseDraft
-        fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "about",
+            "overview",
+            "duration",
+            "duration_base",
+            "course_dates",
+            "school",
+            "disciplines",
+            "tuition_fee",
+            "tuition_fee_base",
+            "tuition_currency",
+            "course_format",
+            "attendance",
+            "programme_type",
+            "degree_type",
+            "language",
+            "programme_structure",
+            "admission_requirements",
+            "official_programme_website",
+            "author",
+            "status",
+            "reject_reason",
+            "created_at",
+            "updated_at"
+        )
         depth = 2
 
 
