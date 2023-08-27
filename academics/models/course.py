@@ -92,7 +92,7 @@ class Course(TrackingModel):
         if not self.slug:
             while True:
                 generated_number = ''.join(secrets.choice(string.digits) for i in range(6))
-                slug = slugify(self.name + generated_number)
+                slug = slugify(self.name + "-" + generated_number)
                 if not Course.objects.filter(slug=slug).exists():
                     self.slug = slug
                     break
