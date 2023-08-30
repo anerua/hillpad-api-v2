@@ -87,6 +87,23 @@ class DetailSchoolAPIView(RetrieveAPIView):
             self.queryset = School.objects.filter(published=True)
         
         return super(DetailSchoolAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailSchoolSlugAPIView(RetrieveAPIView):
+
+    serializer_class = DetailSchoolSerializer
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
+
+    def get(self, request, *args, **kwargs):
+
+        permission = StaffPermission()
+        if permission.has_permission(request):
+            self.queryset = School.objects.all()
+        else:
+            self.queryset = School.objects.filter(published=True)
+        
+        return super(DetailSchoolSlugAPIView, self).get(request, *args, **kwargs)
 
 
 class DetailSchoolDraftAPIView(RetrieveAPIView):
