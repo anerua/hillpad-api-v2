@@ -80,7 +80,6 @@ class DetailCourseAPIView(RetrieveAPIView):
     serializer_class = DetailCourseSerializer
 
     def get(self, request, *args, **kwargs):
-
         permission = StaffPermission()
         if permission.has_permission(request):
             self.queryset = Course.objects.all()
@@ -97,7 +96,6 @@ class DetailCourseSlugAPIView(RetrieveAPIView):
     lookup_url_kwarg = "slug"
 
     def get(self, request, *args, **kwargs):
-
         permission = StaffPermission()
         if permission.has_permission(request):
             self.queryset = Course.objects.all()

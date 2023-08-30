@@ -80,8 +80,6 @@ class DetailDisciplineAPIView(RetrieveAPIView):
     serializer_class = DetailDisciplineSerializer
 
     def get(self, request, *args, **kwargs):
-        # Only Admin and Supervisor can view all disciplines.
-        # Specialists, Clients and Anonymous users can only view published disciplines
         permission = AdminAndSupervisorPermission()
         if permission.has_permission(request):
             self.queryset = Discipline.objects.all()
@@ -89,6 +87,22 @@ class DetailDisciplineAPIView(RetrieveAPIView):
             self.queryset = Discipline.objects.filter(published=True)
         
         return super(DetailDisciplineAPIView, self).get(request, *args, **kwargs)
+    
+
+class DetailDisciplineSlugAPIView(RetrieveAPIView):
+
+    serializer_class = DetailDisciplineSerializer
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
+
+    def get(self, request, *args, **kwargs):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
+            self.queryset = Discipline.objects.all()
+        else:
+            self.queryset = Discipline.objects.filter(published=True)
+        
+        return super(DetailDisciplineSlugAPIView, self).get(request, *args, **kwargs)
     
 
 class DetailDisciplineDraftAPIView(RetrieveAPIView):
