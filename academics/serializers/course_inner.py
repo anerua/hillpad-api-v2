@@ -69,19 +69,19 @@ class ListCourseSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ("id", "name", "city", "logo", "country")
+        fields = ("id", "name", "city", "country", "logo")
 
 
-class ListCourseDraftSchoolSerializer(serializers.ModelSerializer):
+class DetailCourseSchoolSerializer(serializers.ModelSerializer):
 
-    country = CourseCountrySerializer(read_only=True)
+    country = CourseCountrySerializer()
 
     class Meta:
         model = School
-        fields = ("id", "name", "country")
+        fields = ("id", "slug", "name", "city", "country", "logo", "banner")
 
 
-class DetailCourseDraftSchoolSerializer(serializers.ModelSerializer):
+class CourseDraftSchoolSerializer(serializers.ModelSerializer):
 
     country = CourseCountrySerializer(read_only=True)
 

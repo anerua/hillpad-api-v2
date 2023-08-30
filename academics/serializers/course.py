@@ -180,16 +180,14 @@ class ListCourseSerializer(serializers.ModelSerializer):
             "attendance",
             "slug",
             "school",
-            "degree_type",
-            "created_at",
-            "updated_at",
+            "degree_type"
         )
         depth = 2
 
 
 class ListCourseDraftSerializer(serializers.ModelSerializer):
 
-    school = inner.ListCourseDraftSchoolSerializer(read_only=True)
+    school = inner.CourseDraftSchoolSerializer(read_only=True)
     degree_type = inner.CourseDegreeTypeSerializer(read_only=True)
     author = inner.ListCourseDraftAuthorSerializer(read_only=True)
 
@@ -210,15 +208,44 @@ class ListCourseDraftSerializer(serializers.ModelSerializer):
 
 class DetailCourseSerializer(serializers.ModelSerializer):
 
+    school = inner.DetailCourseSchoolSerializer(read_only=True)
+    disciplines = inner.CourseDisciplinesSerializer(read_only=True, many=True)
+    tuition_currency = inner.CourseCurrencySerializer(read_only=True)
+    programme_type = inner.CourseProgrammeTypeSerializer(read_only=True)
+    degree_type = inner.CourseDegreeTypeSerializer(read_only=True)
+    language = inner.CourseLanguageSerializer(read_only=True)
+
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = (
+            "id",
+            "slug",
+            "name",
+            "about",
+            "overview",
+            "duration",
+            "duration_base",
+            "course_dates",
+            "school",
+            "disciplines",
+            "tuition_fee",
+            "tuition_fee_base",
+            "tuition_currency",
+            "course_format",
+            "attendance",
+            "programme_type",
+            "degree_type",
+            "language",
+            "programme_structure",
+            "admission_requirements",
+            "official_programme_website",
+        )
         depth = 2
 
 
 class DetailCourseDraftSerializer(serializers.ModelSerializer):
 
-    school = inner.DetailCourseDraftSchoolSerializer(read_only=True)
+    school = inner.CourseDraftSchoolSerializer(read_only=True)
     disciplines = inner.CourseDisciplinesSerializer(read_only=True, many=True)
     tuition_currency = inner.CourseCurrencySerializer(read_only=True)
     programme_type = inner.CourseProgrammeTypeSerializer(read_only=True)
