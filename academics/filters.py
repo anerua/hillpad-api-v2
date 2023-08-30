@@ -1,4 +1,4 @@
-from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter, ModelMultipleChoiceFilter
+from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter
 
 from academics.models import (Course, CourseDraft,
                               School, SchoolDraft,
@@ -20,11 +20,13 @@ class CourseFilter(FilterSet):
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
     slug = CharFilter(field_name="slug", lookup_expr='exact')
     discipline = NumberFilter(field_name="disciplines__id", lookup_expr='exact')
-    # discipline = ModelMultipleChoiceFilter(field_name="discipline__id")
+    degree_type = ModelMultipleChoiceFilter(queryset=DegreeType.objects.all())
+    course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
+    attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance")
 
 
 class CourseDraftFilter(FilterSet):
