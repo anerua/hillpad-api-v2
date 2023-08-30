@@ -39,9 +39,8 @@ class Discipline(TrackingModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            while True:
-                slug = slugify(self.name)
-                self.slug = slug
+            slug = slugify(self.name)
+            self.slug = slug
 
         super(Discipline, self).save(*args, **kwargs)
 
