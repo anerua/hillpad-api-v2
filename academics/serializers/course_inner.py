@@ -56,11 +56,11 @@ class CourseDisciplinesSerializer(serializers.ModelSerializer):
 
 # Serializer-specific classes
 
-class ListCourseDraftAuthorSerializer(serializers.ModelSerializer):
+class CourseDraftAuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name")
+        fields = ("id", "first_name", "last_name")
 
 
 class ListCourseSchoolSerializer(serializers.ModelSerializer):

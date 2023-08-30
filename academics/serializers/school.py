@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from academics.models import School, SchoolDraft
+from academics.serializers import school_inner as inner
 
 
 class CreateSchoolSerializer(serializers.ModelSerializer):
@@ -82,9 +83,20 @@ class ListSchoolSerializer(serializers.ModelSerializer):
 
 class ListSchoolDraftSerializer(serializers.ModelSerializer):
 
+    country = inner.SchoolCountrySerializer(read_only=True)
+    author = inner.SchoolDraftAuthorSerializer(read_only=True)
+
     class Meta:
         model = SchoolDraft
-        fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "country",
+            "created_at",
+            "updated_at",
+            "status",
+            "author"
+        )
         depth = 2
 
 

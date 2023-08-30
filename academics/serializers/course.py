@@ -189,7 +189,7 @@ class ListCourseDraftSerializer(serializers.ModelSerializer):
 
     school = inner.CourseDraftSchoolSerializer(read_only=True)
     degree_type = inner.CourseDegreeTypeSerializer(read_only=True)
-    author = inner.ListCourseDraftAuthorSerializer(read_only=True)
+    author = inner.CourseDraftAuthorSerializer(read_only=True)
 
     class Meta:
         model = CourseDraft
@@ -251,7 +251,7 @@ class DetailCourseDraftSerializer(serializers.ModelSerializer):
     programme_type = inner.CourseProgrammeTypeSerializer(read_only=True)
     degree_type = inner.CourseDegreeTypeSerializer(read_only=True)
     language = inner.CourseLanguageSerializer(read_only=True)
-    author = inner.ListCourseDraftAuthorSerializer(read_only=True)
+    author = inner.CourseDraftAuthorSerializer(read_only=True)
 
     class Meta:
         model = CourseDraft
