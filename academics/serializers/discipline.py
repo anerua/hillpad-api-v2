@@ -50,7 +50,6 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Discipline
-        fields = '__all__'
         fields = (
             "id",
             "name",

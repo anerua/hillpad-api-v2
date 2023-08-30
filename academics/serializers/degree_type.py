@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from academics.models import DegreeType, DegreeTypeDraft
+from academics.serializers import degree_type_inner as inner
 
 
 class CreateDegreeTypeSerializer(serializers.ModelSerializer):
@@ -41,9 +42,16 @@ class CreateDegreeTypeDraftSerializer(serializers.ModelSerializer):
 
 class ListDegreeTypeSerializer(serializers.ModelSerializer):
 
+    programme_type = inner.DegreeTypeProgrammeTypeSerializer(read_only=True)
+
     class Meta:
         model = DegreeType
-        fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "short_name",
+            "programme_type"
+        )
         depth = 2
 
 
