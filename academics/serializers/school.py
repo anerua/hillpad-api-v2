@@ -113,9 +113,26 @@ class ListSchoolDraftSerializer(serializers.ModelSerializer):
 
 class DetailSchoolSerializer(serializers.ModelSerializer):
 
+    country = inner.SchoolCountrySerializer(read_only=True)
+
     class Meta:
         model = School
-        fields = '__all__'
+        fields = (
+            "id",
+            "slug",
+            "name",
+            "about",
+            "address",
+            "city",
+            "country",
+            "institution_type",
+            "ranking",
+            "year_established",
+            "academic_staff",
+            "students",
+            "banner",
+            "logo"
+        )
         depth = 2
 
 
