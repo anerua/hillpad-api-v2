@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CurrencyFilter, CurrencyDraftFilter
+from academics.filters import CurrencyFilterSet, CurrencyDraftFilterSet
 from academics.models import Currency, CurrencyDraft
 from academics.paginations import CurrencyPagination, CurrencyDraftPagination
 from academics.serializers import (CreateCurrencySerializer, CreateCurrencyDraftSerializer,
@@ -33,7 +33,7 @@ class ListCurrencyAPIView(ListAPIView):
     
     serializer_class = ListCurrencySerializer
     pagination_class = CurrencyPagination
-    filterset_class = CurrencyFilter
+    filterset_class = CurrencyFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class ListCurrencyDraftAPIView(ListAPIView):
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListCurrencyDraftSerializer
     pagination_class = CurrencyDraftPagination
-    filterset_class = CurrencyDraftFilter
+    filterset_class = CurrencyDraftFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):

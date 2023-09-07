@@ -3,7 +3,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import ProgrammeTypeFilter
+from academics.filters import ProgrammeTypeFilterSet
 from academics.models import ProgrammeType
 from academics.paginations import ProgrammeTypePagination
 from academics.serializers import CreateProgrammeTypeSerializer, ListProgrammeTypeSerializer, DetailProgrammeTypeSerializer, UpdateProgrammeTypeSerializer, DeleteProgrammeTypeSerializer
@@ -22,7 +22,7 @@ class ListProgrammeTypeAPIView(ListAPIView):
     
     serializer_class = ListProgrammeTypeSerializer
     pagination_class = ProgrammeTypePagination
-    filterset_class = ProgrammeTypeFilter
+    filterset_class = ProgrammeTypeFilterSet
     filter_backends = [DjangoFilterBackend]
     
     def get(self, request, *args, **kwargs):

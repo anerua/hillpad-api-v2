@@ -9,7 +9,7 @@ from academics.models import (Course, CourseDraft,
                               Language, LanguageDraft)
 
 
-class CourseFilter(FilterSet):
+class CourseFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -29,7 +29,7 @@ class CourseFilter(FilterSet):
         fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance")
 
 
-class CourseDraftFilter(FilterSet):
+class CourseDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -48,7 +48,7 @@ class CourseDraftFilter(FilterSet):
         fields = ("id", "name", "school", "programme_type", "disciplines", "language", "author", "status", "created_at")
 
 
-class SchoolFilter(FilterSet):
+class SchoolFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -61,7 +61,7 @@ class SchoolFilter(FilterSet):
         fields = ("id", "name", "country", "institution_type", "year_established")
 
 
-class SchoolDraftFilter(FilterSet):
+class SchoolDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -77,7 +77,7 @@ class SchoolDraftFilter(FilterSet):
         fields = ("id", "name", "country", "institution_type", "year_established", "author", "status", "created_at")
 
 
-class CountryFilter(FilterSet):
+class CountryFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -93,7 +93,7 @@ class CountryFilter(FilterSet):
         fields = ("id", "name", "continent", "capital", "population", "students", "international_students", "currency")
 
 
-class CountryDraftFilter(FilterSet):
+class CountryDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
@@ -111,7 +111,7 @@ class CountryDraftFilter(FilterSet):
         fields = ("id", "name", "continent", "capital", "population", "students", "international_students", "currency", "author", "status")
 
 
-class CurrencyFilter(FilterSet):
+class CurrencyFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -122,7 +122,7 @@ class CurrencyFilter(FilterSet):
         fields = ("id", "name", "short_code")
 
 
-class CurrencyDraftFilter(FilterSet):
+class CurrencyDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -135,7 +135,7 @@ class CurrencyDraftFilter(FilterSet):
         fields = ("id", "name", "short_code", "author", "status")
 
 
-class DisciplineFilter(FilterSet):
+class DisciplineFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -145,7 +145,7 @@ class DisciplineFilter(FilterSet):
         fields = ("id", "name")
 
 
-class DisciplineDraftFilter(FilterSet):
+class DisciplineDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -157,7 +157,7 @@ class DisciplineDraftFilter(FilterSet):
         fields = ("id", "name", "author", "status")
 
 
-class DegreeTypeFilter(FilterSet):
+class DegreeTypeFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -168,7 +168,7 @@ class DegreeTypeFilter(FilterSet):
         fields = ("id", "name", "programme_type")
 
 
-class DegreeTypeDraftFilter(FilterSet):
+class DegreeTypeDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -181,13 +181,13 @@ class DegreeTypeDraftFilter(FilterSet):
         fields = ("id", "name", "programme_type", "author", "status")
 
 
-class ProgrammeTypeFilter(FilterSet):
+class ProgrammeTypeFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
 
 
-class LanguageFilter(FilterSet):
+class LanguageFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")
@@ -198,7 +198,7 @@ class LanguageFilter(FilterSet):
         fields = ("id", "name", "iso_639_code")
 
 
-class LanguageDraftFilter(FilterSet):
+class LanguageDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr="exact")
     name = CharFilter(field_name="name", lookup_expr="icontains")

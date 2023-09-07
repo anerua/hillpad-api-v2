@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import LanguageFilter, LanguageDraftFilter
+from academics.filters import LanguageFilterSet, LanguageDraftFilterSet
 from academics.models import Language, LanguageDraft
 from academics.paginations import LanguagePagination, LanguageDraftPagination
 from academics.serializers import (CreateLanguageSerializer, CreateLanguageDraftSerializer,
@@ -34,7 +34,7 @@ class ListLanguageAPIView(ListAPIView):
     
     serializer_class = ListLanguageSerializer
     pagination_class = LanguagePagination
-    filterset_class = LanguageFilter
+    filterset_class = LanguageFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
@@ -54,7 +54,7 @@ class ListLanguageDraftAPIView(ListAPIView):
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListLanguageDraftSerializer
     pagination_class = LanguageDraftPagination
-    filterset_class = LanguageDraftFilter
+    filterset_class = LanguageDraftFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):

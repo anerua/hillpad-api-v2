@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import DegreeTypeFilter, DegreeTypeDraftFilter
+from academics.filters import DegreeTypeFilterSet, DegreeTypeDraftFilterSet
 from academics.models import DegreeType, DegreeTypeDraft
 from academics.paginations import DegreeTypePagination, DegreeTypeDraftPagination
 from academics.serializers import (CreateDegreeTypeSerializer, CreateDegreeTypeDraftSerializer,
@@ -34,7 +34,7 @@ class ListDegreeTypeAPIView(ListAPIView):
     
     serializer_class = ListDegreeTypeSerializer
     pagination_class = DegreeTypePagination
-    filterset_class = DegreeTypeFilter
+    filterset_class = DegreeTypeFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
@@ -54,7 +54,7 @@ class ListDegreeTypeDraftAPIView(ListAPIView):
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListDegreeTypeDraftSerializer
     pagination_class = DegreeTypeDraftPagination
-    filterset_class = DegreeTypeDraftFilter
+    filterset_class = DegreeTypeDraftFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):

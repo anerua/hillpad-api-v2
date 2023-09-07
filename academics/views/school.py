@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import SchoolFilter, SchoolDraftFilter
+from academics.filters import SchoolFilterSet, SchoolDraftFilterSet
 from academics.models import School, SchoolDraft
 from academics.paginations import SchoolPagination, SchoolDraftPagination
 from academics.serializers import (CreateSchoolSerializer, CreateSchoolDraftSerializer,
@@ -36,7 +36,7 @@ class ListSchoolAPIView(ListAPIView):
     
     serializer_class = ListSchoolSerializer
     pagination_class = SchoolPagination
-    filterset_class = SchoolFilter
+    filterset_class = SchoolFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
@@ -54,7 +54,7 @@ class ListSchoolDraftAPIView(ListAPIView):
     permission_classes = (StaffPermission,)
     serializer_class = ListSchoolDraftSerializer
     pagination_class = SchoolDraftPagination
-    filterset_class = SchoolDraftFilter
+    filterset_class = SchoolDraftFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):

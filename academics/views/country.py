@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CountryFilter, CountryDraftFilter
+from academics.filters import CountryFilterSet, CountryDraftFilterSet
 from academics.models import Country, CountryDraft
 from academics.paginations import CountryPagination, CountryDraftPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
@@ -33,7 +33,7 @@ class ListCountryAPIView(ListAPIView):
     
     serializer_class = ListCountrySerializer
     pagination_class = CountryPagination
-    filterset_class = CountryFilter
+    filterset_class = CountryFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class ListCountryDraftAPIView(ListAPIView):
     permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListCountryDraftSerializer
     pagination_class = CountryDraftPagination
-    filterset_class = CountryDraftFilter
+    filterset_class = CountryDraftFilterSet
     filter_backends = [DjangoFilterBackend]
 
     def get(self, request, *args, **kwargs):
