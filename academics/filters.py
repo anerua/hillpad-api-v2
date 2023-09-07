@@ -1,4 +1,8 @@
-from django_filters import FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter
+from django.db.models import F
+from django_filters import Filter, FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter
+from django_filters.fields import RangeField
+from django_filters.constants import EMPTY_VALUES
+
 
 from academics.models import (Course, CourseDraft,
                               School, SchoolDraft,
@@ -7,6 +11,38 @@ from academics.models import (Course, CourseDraft,
                               DegreeType, DegreeTypeDraft,
                               Discipline, DisciplineDraft,
                               Language, LanguageDraft)
+
+
+class TuitionFeeFilter(Filter):
+    """
+        This class is a simple modification of django_filters.RangeFilter
+        This class assumes tuition is in USD. Ensure values are in USD before passing to filter.
+    """
+    field_class = RangeField
+
+    def filter(self, qs, value):
+        if value in EMPTY_VALUES:
+            return qs
+        
+        """
+        Case 1: (0, -1) - return qs
+        Case 2: (0, y) - return all lte
+        Case 3: (x, -1) - return all gte
+        Case 4: (x, y) - return range(x, y)
+        """
+        if value:
+            if value.start == 0 and value.stop == -1:
+                return qs
+            elif value.start == 0:
+                qs = Course.objects.filter(tuition_fee__lte=(value.stop*F('tuition_currency__usd_exchange_rate')))
+                return qs
+            elif value.stop == -1:
+                qs = Course.objects.filter(tuition_fee__gte=(value.start*F('tuition_currency__usd_exchange_rate')))
+                return qs
+            else:
+                qs = Course.objects.filter(tuition_fee__range=(value.start*F('tuition_currency__usd_exchange_rate'), value.stop*F('tuition_currency__usd_exchange_rate')))
+                return qs
+        return qs
 
 
 class CourseFilterSet(FilterSet):
@@ -23,10 +59,11 @@ class CourseFilterSet(FilterSet):
     degree_type = ModelMultipleChoiceFilter(queryset=DegreeType.objects.all())
     course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
     attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
+    tuition = TuitionFeeFilter(field_name="tuition_fee")
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance", "tuition_fee")
 
 
 class CourseDraftFilterSet(FilterSet):
