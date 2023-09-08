@@ -47,6 +47,16 @@ class ListCurrencySerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ListCurrencyShortCodesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Currency
+        fields = (
+            "id",
+            "short_code"
+        )
+
+
 class ListCurrencyDraftSerializer(serializers.ModelSerializer):
 
     class Meta:

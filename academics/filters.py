@@ -14,34 +14,35 @@ from academics.models import (Course, CourseDraft,
 
 
 class TuitionFeeFilter(Filter):
+    
     """
-        This class is a simple modification of django_filters.RangeFilter
+        Inspired by django_filters.RangeFilter
         This class assumes tuition is in USD. Ensure values are in USD before passing to filter.
+        RangeField abracadabralizes _min and _max to .start and .stop attributes
     """
+
     field_class = RangeField
 
     def filter(self, qs, value):
         if value in EMPTY_VALUES:
             return qs
         
-        """
-        Case 1: (0, -1) - return qs
-        Case 2: (0, y) - return all lte
-        Case 3: (x, -1) - return all gte
-        Case 4: (x, y) - return range(x, y)
-        """
         if value:
+            """
+                Case 1: (0, -1) - return qs
+                Case 2: (0, max) - return all less than or equal to max
+                Case 3: (min, -1) - return all greather than or equal to min
+                Case 4: (max, y) - return range(min, max)
+            """
             if value.start == 0 and value.stop == -1:
-                return qs
+                pass
             elif value.start == 0:
                 qs = Course.objects.filter(tuition_fee__lte=(value.stop*F('tuition_currency__usd_exchange_rate')))
-                return qs
             elif value.stop == -1:
                 qs = Course.objects.filter(tuition_fee__gte=(value.start*F('tuition_currency__usd_exchange_rate')))
-                return qs
             else:
                 qs = Course.objects.filter(tuition_fee__range=(value.start*F('tuition_currency__usd_exchange_rate'), value.stop*F('tuition_currency__usd_exchange_rate')))
-                return qs
+            
         return qs
 
 
