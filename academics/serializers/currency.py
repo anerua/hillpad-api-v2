@@ -93,6 +93,15 @@ class UpdateCurrencySerializer(serializers.ModelSerializer):
         )
 
 
+class UpdateCurrencyRateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Currency
+        fields = (
+            "usd_exchange_rate",
+        )
+
+
 class UpdateCurrencyDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
