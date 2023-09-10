@@ -89,7 +89,6 @@ class UpdateCurrencySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "short_code",
-            "usd_exchange_rate",
         )
 
 
@@ -110,7 +109,6 @@ class UpdateCurrencyDraftSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "short_code",
-            "usd_exchange_rate",
             "author",
             "status",
         )
