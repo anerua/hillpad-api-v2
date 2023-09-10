@@ -5,7 +5,7 @@ from decouple import config
 from academics.models import Currency
 from academics.serializers import ListCurrencyShortCodesSerializer, UpdateCurrencyRateSerializer
 
-class CurrencyUpdater:
+class CurrencyRatesUpdater:
 
     API_URL = "http://api.currencylayer.com/live"
     BASE_CURRENCY = "USD"
@@ -63,12 +63,4 @@ class CurrencyUpdater:
         for rate in rates:
             formatted_rates[rate[3:].lower()] = rates[rate]
         return formatted_rates
-
-"""
-    1. Use a serializer to retrieve short_codes
-    2. Use a serializer to update the currencies
-    3. Define a utilities folder in helpers and add this class to a new module
-    4. Don't forget async if necessary
-    5. Commit filters refactoring
-"""
     
