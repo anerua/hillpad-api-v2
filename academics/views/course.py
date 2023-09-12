@@ -4,7 +4,7 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import CourseFilterSet, CourseDraftFilterSet
+from academics.filters import DurationFilter, CourseFilterSet, CourseDraftFilterSet
 from academics.models import Course, CourseDraft
 from academics.paginations import CoursePagination, CourseDraftPagination
 from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSerializer,
@@ -38,6 +38,23 @@ class ListCourseAPIView(ListAPIView):
     pagination_class = CoursePagination
     filterset_class = CourseFilterSet
     filter_backends = [DjangoFilterBackend]
+
+    def get_queryset(self):
+        # Call the parent's get_queryset method to apply other filters and permissions
+        queryset = super().get_queryset()
+
+        # Get duration ranges from query parameters
+        duration_ranges = self.request.query_params.getlist('duration')
+
+        # Apply DurationFilter only if duration parameter is present
+        if duration_ranges:
+            duration_ranges = [tuple(map(int, range.split(','))) for range in duration_ranges]
+
+            # Apply DurationFilter
+            duration_filter = DurationFilter(field_name='duration')
+            queryset = duration_filter.filter(queryset, duration_ranges)
+
+        return queryset
 
     def get(self, request, *args, **kwargs):
 
