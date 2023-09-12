@@ -1,4 +1,4 @@
-from django.db.models import F
+from django.db.models import Case, When, F, IntegerField
 from django_filters import Filter, FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter
 from django_filters.fields import RangeField
 from django_filters.constants import EMPTY_VALUES
@@ -44,6 +44,42 @@ class TuitionFeeFilter(Filter):
                 qs = Course.objects.filter(tuition_fee__range=(value.start*F('tuition_currency__usd_exchange_rate'), value.stop*F('tuition_currency__usd_exchange_rate')))
             
         return qs
+    
+
+class DurationFilter(Filter):
+    """
+    This class assumes duration is in days. Ensure values are in days before passing to filter.
+    RangeField abracadabralizes _min and _max to .start and .stop attributes
+    """
+
+    field_class = RangeField
+
+    def filter(self, qs, value):
+        if value in EMPTY_VALUES:
+            return qs
+
+        if value:
+            # Convert durations to days
+            qs = qs.annotate(duration_in_days=Case(
+                When(duration_base=Course.MONTH, then=F('duration')*30),
+                When(duration_base=Course.SEMESTER, then=F('duration')*120),
+                When(duration_base=Course.SESSION, then=F('duration')*240),
+                When(duration_base=Course.YEAR, then=F('duration')*365),
+                default=F('duration'),
+                output_field=IntegerField()
+            ))
+
+            # Apply filter
+            if value.start == 0 and value.stop == -1:
+                pass
+            elif value.start == 0:
+                qs = qs.filter(duration_in_days__lte=value.stop)
+            elif value.stop == -1:
+                qs = qs.filter(duration_in_days__gte=value.start)
+            else:
+                qs = qs.filter(duration_in_days__range=(value.start, value.stop))
+
+        return qs
 
 
 class CourseFilterSet(FilterSet):
@@ -61,10 +97,11 @@ class CourseFilterSet(FilterSet):
     course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
     attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
     tuition = TuitionFeeFilter(field_name="tuition_fee")
+    duration = DurationFilter(field_name="duration")
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance", "tuition_fee")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance", "tuition_fee", "duration")
 
 
 class CourseDraftFilterSet(FilterSet):
