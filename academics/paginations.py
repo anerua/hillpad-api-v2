@@ -13,6 +13,12 @@ class CourseDraftPagination(PageNumberPagination):
     page_size_query_param = "page_size"
 
 
+class CourseDraftApprovedPagination(PageNumberPagination):
+
+    page_size = 1000000
+    page_size_query_param = "page_size"
+
+
 class SchoolPagination(PageNumberPagination):
 
     page_size = 20

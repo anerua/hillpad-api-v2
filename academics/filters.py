@@ -18,10 +18,7 @@ class TuitionFeeFilter(Filter):
     """
         Inspired by django_filters.RangeFilter
         This class assumes tuition is in USD. Ensure values are in USD before passing to filter.
-        RangeField abracadabralizes _min and _max to .start and .stop attributes
     """
-
-    field_class = RangeField
 
     def filter(self, qs, value):
         if value in EMPTY_VALUES:
@@ -34,14 +31,15 @@ class TuitionFeeFilter(Filter):
                 Case 3: (min, -1) - return all greather than or equal to min
                 Case 4: (max, y) - return range(min, max)
             """
-            if value.start == 0 and value.stop == -1:
+            start, stop = value
+            if start == 0 and stop == -1:
                 pass
-            elif value.start == 0:
-                qs = Course.objects.filter(tuition_fee__lte=(value.stop*F('tuition_currency__usd_exchange_rate')))
-            elif value.stop == -1:
-                qs = Course.objects.filter(tuition_fee__gte=(value.start*F('tuition_currency__usd_exchange_rate')))
+            elif start == 0:
+                qs = Course.objects.filter(tuition_fee__lte=(stop*F('tuition_currency__usd_exchange_rate')))
+            elif stop == -1:
+                qs = Course.objects.filter(tuition_fee__gte=(start*F('tuition_currency__usd_exchange_rate')))
             else:
-                qs = Course.objects.filter(tuition_fee__range=(value.start*F('tuition_currency__usd_exchange_rate'), value.stop*F('tuition_currency__usd_exchange_rate')))
+                qs = Course.objects.filter(tuition_fee__range=(start*F('tuition_currency__usd_exchange_rate'), stop*F('tuition_currency__usd_exchange_rate')))
             
         return qs
     
@@ -98,11 +96,10 @@ class CourseFilterSet(FilterSet):
     degree_type = ModelMultipleChoiceFilter(queryset=DegreeType.objects.all())
     course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
     attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
-    tuition = TuitionFeeFilter(field_name="tuition_fee")
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance", "tuition_fee")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance")
 
 
 class CourseDraftFilterSet(FilterSet):

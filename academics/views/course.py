@@ -4,11 +4,12 @@ from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from academics.filters import DurationFilter, CourseFilterSet, CourseDraftFilterSet
+from academics.filters import TuitionFeeFilter, DurationFilter, CourseFilterSet, CourseDraftFilterSet
 from academics.models import Course, CourseDraft
-from academics.paginations import CoursePagination, CourseDraftPagination
+from academics.paginations import CoursePagination, CourseDraftPagination, CourseDraftApprovedPagination
 from academics.serializers import (CreateCourseSerializer, CreateCourseDraftSerializer,
                                    ListCourseSerializer, ListCourseDraftSerializer,
+                                   ListApprovedCourseDraftSerializer,
                                    DetailCourseSerializer, DetailCourseDraftSerializer,
                                    UpdateCourseSerializer,
                                    UpdateCourseDraftSerializer, SubmitCourseDraftSerializer,
@@ -45,6 +46,7 @@ class ListCourseAPIView(ListAPIView):
 
         # Get duration ranges from query parameters
         duration_ranges = self.request.query_params.getlist('duration')
+        tuition_range = self.request.query_params.get('tuition')
 
         # Apply DurationFilter only if duration parameter is present
         if duration_ranges:
@@ -53,11 +55,19 @@ class ListCourseAPIView(ListAPIView):
             # Apply DurationFilter
             duration_filter = DurationFilter(field_name='duration')
             queryset = duration_filter.filter(queryset, duration_ranges)
+        
+        # Apply TuitionFeeFilter only if tuition parameter is present
+        if tuition_range:
+            tuition_range = tuple(map(int, tuition_range.split(',')))
+
+            # Apply TuitionFeeFilter
+            tuition_filter = TuitionFeeFilter(field_name='tuition_fee')
+            queryset = tuition_filter.filter(queryset, tuition_range)
+
 
         return queryset
 
     def get(self, request, *args, **kwargs):
-
         permission = StaffPermission()
         if permission.has_permission(request):
             self.queryset = Course.objects.all()
@@ -66,6 +76,17 @@ class ListCourseAPIView(ListAPIView):
         
         return super(ListCourseAPIView, self).get(request, *args, **kwargs)
     
+
+class ListApprovedCourseDraftAPIView(ListAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = ListApprovedCourseDraftSerializer
+    pagination_class = CourseDraftApprovedPagination
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = CourseDraft.objects.filter(status=CourseDraft.APPROVED)
+        return super(ListApprovedCourseDraftAPIView, self).get(request, *args, **kwargs)
+
 
 class ListCourseDraftAPIView(ListAPIView):
     

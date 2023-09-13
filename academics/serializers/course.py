@@ -206,6 +206,16 @@ class ListCourseDraftSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ListApprovedCourseDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CourseDraft
+        fields = ("id",)
+
+    def to_representation(self, instance):
+        return instance.id
+
+
 class DetailCourseSerializer(serializers.ModelSerializer):
 
     school = inner.DetailCourseSchoolSerializer(read_only=True)
