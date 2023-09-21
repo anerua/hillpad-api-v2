@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/action/', include("action.urls")),
     path('api/notification/', include("notification.urls")),
     path('api/stats/', include("stats.urls")),
-    path('.well-known/pki-validation/FD52F2748473B3ADAEAE42363F6C3B1C.txt', TemplateView.as_view(template_name="hillpad/942AA30074009A49D5046BE9F47F2E84.txt", content_type="text/plain")),
+    path('.well-known/pki-validation/FD52F2748473B3ADAEAE42363F6C3B1C.txt', TemplateView.as_view(template_name="hillpad/FD52F2748473B3ADAEAE42363F6C3B1C.txt", content_type="text/plain")),
     path('staff/', include("frontend_staff.urls")),
     path('supervisor/', include("frontend_supervisor.urls")),
     path('', include("frontend.urls")),
