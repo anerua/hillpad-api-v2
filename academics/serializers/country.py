@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from academics.models import Country, CountryDraft, Course, School
+from academics.serializers import country_inner as inner
 
 
 class CreateCountrySerializer(serializers.ModelSerializer):
@@ -111,9 +112,19 @@ class ListCountrySerializer(serializers.ModelSerializer):
 
 class ListCountryDraftSerializer(serializers.ModelSerializer):
 
+    author = inner.CountryDraftAuthorSerializer(read_only=True)
+
     class Meta:
         model = CountryDraft
-        fields = '__all__'
+        fields = (
+            "id",
+            "name",
+            "created_at",
+            "updated_at",
+            "status",
+            "continent",
+            "author",
+        )
         depth = 2
 
 
