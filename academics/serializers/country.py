@@ -128,6 +128,16 @@ class ListCountryDraftSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ListApprovedCountryDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CountryDraft
+        fields = ("id",)
+
+    def to_representation(self, instance):
+        return instance.id
+
+
 class DetailCountrySerializer(serializers.ModelSerializer):
 
     schools = serializers.IntegerField(read_only=True)
