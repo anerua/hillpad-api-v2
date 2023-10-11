@@ -6,6 +6,7 @@ from academics import views
 urlpatterns = [
     path("create_draft", views.CreateCountryDraftAPIView.as_view(), name="create_country_draft"),
     path("list", views.ListCountryAPIView.as_view(), name="list_country"),
+    path("list_review", views.ListReviewCountryDraftAPIView.as_view(), name="list_review_country_draft"),
     path("list_draft", views.ListCountryDraftAPIView.as_view(), name="list_country_draft"),
     path("detail/<int:pk>", views.DetailCountryAPIView.as_view(), name="detail_country"),
     path("detail_draft/<int:pk>", views.DetailCountryDraftAPIView.as_view(), name="detail_country_draft"),

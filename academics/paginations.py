@@ -15,7 +15,7 @@ class CourseDraftPagination(PageNumberPagination):
 
 class CourseDraftApprovedPagination(PageNumberPagination):
 
-    page_size = 1000000
+    page_size = 100000000 # Insanely high value to ensure all entries are returned
     page_size_query_param = "page_size"
 
 
@@ -40,6 +40,11 @@ class CountryPagination(PageNumberPagination):
 class CountryDraftPagination(PageNumberPagination):
 
     page_size = 20
+    page_size_query_param = "page_size"
+
+class CountryDraftReviewPagination(PageNumberPagination):
+
+    page_size = 1000
     page_size_query_param = "page_size"
 
 

@@ -6,9 +6,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import CountryFilterSet, CountryDraftFilterSet
 from academics.models import Country, CountryDraft
-from academics.paginations import CountryPagination, CountryDraftPagination
+from academics.paginations import CountryPagination, CountryDraftPagination, CountryDraftReviewPagination
 from academics.serializers import (CreateCountrySerializer, CreateCountryDraftSerializer,
                                    ListCountrySerializer, ListCountryDraftSerializer,
+                                   ListReviewCountryDraftSerializer,
                                    DetailCountrySerializer, DetailCountryDraftSerializer,
                                    UpdateCountrySerializer,
                                    UpdateCountryDraftSerializer, SubmitCountryDraftSerializer,
@@ -47,6 +48,17 @@ class ListCountryAPIView(ListAPIView):
         
         return super(ListCountryAPIView, self).get(request, *args, **kwargs)
     
+
+class ListReviewCountryDraftAPIView(ListAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = ListReviewCountryDraftSerializer
+    pagination_class = CountryDraftReviewPagination
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = CountryDraft.objects.filter(status=CountryDraft.REVIEW)
+        return super(ListReviewCountryDraftAPIView, self).get(request, *args, **kwargs)
+
 
 class ListCountryDraftAPIView(ListAPIView):
     

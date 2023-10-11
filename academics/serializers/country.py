@@ -128,7 +128,7 @@ class ListCountryDraftSerializer(serializers.ModelSerializer):
         depth = 2
 
 
-class ListApprovedCountryDraftSerializer(serializers.ModelSerializer):
+class ListReviewCountryDraftSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CountryDraft
