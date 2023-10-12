@@ -154,6 +154,7 @@ class CountryFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
+    slug = CharFilter(field_name="slug", lookup_expr='exact')
     short_code = CharFilter(field_name="short_code", lookup_expr='iexact')
     continent = CharFilter(field_name='continent', lookup_expr='iexact')
     capital = CharFilter(field_name="capital", lookup_expr='iexact')
@@ -164,7 +165,7 @@ class CountryFilterSet(FilterSet):
 
     class Meta:
         model = Country
-        fields = ("id", "name", "short_code", "continent", "capital", "population", "students", "international_students", "currency")
+        fields = ("id", "name", "slug", "short_code", "continent", "capital", "population", "students", "international_students", "currency")
 
 
 class CountryDraftFilterSet(FilterSet):
