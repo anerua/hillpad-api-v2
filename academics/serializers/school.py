@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from academics.models import School, SchoolDraft
+from academics.models import School, SchoolDraft, Course
 from academics.serializers import school_inner as inner
 
 
@@ -77,6 +77,11 @@ class ListSchoolSerializer(serializers.ModelSerializer):
 
     country = inner.SchoolCountrySerializer(read_only=True)
 
+    courses_total = serializers.IntegerField(read_only=True)
+    courses_bachelors = serializers.IntegerField(read_only=True)
+    courses_masters = serializers.IntegerField(read_only=True)
+    courses_doctorates = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = School
         fields = (
@@ -87,9 +92,22 @@ class ListSchoolSerializer(serializers.ModelSerializer):
             "city",
             "country",
             "institution_type",
-            "logo"
+            "logo",
+
+            "courses_total",
+            "courses_bachelors",
+            "courses_masters",
+            "courses_doctorates",
         )
         depth = 2
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret["courses_total"] = Course.objects.filter(school=ret["id"]).count()
+        ret["courses_bachelors"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Bachelors").count()
+        ret["courses_masters"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Masters").count()
+        ret["courses_doctorates"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Doctorates").count()
+        return ret
 
 
 class ListSchoolDraftSerializer(serializers.ModelSerializer):
@@ -115,6 +133,11 @@ class DetailSchoolSerializer(serializers.ModelSerializer):
 
     country = inner.SchoolCountrySerializer(read_only=True)
 
+    courses_total = serializers.IntegerField(read_only=True)
+    courses_bachelors = serializers.IntegerField(read_only=True)
+    courses_masters = serializers.IntegerField(read_only=True)
+    courses_doctorates = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = School
         fields = (
@@ -131,9 +154,22 @@ class DetailSchoolSerializer(serializers.ModelSerializer):
             "academic_staff",
             "students",
             "banner",
-            "logo"
+            "logo",
+
+            "courses_total",
+            "courses_bachelors",
+            "courses_masters",
+            "courses_doctorates",
         )
         depth = 2
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret["courses_total"] = Course.objects.filter(school=ret["id"]).count()
+        ret["courses_bachelors"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Bachelors").count()
+        ret["courses_masters"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Masters").count()
+        ret["courses_doctorates"] = Course.objects.filter(school=ret["id"], programme_type__name__contains="Doctorates").count()
+        return ret
 
 
 class DetailSchoolDraftSerializer(serializers.ModelSerializer):
