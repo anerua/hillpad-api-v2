@@ -64,6 +64,8 @@ class CreateCountryDraftSerializer(serializers.ModelSerializer):
 
 class ListCountrySerializer(serializers.ModelSerializer):
 
+    currency = inner.CountryCurrencySerializer(read_only=True)
+    
     schools = serializers.IntegerField(read_only=True)
     courses_total = serializers.IntegerField(read_only=True)
     courses_bachelors = serializers.IntegerField(read_only=True)
@@ -75,6 +77,7 @@ class ListCountrySerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "slug",
             "short_code",
             "caption",
             "continent",
@@ -88,9 +91,6 @@ class ListCountrySerializer(serializers.ModelSerializer):
             "trivia_facts",
             "living_costs",
             "banner",
-            "author",
-            "country_draft",
-            "published",
 
             "schools",
             "courses_total",
