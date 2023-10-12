@@ -125,7 +125,7 @@ class SchoolFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
-    country = CharFilter(field_name='country__short_code', lookup_expr='iexact')
+    country = CharFilter(field_name='country__slug', lookup_expr='iexact')
     institution_type = CharFilter(field_name="institution_type", lookup_expr='iexact')
     year_established = CharFilter(field_name="year_established", lookup_expr='exact')
 
