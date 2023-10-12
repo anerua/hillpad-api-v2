@@ -86,7 +86,7 @@ class CourseFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
-    country = CharFilter(field_name='school__country__short_code', lookup_expr='iexact')
+    country = CharFilter(field_name='school__country__slug', lookup_expr='iexact')
     continent = CharFilter(field_name='school__country__continent', lookup_expr='iexact')
     school = CharFilter(field_name='school__name', lookup_expr='iexact')
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
@@ -106,7 +106,7 @@ class CourseDraftFilterSet(FilterSet):
 
     id = NumberFilter(field_name="id", lookup_expr='exact')
     name = CharFilter(field_name='name', lookup_expr='icontains')
-    country = CharFilter(field_name='school__country__short_code', lookup_expr='iexact')
+    country = CharFilter(field_name='school__country__slug', lookup_expr='iexact')
     continent = CharFilter(field_name='school__country__continent', lookup_expr='iexact')
     school = CharFilter(field_name='school__name', lookup_expr='iexact')
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
