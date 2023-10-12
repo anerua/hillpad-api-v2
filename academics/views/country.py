@@ -102,6 +102,22 @@ class DetailCountryAPIView(RetrieveAPIView):
         return super(DetailCountryAPIView, self).get(request, *args, **kwargs)
     
 
+class DetailCountrySlugAPIView(RetrieveAPIView):
+
+    serializer_class = DetailCountrySerializer
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
+
+    def get(self, request, *args, **kwargs):
+        permission = AdminAndSupervisorPermission()
+        if permission.has_permission(request):
+            self.queryset = Country.objects.all()
+        else:
+            self.queryset = Country.objects.filter(published=True)
+        
+        return super(DetailCountrySlugAPIView, self).get(request, *args, **kwargs)
+    
+
 class DetailCountryDraftAPIView(RetrieveAPIView):
     
     permission_classes = (AdminAndSupervisorPermission,)
