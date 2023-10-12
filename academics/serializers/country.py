@@ -63,14 +63,9 @@ class CreateCountryDraftSerializer(serializers.ModelSerializer):
 
 
 class ListCountrySerializer(serializers.ModelSerializer):
-
-    currency = inner.CountryCurrencySerializer(read_only=True)
     
     schools = serializers.IntegerField(read_only=True)
     courses_total = serializers.IntegerField(read_only=True)
-    courses_bachelors = serializers.IntegerField(read_only=True)
-    courses_masters = serializers.IntegerField(read_only=True)
-    courses_doctorates = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Country
@@ -82,30 +77,16 @@ class ListCountrySerializer(serializers.ModelSerializer):
             "caption",
             "continent",
             "capital",
-            "population",
-            "students",
-            "international_students",
-            "currency",
-            "about",
-            "about_wiki_link",
-            "trivia_facts",
-            "living_costs",
             "banner",
 
             "schools",
             "courses_total",
-            "courses_bachelors",
-            "courses_masters",
-            "courses_doctorates",
         )
         depth = 2
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret["courses_total"] = Course.objects.filter(school__country=ret["id"]).count()
-        ret["courses_bachelors"] = Course.objects.filter(school__country=ret["id"], programme_type__name__contains="Bachelors").count()
-        ret["courses_masters"] = Course.objects.filter(school__country=ret["id"], programme_type__name__contains="Masters").count()
-        ret["courses_doctorates"] = Course.objects.filter(school__country=ret["id"], programme_type__name__contains="Doctorates").count()
         ret["schools"] = School.objects.filter(country=ret["id"]).count()
         return ret
 
