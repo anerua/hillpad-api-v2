@@ -71,6 +71,9 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
     total_degree_types_published = serializers.IntegerField(read_only=True, required=False)
     total_currencies_published = serializers.IntegerField(read_only=True, required=False)
 
+    total_courses_published_db = serializers.IntegerField(read_only=True, required=False)
+    total_schools_published_db = serializers.IntegerField(read_only=True, required=False)
+
     def validate(self, data):
         fields = [(lambda field: field.field_name)(field) for field in self._readable_fields]
         metrics = self.initial_data["metrics"]
@@ -182,6 +185,11 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
             return DegreeType.objects.filter(author=user, published=True).count()
         elif metric == "total_currencies_published":
             return Currency.objects.filter(author=user, published=True).count()
+        
+        elif metric == "total_courses_published_db":
+            return Course.objects.filter(published=True).count()
+        elif metric == "total_schools_published_db":
+            return School.objects.filter(published=True).count()
 
         else:
             return None
