@@ -112,13 +112,16 @@ class CourseDraftFilterSet(FilterSet):
     programme = CharFilter(field_name='programme_type__name', lookup_expr='iexact')
     discipline = NumberFilter(field_name="disciplines__id", lookup_expr='exact')
     language = CharFilter(field_name='language__iso_639_code', lookup_expr='iexact')
+    degree_type = ModelMultipleChoiceFilter(queryset=DegreeType.objects.all())
+    course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
+    attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
     author = NumberFilter(field_name="author", lookup_expr='exact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
     created_date = DateFilter(field_name="created_at__date", lookup_expr='exact')
 
     class Meta:
         model = CourseDraft
-        fields = ("id", "name", "school", "programme_type", "disciplines", "language", "author", "status", "created_at")
+        fields = ("id", "name", "school", "programme_type", "disciplines", "language", "degree_type", "course_format", "attendance", "author", "status", "created_at")
 
 
 class SchoolFilterSet(FilterSet):

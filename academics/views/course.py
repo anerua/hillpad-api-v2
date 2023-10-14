@@ -108,7 +108,7 @@ class ListCourseDraftAPIView(ListAPIView):
         if permission.has_permission(request):
             self.queryset = CourseDraft.objects.filter(author=request.user)
         else:
-            self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
+            self.queryset = CourseDraft.objects.exclude(status=CourseDraft.SAVED)
         
         return super(ListCourseDraftAPIView, self).get(request, *args, **kwargs)
 
@@ -154,7 +154,7 @@ class DetailCourseDraftAPIView(RetrieveAPIView):
         if permission.has_permission(request):
             self.queryset = CourseDraft.objects.filter(author=request.user)
         else:
-            self.queryset = CourseDraft.objects.filter(status__in=(CourseDraft.REVIEW, CourseDraft.APPROVED, CourseDraft.REJECTED))
+            self.queryset = CourseDraft.objects.exclude(status=CourseDraft.SAVED)
         
         return super(DetailCourseDraftAPIView, self).get(request, *args, **kwargs)
 

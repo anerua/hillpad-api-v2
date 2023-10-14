@@ -69,7 +69,7 @@ class ListSchoolDraftAPIView(ListAPIView):
         if permission.has_permission(request):
             self.queryset = SchoolDraft.objects.filter(author=request.user)
         else:
-            self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
+            self.queryset = SchoolDraft.objects.exclude(status=SchoolDraft.SAVED)
         
         return super(ListSchoolDraftAPIView, self).get(request, *args, **kwargs)
 
@@ -117,7 +117,7 @@ class DetailSchoolDraftAPIView(RetrieveAPIView):
         if permission.has_permission(request):
             self.queryset = SchoolDraft.objects.filter(author=request.user)
         else:
-            self.queryset = SchoolDraft.objects.filter(status__in=(SchoolDraft.REVIEW, SchoolDraft.APPROVED, SchoolDraft.REJECTED))
+            self.queryset = SchoolDraft.objects.exclude(status=SchoolDraft.SAVED)
         
         return super(DetailSchoolDraftAPIView, self).get(request, *args, **kwargs)
 
