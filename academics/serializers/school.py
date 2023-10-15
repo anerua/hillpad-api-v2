@@ -22,6 +22,7 @@ class CreateSchoolSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
             "school_draft",
             "published",
@@ -46,6 +47,7 @@ class CreateSchoolDraftSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
         )
         extra_kwargs = {
@@ -61,6 +63,7 @@ class CreateSchoolDraftSerializer(serializers.ModelSerializer):
             "students": {"required": False},
             "banner": {"required": False},
             "logo": {"required": False},
+            "video": {"required": False},
         }
 
     def create(self, validated_data):
@@ -155,6 +158,7 @@ class DetailSchoolSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
 
             "courses_total",
             "courses_bachelors",
@@ -193,6 +197,7 @@ class DetailSchoolDraftSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
             "status",
             "reject_reason",
@@ -220,6 +225,7 @@ class UpdateSchoolSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
             "school_draft",
             "published",
@@ -244,6 +250,7 @@ class UpdateSchoolDraftSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
             "status",
         )
@@ -280,6 +287,7 @@ class SubmitSchoolDraftSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "author",
             "status",
         )
@@ -315,6 +323,7 @@ class ApproveSchoolDraftSerializer(serializers.ModelSerializer):
             "students",
             "banner",
             "logo",
+            "video",
             "status",
         )
         extra_kwargs = {
@@ -331,6 +340,7 @@ class ApproveSchoolDraftSerializer(serializers.ModelSerializer):
             "students": {"required": False},
             "banner": {"required": False},
             "logo": {"required": False},
+            "video": {"required": False},
         }
 
     def update(self, instance, validated_data):

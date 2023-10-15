@@ -266,6 +266,7 @@ class PublishSchoolDraftAPIView(UpdateAPIView):
                 "students": school_draft.students,
                 "banner": banner,
                 "logo": logo,
+                "video": school_draft.video,
                 "author": school_draft.author.id,
                 "school_draft": school_draft.id,
                 "published": True,
