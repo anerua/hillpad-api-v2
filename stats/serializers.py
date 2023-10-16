@@ -78,6 +78,9 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
     total_schools_review_db = serializers.IntegerField(read_only=True, required=False)
     total_countries_review_db = serializers.IntegerField(read_only=True, required=False)
 
+    total_courses_approved_db = serializers.IntegerField(read_only=True, required=False)
+    total_schools_approved_db = serializers.IntegerField(read_only=True, required=False)
+
     total_courses_published_db = serializers.IntegerField(read_only=True, required=False)
     total_bachelors_published_db = serializers.IntegerField(read_only=True, required=False)
     total_masters_published_db = serializers.IntegerField(read_only=True, required=False)
@@ -208,6 +211,11 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
             return SchoolDraft.objects.filter(status=SchoolDraft.REVIEW).count()
         elif metric == "total_countries_review_db":
             return CountryDraft.objects.filter(status=CountryDraft.REVIEW).count()
+        
+        elif metric == "total_courses_approved_db":
+            return CourseDraft.objects.filter(status=CourseDraft.APPROVED).count()
+        elif metric == "total_schools_approved_db":
+            return SchoolDraft.objects.filter(status=SchoolDraft.APPROVED).count()
 
         elif metric == "total_courses_published_db":
             return Course.objects.filter(published=True).count()
