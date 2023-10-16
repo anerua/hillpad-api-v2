@@ -71,7 +71,16 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
     total_degree_types_published = serializers.IntegerField(read_only=True, required=False)
     total_currencies_published = serializers.IntegerField(read_only=True, required=False)
 
+    total_courses_review_db = serializers.IntegerField(read_only=True, required=False)
+    total_bachelors_review_db = serializers.IntegerField(read_only=True, required=False)
+    total_masters_review_db = serializers.IntegerField(read_only=True, required=False)
+    total_doctorates_review_db = serializers.IntegerField(read_only=True, required=False)
+    total_schools_review_db = serializers.IntegerField(read_only=True, required=False)
+
     total_courses_published_db = serializers.IntegerField(read_only=True, required=False)
+    total_bachelors_published_db = serializers.IntegerField(read_only=True, required=False)
+    total_masters_published_db = serializers.IntegerField(read_only=True, required=False)
+    total_doctorates_published_db = serializers.IntegerField(read_only=True, required=False)
     total_schools_published_db = serializers.IntegerField(read_only=True, required=False)
 
     def validate(self, data):
@@ -186,8 +195,25 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         elif metric == "total_currencies_published":
             return Currency.objects.filter(author=user, published=True).count()
         
+        elif metric == "total_courses_review_db":
+            return CourseDraft.objects.filter(status=CourseDraft.REVIEW).count()
+        elif metric == "total_bachelors_review_db":
+            return CourseDraft.objects.filter(status=CourseDraft.REVIEW, programme_type__name="Bachelors").count()
+        elif metric == "total_masters_review_db":
+            return CourseDraft.objects.filter(status=CourseDraft.REVIEW, programme_type__name="Masters").count()
+        elif metric == "total_doctorates_review_db":
+            return CourseDraft.objects.filter(status=CourseDraft.REVIEW, programme_type__name="Doctorates").count()
+        elif metric == "total_schools_review_db":
+            return SchoolDraft.objects.filter(status=SchoolDraft.REVIEW).count()
+
         elif metric == "total_courses_published_db":
             return Course.objects.filter(published=True).count()
+        elif metric == "total_bachelors_published_db":
+            return Course.objects.filter(published=True, programme_type__name="Bachelors").count()
+        elif metric == "total_masters_published_db":
+            return Course.objects.filter(published=True, programme_type__name="Masters").count()
+        elif metric == "total_doctorates_published_db":
+            return Course.objects.filter(published=True, programme_type__name="Doctorates").count()
         elif metric == "total_schools_published_db":
             return School.objects.filter(published=True).count()
 
