@@ -78,7 +78,7 @@ class DetailCourseSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ("id", "slug", "name", "city", "country", "logo", "banner")
+        fields = ("id", "slug", "name", "city", "country", "logo", "banner", "video")
 
 
 class CourseDraftSchoolSerializer(serializers.ModelSerializer):
