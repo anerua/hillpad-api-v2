@@ -215,11 +215,11 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         elif metric == "total_countries_review_db":
             return CountryDraft.objects.filter(status=CountryDraft.REVIEW).count()
         elif metric == "total_disciplines_review_db":
-            return CountryDraft.objects.filter(status=CountryDraft.REVIEW).count()
+            return CountryDraft.objects.filter(status=DisciplineDraft.REVIEW).count()
         elif metric == "total_degree_types_review_db":
-            return CountryDraft.objects.filter(status=CountryDraft.REVIEW).count()
+            return CountryDraft.objects.filter(status=DegreeTypeDraft.REVIEW).count()
         elif metric == "total_currencies_review_db":
-            return CountryDraft.objects.filter(status=CountryDraft.REVIEW).count()
+            return CountryDraft.objects.filter(status=CurrencyDraft.REVIEW).count()
         
         elif metric == "total_courses_approved_db":
             return CourseDraft.objects.filter(status=CourseDraft.APPROVED).count()
