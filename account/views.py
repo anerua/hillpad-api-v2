@@ -1,5 +1,4 @@
 from rest_framework import HTTP_HEADER_ENCODING, status
-from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,8 +9,10 @@ from decouple import config
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from account.filters import StaffFilterSet
 from account.models import User
-from account.permissions import AdminPermission
+from account.paginations import StaffListPagination
+from account.permissions import AdminPermission, SupervisorPermission, AdminAndSupervisorPermission
 from account.serializers import *
 
 
@@ -157,20 +158,26 @@ class UpdateAccountAPIView(GenericAPIView):
 
 class ListStaffAccountAPIView(ListAPIView):
     
-    permission_classes = (AdminPermission,)
+    permission_classes = (AdminAndSupervisorPermission,)
     serializer_class = ListStaffAccountSerializer
-    filter_params = [
-        "id",
-        "email",
-        "first_name",
-        "last_name", 
-        "is_active",
-        "created_at",
-    ]
-    filterset_fields = filter_params
-    search_fields = filter_params 
-    filter_backends = [SearchFilter, DjangoFilterBackend]
-    queryset = User.objects.filter(is_staff=True)
+    pagination_class = StaffListPagination
+    filterset_class = StaffFilterSet
+    filter_backends = [DjangoFilterBackend]
+
+    def get(self, request, *args, **kwargs):
+        """
+            Admin: All Staff accounts (Specialists, Supervisors and Admins)
+            Supervisor: All Specialists accounts (Only Specialists)
+                // In future: Only Specialists accounts assigned to Supervisor
+        """
+        supervisor_permission = SupervisorPermission()
+        admin_permsission = AdminPermission()
+        if supervisor_permission.has_permission(request):
+            self.queryset = User.objects.filter(is_staff=True, role=User.SPECIALIST)
+        elif admin_permsission.has_permission(request):
+            self.queryset = User.objects.filter(is_staff=True)
+
+        return super(ListStaffAccountAPIView, self).get(request, *args, **kwargs)
 
 
 class RetrieveStaffAccountAPIView(RetrieveAPIView):
