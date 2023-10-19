@@ -68,7 +68,8 @@ class ListDisciplineDraftAPIView(ListAPIView):
         supervisor_permission = SupervisorPermission()
         admin_permsission = AdminPermission()
         if supervisor_permission.has_permission(request):
-            self.queryset = DisciplineDraft.objects.filter(author=request.user)
+            self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
+            # self.queryset = DisciplineDraft.objects.filter(author=request.user)
         elif admin_permsission.has_permission(request):
             self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
         
@@ -121,7 +122,8 @@ class DetailDisciplineDraftAPIView(RetrieveAPIView):
         supervisor_permission = SupervisorPermission()
         admin_permsission = AdminPermission()
         if supervisor_permission.has_permission(request):
-            self.queryset = DisciplineDraft.objects.filter(author=request.user)
+            self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
+            # self.queryset = DisciplineDraft.objects.filter(author=request.user)
         elif admin_permsission.has_permission(request):
             self.queryset = DisciplineDraft.objects.exclude(status=DisciplineDraft.SAVED)
         
@@ -134,7 +136,8 @@ class UpdateDisciplineDraftAPIView(UpdateAPIView):
     serializer_class = UpdateDisciplineDraftSerializer
 
     def patch(self, request, *args, **kwargs):
-        self.queryset = DisciplineDraft.objects.filter(author=request.user)
+        self.queryset = DisciplineDraft.objects.filter()
+        # self.queryset = DisciplineDraft.objects.filter(author=request.user)
 
         return super(UpdateDisciplineDraftAPIView, self).patch(request, *args, **kwargs)
 
