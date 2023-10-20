@@ -148,7 +148,7 @@ class SubmitDisciplineDraftAPIView(UpdateAPIView):
     serializer_class = SubmitDisciplineDraftSerializer
 
     def patch(self, request, *args, **kwargs):
-        self.queryset = DisciplineDraft.objects.filter(author=request.user)
+        self.queryset = DisciplineDraft.objects.filter()
 
         response = super(SubmitDisciplineDraftAPIView, self).patch(request, *args, **kwargs)
         
