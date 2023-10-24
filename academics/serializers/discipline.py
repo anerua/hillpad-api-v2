@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from academics.models import Discipline, DisciplineDraft, Course
+from academics.models import Discipline, DisciplineDraft, Course, School
+from academics.serializers import discipline_inner as inner
 
 
 class CreateDisciplineSerializer(serializers.ModelSerializer):
@@ -87,6 +88,7 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
     courses_bachelors = serializers.IntegerField(read_only=True)
     courses_masters = serializers.IntegerField(read_only=True)
     courses_doctorates = serializers.IntegerField(read_only=True)
+    schools = serializers.SerializerMethodField()
     
     class Meta:
         model = Discipline
@@ -100,6 +102,7 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
             "courses_bachelors",
             "courses_masters",
             "courses_doctorates",
+            "schools",
             "slug",
         )
         depth = 2
@@ -111,6 +114,13 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
         ret["courses_masters"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Masters").count()
         ret["courses_doctorates"] = Course.objects.filter(disciplines=ret["id"], programme_type__name__contains="Doctorates").count()
         return ret
+    
+    def get_schools(self, instance):
+        # Retrieve the schools with at least one course in this discipline
+        schools = School.objects.filter(school_courses__disciplines=instance.id).distinct()
+        # Serialize the schools
+        school_serializer = inner.DisciplineSchoolsSerializer(schools, many=True)
+        return school_serializer.data
 
 
 class DetailDisciplineDraftSerializer(serializers.ModelSerializer):
