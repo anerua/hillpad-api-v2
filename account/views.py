@@ -1,4 +1,4 @@
-from rest_framework import HTTP_HEADER_ENCODING, status
+from rest_framework import HTTP_HEADER_ENCODING, status, filters
 from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -162,7 +162,8 @@ class ListStaffAccountAPIView(ListAPIView):
     serializer_class = ListStaffAccountSerializer
     pagination_class = StaffListPagination
     filterset_class = StaffFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ["first_name", "last_name", "email"]
 
     def get(self, request, *args, **kwargs):
         """
