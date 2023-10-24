@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -34,7 +34,8 @@ class ListCurrencyAPIView(ListAPIView):
     serializer_class = ListCurrencySerializer
     pagination_class = CurrencyPagination
     filterset_class = CurrencyFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_code", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all currencies.
@@ -54,7 +55,8 @@ class ListCurrencyDraftAPIView(ListAPIView):
     serializer_class = ListCurrencyDraftSerializer
     pagination_class = CurrencyDraftPagination
     filterset_class = CurrencyDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_code", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

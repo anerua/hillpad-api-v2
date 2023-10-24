@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -35,7 +35,8 @@ class ListCountryAPIView(ListAPIView):
     serializer_class = ListCountrySerializer
     pagination_class = CountryPagination
     filterset_class = CountryFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_code", "continent", "population", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all countries.
@@ -66,7 +67,8 @@ class ListCountryDraftAPIView(ListAPIView):
     serializer_class = ListCountryDraftSerializer
     pagination_class = CountryDraftPagination
     filterset_class = CountryDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_code", "continent", "population", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

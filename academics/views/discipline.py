@@ -1,6 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
+from rest_framework import status, filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -35,7 +35,8 @@ class ListDisciplineAPIView(ListAPIView):
     serializer_class = ListDisciplineSerializer
     pagination_class = DisciplinePagination
     filterset_class = DisciplineFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all disciplines.
@@ -55,7 +56,8 @@ class ListDisciplineDraftAPIView(ListAPIView):
     serializer_class = ListDisciplineDraftSerializer
     pagination_class = DisciplineDraftPagination
     filterset_class = DisciplineDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

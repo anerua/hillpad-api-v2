@@ -1,4 +1,4 @@
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -23,7 +23,8 @@ class ListProgrammeTypeAPIView(ListAPIView):
     serializer_class = ListProgrammeTypeSerializer
     pagination_class = ProgrammeTypePagination
     filterset_class = ProgrammeTypeFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ["id", "name", "created_at", "updated_at"]
     
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all programmetype.

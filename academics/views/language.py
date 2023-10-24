@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -35,7 +35,8 @@ class ListLanguageAPIView(ListAPIView):
     serializer_class = ListLanguageSerializer
     pagination_class = LanguagePagination
     filterset_class = LanguageFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "iso_639_code", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all languages.
@@ -55,7 +56,8 @@ class ListLanguageDraftAPIView(ListAPIView):
     serializer_class = ListLanguageDraftSerializer
     pagination_class = LanguageDraftPagination
     filterset_class = LanguageDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "iso_639_code", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

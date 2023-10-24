@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -37,7 +37,8 @@ class ListSchoolAPIView(ListAPIView):
     serializer_class = ListSchoolSerializer
     pagination_class = SchoolPagination
     filterset_class = SchoolFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "country", "ranking", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         permission = StaffPermission()
@@ -55,7 +56,8 @@ class ListSchoolDraftAPIView(ListAPIView):
     serializer_class = ListSchoolDraftSerializer
     pagination_class = SchoolDraftPagination
     filterset_class = SchoolDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "country", "ranking", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

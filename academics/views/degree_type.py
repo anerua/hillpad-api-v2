@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -35,7 +35,8 @@ class ListDegreeTypeAPIView(ListAPIView):
     serializer_class = ListDegreeTypeSerializer
     pagination_class = DegreeTypePagination
     filterset_class = DegreeTypeFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_name", "programme_type", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         # Only Admin and Supervisor can view all degree types.
@@ -55,7 +56,8 @@ class ListDegreeTypeDraftAPIView(ListAPIView):
     serializer_class = ListDegreeTypeDraftSerializer
     pagination_class = DegreeTypeDraftPagination
     filterset_class = DegreeTypeDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "short_name", "programme_type", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """

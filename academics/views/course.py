@@ -1,6 +1,6 @@
+from rest_framework import status, filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -38,7 +38,8 @@ class ListCourseAPIView(ListAPIView):
     serializer_class = ListCourseSerializer
     pagination_class = CoursePagination
     filterset_class = CourseFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "school", "programme_type", "created_at", "updated_at"]
 
     def get_queryset(self):
         # Call the parent's get_queryset method to apply other filters and permissions
@@ -94,7 +95,8 @@ class ListCourseDraftAPIView(ListAPIView):
     serializer_class = ListCourseDraftSerializer
     pagination_class = CourseDraftPagination
     filterset_class = CourseDraftFilterSet
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ["name", "school", "programme_type", "created_at", "updated_at"]
 
     def get(self, request, *args, **kwargs):
         """
