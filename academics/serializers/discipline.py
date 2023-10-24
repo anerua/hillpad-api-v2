@@ -61,9 +61,6 @@ class ListDisciplineSerializer(serializers.ModelSerializer):
             "courses_masters",
             "courses_doctorates",
             "slug",
-            "author",
-            "discipline_draft",
-            "published",
         )
         depth = 2
 
@@ -104,9 +101,6 @@ class DetailDisciplineSerializer(serializers.ModelSerializer):
             "courses_masters",
             "courses_doctorates",
             "slug",
-            "author",
-            "discipline_draft",
-            "published",
         )
         depth = 2
 
