@@ -78,6 +78,7 @@ class ListCountrySerializer(serializers.ModelSerializer):
             "continent",
             "capital",
             "banner",
+            "featured",
 
             "schools",
             "courses_total",
@@ -148,6 +149,7 @@ class DetailCountrySerializer(serializers.ModelSerializer):
             "trivia_facts",
             "living_costs",
             "banner",
+            "featured",
 
             "schools",
             "courses_total",

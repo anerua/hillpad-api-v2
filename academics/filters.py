@@ -168,10 +168,11 @@ class CountryFilterSet(FilterSet):
     students = NumberFilter(field_name="students", lookup_expr='exact')
     international_students = NumberFilter(field_name="international_students", lookup_expr='exact')
     currency = CharFilter(field_name="currency__short_code", lookup_expr='iexact')
+    featured = BooleanFilter(field_name='featured')
 
     class Meta:
         model = Country
-        fields = ("id", "name", "slug", "short_code", "continent", "capital", "population", "students", "international_students", "currency")
+        fields = ("id", "name", "slug", "short_code", "continent", "capital", "population", "students", "international_students", "currency", "featured")
 
 
 class CountryDraftFilterSet(FilterSet):
