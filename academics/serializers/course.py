@@ -180,7 +180,8 @@ class ListCourseSerializer(serializers.ModelSerializer):
             "attendance",
             "slug",
             "school",
-            "degree_type"
+            "degree_type",
+            "featured",
         )
         depth = 2
 
@@ -249,6 +250,7 @@ class DetailCourseSerializer(serializers.ModelSerializer):
             "programme_structure",
             "admission_requirements",
             "official_programme_website",
+            "featured",
         )
         depth = 2
 

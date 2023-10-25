@@ -1,5 +1,5 @@
 from django.db.models import Case, When, F, Q, IntegerField
-from django_filters import Filter, FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter
+from django_filters import Filter, FilterSet, NumberFilter, CharFilter, DateFilter, MultipleChoiceFilter, ModelMultipleChoiceFilter, BooleanFilter
 from django_filters.fields import RangeField
 from django_filters.constants import EMPTY_VALUES
 
@@ -97,10 +97,11 @@ class CourseFilterSet(FilterSet):
     degree_type = ModelMultipleChoiceFilter(queryset=DegreeType.objects.all())
     course_format = MultipleChoiceFilter(field_name="course_format", choices=Course.COURSE_FORMAT_CHOICES)
     attendance = MultipleChoiceFilter(field_name="attendance", choices=Course.COURSE_ATTENDANCE_CHOICES)
+    featured = BooleanFilter(field_name='featured')
 
     class Meta:
         model = Course
-        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance")
+        fields = ("id", "name", "school", "programme_type", "language", "slug", "disciplines", "degree_type", "course_format", "attendance", "featured")
 
 
 class CourseDraftFilterSet(FilterSet):
