@@ -29,6 +29,12 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
     daily_degree_types_added = serializers.IntegerField(read_only=True, required=False)
     daily_currencies_added = serializers.IntegerField(read_only=True, required=False)
 
+    daily_courses_added_db = serializers.IntegerField(read_only=True, required=False)
+    daily_bachelors_added_db = serializers.IntegerField(read_only=True, required=False)
+    daily_masters_added_db = serializers.IntegerField(read_only=True, required=False)
+    daily_doctorates_added_db = serializers.IntegerField(read_only=True, required=False)
+    daily_schools_added_db = serializers.IntegerField(read_only=True, required=False)
+
     total_courses_added = serializers.IntegerField(read_only=True, required=False)
     total_bachelors_added = serializers.IntegerField(read_only=True, required=False)
     total_masters_added = serializers.IntegerField(read_only=True, required=False)
@@ -202,6 +208,19 @@ class AccountEntriesStatsSerializer(serializers.Serializer):
         elif metric == "total_currencies_published":
             return Currency.objects.filter(author=user, published=True).count()
         
+        # In DB
+
+        elif metric == "daily_courses_added_db":
+            return CourseDraft.objects.filter(created_at__date=date).count()
+        elif metric == "daily_bachelors_added_db":
+            return CourseDraft.objects.filter(created_at__date=date, programme_type__name="Bachelors").count()
+        elif metric == "daily_masters_added_db":
+            return CourseDraft.objects.filter(created_at__date=date, programme_type__name="Masters").count()
+        elif metric == "daily_doctorates_added_db":
+            return CourseDraft.objects.filter(created_at__date=date, programme_type__name="Doctorates").count()
+        elif metric == "daily_schools_added_db":
+            return SchoolDraft.objects.filter(created_at__date=date).count()
+
         elif metric == "total_courses_review_db":
             return CourseDraft.objects.filter(status=CourseDraft.REVIEW).count()
         elif metric == "total_bachelors_review_db":
