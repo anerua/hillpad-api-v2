@@ -6,9 +6,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from academics.filters import SchoolFilterSet, SchoolDraftFilterSet
 from academics.models import School, SchoolDraft
-from academics.paginations import SchoolPagination, SchoolDraftPagination
+from academics.paginations import SchoolPagination, SchoolDraftPagination, SchoolDraftApprovedPagination
 from academics.serializers import (CreateSchoolSerializer, CreateSchoolDraftSerializer,
                                    ListSchoolSerializer, ListSchoolDraftSerializer,
+                                   ListApprovedSchoolDraftSerializer,
                                    DetailSchoolSerializer, DetailSchoolDraftSerializer,
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    SubmitSchoolDraftSerializer,
@@ -50,6 +51,17 @@ class ListSchoolAPIView(ListAPIView):
         return super(ListSchoolAPIView, self).get(request, *args, **kwargs)
 
 
+class ListApprovedSchoolDraftAPIView(ListAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = ListApprovedSchoolDraftSerializer
+    pagination_class = SchoolDraftApprovedPagination
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = SchoolDraft.objects.filter(status=SchoolDraft.APPROVED)
+        return super(ListApprovedSchoolDraftAPIView, self).get(request, *args, **kwargs)
+
+
 class ListSchoolDraftAPIView(ListAPIView):
     
     permission_classes = (StaffPermission,)
@@ -61,11 +73,11 @@ class ListSchoolDraftAPIView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         """
-            Anonymous:  No CourseDraft
-            Client:     No CourseDraft
-            Specialist: All CourseDrafts authored by user
-            Supervisor: All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
-            Admin:      All CourseDrafts with status = (REVIEW, APPROVED, REJECTED)
+            Anonymous:  No SchoolDraft
+            Client:     No SchoolDraft
+            Specialist: All SchoolDrafts authored by user
+            Supervisor: All SchoolDrafts with status = (REVIEW, APPROVED, REJECTED)
+            Admin:      All SchoolDrafts with status = (REVIEW, APPROVED, REJECTED)
         """
         permission = SpecialistPermission()
         if permission.has_permission(request):

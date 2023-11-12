@@ -132,6 +132,16 @@ class ListSchoolDraftSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ListApprovedSchoolDraftSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SchoolDraft
+        fields = ("id",)
+
+    def to_representation(self, instance):
+        return instance.id
+
+
 class DetailSchoolSerializer(serializers.ModelSerializer):
 
     country = inner.SchoolCountrySerializer(read_only=True)
