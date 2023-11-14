@@ -14,7 +14,8 @@ from academics.serializers import (CreateSchoolSerializer, CreateSchoolDraftSeri
                                    UpdateSchoolSerializer, UpdateSchoolDraftSerializer,
                                    SubmitSchoolDraftSerializer,
                                    DeleteSchoolSerializer, ApproveSchoolDraftSerializer,
-                                   RejectSchoolDraftSerializer, PublishSchoolDraftSerializer,)
+                                   RejectSchoolDraftSerializer, RejectApprovedSchoolDraftSerializer,
+                                   PublishSchoolDraftSerializer,)
 
 from account.permissions import AdminPermission, SupervisorPermission, SpecialistPermission, StaffPermission
 
@@ -245,6 +246,13 @@ class RejectSchoolDraftAPIView(UpdateAPIView):
                 return response
         
         return response
+    
+
+class RejectApprovedSchoolDraftAPIView(UpdateAPIView):
+
+    permission_classes = (AdminPermission,)
+    serializer_class = RejectApprovedSchoolDraftSerializer
+    queryset = SchoolDraft.objects.filter(status=SchoolDraft.APPROVED)
 
 
 class PublishSchoolDraftAPIView(UpdateAPIView):

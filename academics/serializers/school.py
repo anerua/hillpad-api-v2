@@ -387,6 +387,30 @@ class RejectSchoolDraftSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This school in not under review by the supervisor and hence cannot be rejected.")
         
         return super(RejectSchoolDraftSerializer, self).validate(data)
+    
+
+class RejectApprovedSchoolDraftSerializer(serializers.ModelSerializer):
+
+    reject_reason = serializers.CharField(required=True)
+
+    class Meta:
+        model = SchoolDraft
+        fields = (
+            "id",
+            "status",
+            "reject_reason",
+        )
+
+    def update(self, instance, validated_data):
+        validated_data["status"] = SchoolDraft.REJECTED
+        return super(RejectApprovedSchoolDraftSerializer, self).update(instance, validated_data)
+
+    def validate(self, data):
+        status = self.instance.status
+        if status != SchoolDraft.APPROVED:
+            raise serializers.ValidationError("This school entry has not been reviewed by the supervisor and hence cannot be rejected by the admin.")
+        
+        return super(RejectApprovedSchoolDraftSerializer, self).validate(data)
 
 
 class PublishSchoolDraftSerializer(serializers.ModelSerializer):
