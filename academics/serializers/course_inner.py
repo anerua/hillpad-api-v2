@@ -69,7 +69,7 @@ class ListCourseSchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ("id", "name", "city", "country", "logo", "banner")
+        fields = ("id", "slug","name", "city", "country", "logo", "banner")
 
 
 class DetailCourseSchoolSerializer(serializers.ModelSerializer):
